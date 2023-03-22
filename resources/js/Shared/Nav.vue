@@ -10,13 +10,11 @@
                 <!-- Left navbar links -->
                 <ul class="navbar-nav">
 
-<!--                    <li class="nav-item"
-                        :class="{ active : $page.url.startsWith('/patients') }"
-                        v-if="$page.props.shared.userPermissions.includes('read_all_patients')">
-                        <Link :href="route('patients.all')" class="nav-link">
-                            Дерматопатология
+                    <li class="nav-item">
+                        <Link :href="route('clients.index')" class="nav-link">
+                            Клиенты
                         </Link>
-                    </li>-->
+                    </li>
 
                     <li class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Справочник</a>

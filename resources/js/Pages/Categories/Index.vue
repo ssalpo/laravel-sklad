@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Склады</title>
+        <title>Категории</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Склады</h1>
+            <h1 class="m-0">Категории</h1>
         </div>
     </div>
 
@@ -14,8 +14,8 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-tools">
-                        <Link :href="route('storehouses.create')" class="btn btn-success btn-sm px-3">
-                            Новый склад
+                        <Link :href="route('categories.create')" class="btn btn-success btn-sm px-3">
+                            Новая категория
                         </Link>
                     </div>
                 </div>
@@ -31,24 +31,23 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(storehouse, index) in storehouses.data">
-                                <td :data-id="storehouse.id">{{ ((storehouses.current_page - 1) * storehouses.per_page) + index + 1 }}</td>
-                                <td>{{storehouse.name}}</td>
+                            <tr v-for="(category, index) in categories.data">
+                                <td :data-id="category.id">{{ ((categories.current_page - 1) * categories.per_page) + index + 1 }}</td>
+                                <td>{{category.name}}</td>
                                 <td class="text-center">
-                                    <Link :href="route('storehouses.edit', storehouse.id)">
+                                    <Link :href="route('categories.edit', category.id)">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
                                 </td>
                             </tr>
-
                             </tbody>
                         </table>
                     </div>
                 </div>
                 <!-- /.card-body -->
 
-                <div class="card-footer clearfix" v-if="storehouses.links.length > 3">
-                    <pagination :links="storehouses.links"/>
+                <div class="card-footer clearfix" v-if="categories.links.length > 3">
+                    <pagination :links="categories.links"/>
                 </div>
             </div>
         </div>
@@ -60,6 +59,6 @@ import Pagination from "../../Shared/Pagination.vue";
 
 export default {
     components: {Pagination, Head, Link},
-    props: ['storehouses'],
+    props: ['categories'],
 }
 </script>

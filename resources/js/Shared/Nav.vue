@@ -26,6 +26,11 @@
                                     Склады
                                 </Link>
                             </li>
+                            <li>
+                                <Link :href="route('categories.index')" class="nav-link">
+                                    Категории
+                                </Link>
+                            </li>
                         </ul>
                     </li>
 

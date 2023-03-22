@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StorehouseController;
@@ -12,6 +13,9 @@ Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static functio
 
     // Storehouses
     Route::resource('storehouses', StorehouseController::class);
+
+    // Categories
+    Route::resource('categories', CategoryController::class);
 
     // Users
     Route::post('/users/{user}/toggle-activity', [UserController::class, 'toggleActivity'])->name('users.toggle_activity');

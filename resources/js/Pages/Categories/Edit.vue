@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>{{storehouse?.id ? 'Обновление данных склада' : 'Новый склад'}}</title>
+        <title>{{storehouse?.id ? 'Обновление данных категории' : 'Новая категория'}}</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">{{ storehouse?.id ? 'Обновление данных склада' : 'Новый склад' }}</h1>
+            <h1 class="m-0">{{ storehouse?.id ? 'Обновление данных категории' : 'Новая категория' }}</h1>
         </div>
     </div>
 
@@ -47,23 +47,23 @@
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
-    props: ['storehouse', 'errors'],
+    props: ['category', 'errors'],
     components: {Head, Link},
     data() {
         return {
             form: useForm({
-                name: this.storehouse?.name
+                name: this.category?.name
             }),
         }
     },
     methods: {
         submit() {
-            if (!this.storehouse?.id) {
-                this.form.post(route('storehouses.index'));
+            if (!this.category?.id) {
+                this.form.post(route('categories.store'));
                 return;
             }
 
-            this.form.put(route('storehouses.update', this.storehouse.id))
+            this.form.put(route('categories.update', this.category.id))
         }
     }
 }

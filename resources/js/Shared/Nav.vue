@@ -18,6 +18,17 @@
                         </Link>
                     </li>-->
 
+                    <li class="nav-item dropdown">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Справочник</a>
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                            <li>
+                                <Link :href="route('storehouses.index')" class="nav-link">
+                                    Склады
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item dropdown"
                         :class="{ active : $page.url.startsWith('/doctors') || $page.url.startsWith('/users') || $page.url.startsWith('/roles') }"
                         v-if="$page.props.shared.userPermissions.includes('read_doctors') || $page.props.shared.userPermissions.includes('read_users') || $page.props.shared.userPermissions.includes('read_roles')"

@@ -17,6 +17,9 @@ class UnitsTableSeeder extends Seeder
     {
         $data = [
             [
+                'name' => 'т.'
+            ],
+            [
                 'name' => 'кг.'
             ],
             [

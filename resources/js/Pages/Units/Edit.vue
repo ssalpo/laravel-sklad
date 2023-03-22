@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>{{category?.id ? 'Обновление данных категории' : 'Новая категория'}}</title>
+        <title>{{unit?.id ? 'Обновление данных' : 'Новая ед. измерения'}}</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">{{ category?.id ? 'Обновление данных категории' : 'Новая категория' }}</h1>
+            <h1 class="m-0">{{ unit?.id ? 'Обновление данных' : 'Новая ед. измерения' }}</h1>
         </div>
     </div>
 
@@ -33,10 +33,10 @@
                             <span v-if="form.processing">
                                 <i class="fas fa-spinner fa-spin"></i> Сохранение...
                             </span>
-                            <span v-else>{{ category?.id ? 'Сохранить' : 'Добавить' }}</span>
+                            <span v-else>{{ unit?.id ? 'Сохранить' : 'Добавить' }}</span>
                         </button>
 
-                        <Link :href="route('categories.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                        <Link :href="route('storehouses.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
                     </div>
                 </form>
             </div>
@@ -47,23 +47,23 @@
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
-    props: ['category', 'errors'],
+    props: ['unit', 'errors'],
     components: {Head, Link},
     data() {
         return {
             form: useForm({
-                name: this.category?.name
+                name: this.unit?.name
             }),
         }
     },
     methods: {
         submit() {
-            if (!this.category?.id) {
-                this.form.post(route('categories.store'));
+            if (!this.unit?.id) {
+                this.form.post(route('units.store'));
                 return;
             }
 
-            this.form.put(route('categories.update', this.category.id))
+            this.form.put(route('units.update', this.unit.id))
         }
     }
 }

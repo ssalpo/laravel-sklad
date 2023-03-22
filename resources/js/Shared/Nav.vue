@@ -31,6 +31,11 @@
                                     Категории
                                 </Link>
                             </li>
+                            <li>
+                                <Link :href="route('units.index')" class="nav-link">
+                                    Ед. измерения
+                                </Link>
+                            </li>
                         </ul>
                     </li>
 

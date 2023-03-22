@@ -11,9 +11,9 @@ class StorehouseController extends Controller
     public function index()
     {
         $storehouses = Storehouse::paginate()
-            ->through(fn($user) => [
-                'id' => $user->id,
-                'name' => $user->name
+            ->through(fn($model) => [
+                'id' => $model->id,
+                'name' => $model->name
             ]);
 
         return inertia('Storehouses/Index', compact('storehouses'));

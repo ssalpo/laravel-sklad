@@ -11,9 +11,9 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::paginate()
-            ->through(fn($user) => [
-                'id' => $user->id,
-                'name' => $user->name
+            ->through(fn($model) => [
+                'id' => $model->id,
+                'name' => $model->name
             ]);
 
         return inertia('Categories/Index', compact('categories'));

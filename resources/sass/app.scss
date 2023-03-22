@@ -1,0 +1,51 @@
+@import "@vueup/vue-quill/dist/vue-quill.snow.css";
+@import "spinner";
+
+.invalid-feedback-simple {
+    width: 100%;
+    margin-top: 0.25rem;
+    font-size: 80%;
+    color: #dc3545;
+}
+
+.animate-background {
+    background-color: #ffc107;
+    animation-name: bckanim;
+    animation-fill-mode: forwards;
+    animation-duration: 3s;
+    animation-delay: 2s;
+}
+
+@keyframes bckanim {
+    0% {
+        background-color: orange;
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+
+
+
+
+.editor-content p {
+    margin-bottom: 7px;
+    line-height: 25px;
+}
+
+.form-asterisk:after {
+    content:" *";
+    color: red;
+}
+
+.diagnosis-table {
+    font-size: 14px;
+
+    &, strong {
+        font-weight: 400;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+}

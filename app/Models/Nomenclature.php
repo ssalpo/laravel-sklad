@@ -43,6 +43,16 @@ class Nomenclature extends Model
         self::CURRENCY_TYPE_USD => '$',
     ];
 
+    public function scopeSaleType($q)
+    {
+        $q->whereType(self::TYPE_SALE);
+    }
+
+    public function scopeCompositeType($q)
+    {
+        $q->whereType(self::TYPE_COMPOSITE);
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

@@ -11,6 +11,12 @@
                 <ul class="navbar-nav">
 
                     <li class="nav-item">
+                        <Link :href="route('nomenclature-arrivals.index')" class="nav-link">
+                            Приход
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
                         <Link :href="route('clients.index')" class="nav-link">
                             Клиенты
                         </Link>

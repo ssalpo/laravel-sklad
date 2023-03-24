@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Client extends Model
+class OrderItem extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'phone',
-        'discount',
-        'discount_for_single',
-    ];
-
-    protected $casts = [
-        'discount_for_single' => 'bool'
+        'order_id',
+        'nomenclature_id',
+        'price',
+        'price_for_sale',
+        'quantity',
+        'unit_id',
+        'discount'
     ];
 }

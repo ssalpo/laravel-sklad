@@ -16,6 +16,7 @@ class ClientController extends Controller
                 'name' => $model->name,
                 'phone' => $model->phone,
                 'discount' => $model->discount,
+                'discount_for_single' => $model->discount_for_single,
             ]);
 
         return inertia('Clients/Index', compact('clients'));

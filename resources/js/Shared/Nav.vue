@@ -20,6 +20,11 @@
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Справочник</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
                             <li>
+                                <Link :href="route('nomenclatures.index')" class="nav-link">
+                                    Номенклатура
+                                </Link>
+                            </li>
+                            <li>
                                 <Link :href="route('storehouses.index')" class="nav-link">
                                     Склады
                                 </Link>

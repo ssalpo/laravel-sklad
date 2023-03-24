@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\StorehouseController;
 use App\Http\Controllers\UnitController;
@@ -24,6 +25,9 @@ Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static functio
 
     // Clients
     Route::resource('clients', ClientController::class);
+
+    // Nomenclatures
+    Route::resource('nomenclatures', NomenclatureController::class);
 
     // Users
     Route::post('/users/{user}/toggle-activity', [UserController::class, 'toggleActivity'])->name('users.toggle_activity');

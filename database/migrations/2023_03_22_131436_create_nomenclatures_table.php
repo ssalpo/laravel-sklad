@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('materials', function (Blueprint $table) {
+        Schema::create('nomenclatures', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('category_id')->constrained();
             $table->string('name');
-            $table->tinyInteger('type'); // тип товара, например для продажи, составной
+            $table->foreignId('category_id')->constrained();
+            $table->decimal('price_for_sale')->default(0);
+            $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_TJS);
+            $table->tinyInteger('type');
+            $table->foreignId('unit_id')->constrained();
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('materials');
+        Schema::dropIfExists('nomenclatures');
     }
 };

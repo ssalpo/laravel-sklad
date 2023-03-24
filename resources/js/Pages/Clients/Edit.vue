@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-asterisk">Телефон</label>
+                            <label>Телефон</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.phone}"
                                    v-model.trim="form.phone">
@@ -36,13 +36,26 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="form-asterisk">Скидка</label>
+                            <label>Скидка</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.discount}"
                                    v-model.trim="form.discount">
 
                             <div v-if="errors.discount" class="error invalid-feedback">
                                 {{ errors.discount }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="discountForSingle" v-model="form.discount_for_single" type="checkbox" />
+
+                                <label for="discountForSingle" class="custom-control-label">
+                                    Использовать для каждого товара?
+                                </label>
+                            </div>
+
+                            <div v-if="errors.discount_for_single" class="invalid-feedback-simple">
+                                {{ errors.discount_for_single }}
                             </div>
                         </div>
                     </div>
@@ -75,6 +88,7 @@ export default {
                 name: this.client?.name,
                 phone: this.client?.phone,
                 discount: this.client?.discount,
+                discount_for_single: this.client?.discount_for_single,
             }),
         }
     },

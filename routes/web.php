@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\MixtureCompositionController;
 use App\Http\Controllers\NomenclatureArrivalController;
 use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\RoleController;
@@ -32,6 +33,9 @@ Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static functio
 
     // Nomenclature arrivals
     Route::resource('nomenclature-arrivals', NomenclatureArrivalController::class);
+
+    // Mixture Compositions
+    Route::resource('mixture-compositions', MixtureCompositionController::class);
 
     // Users
     Route::post('/users/{user}/toggle-activity', [UserController::class, 'toggleActivity'])->name('users.toggle_activity');

@@ -22,6 +22,12 @@
                         </Link>
                     </li>
 
+                    <li class="nav-item">
+                        <Link :href="route('mixture-compositions.index')" class="nav-link">
+                            Состав продуктов
+                        </Link>
+                    </li>
+
                     <li class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Справочник</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">

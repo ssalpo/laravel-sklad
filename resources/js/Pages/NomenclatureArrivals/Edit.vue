@@ -20,7 +20,7 @@
                             <select class="form-control"
                                     :class="{'is-invalid': errors.nomenclature_id}"
                                     v-model.trim="form.nomenclature_id">
-                                <option @click="selectedNomenclature = nomenclature" :value="nomenclature.id"
+                                <option :value="nomenclature.id"
                                         v-for="nomenclature in nomenclatures">{{ nomenclature.name }}
                                 </option>
                             </select>

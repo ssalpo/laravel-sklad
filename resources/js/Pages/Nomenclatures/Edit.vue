@@ -27,19 +27,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Категория</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.category_id}"
-                                    v-model.trim="form.category_id">
-                                <option :value="category.id" v-for="category in categories">{{category.name}}</option>
-                            </select>
-
-                            <div v-if="errors.category_id" class="error invalid-feedback">
-                                {{ errors.category_id }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-asterisk">Цена продажи</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.price_for_sale}"
@@ -79,13 +66,13 @@
                         <div class="form-group">
                             <label class="form-asterisk">Единица измерения</label>
                             <select class="form-control"
-                                    :class="{'is-invalid': errors.unit_id}"
-                                    v-model.trim="form.unit_id">
-                                <option :value="unit.id" v-for="unit in units">{{unit.name}}</option>
+                                    :class="{'is-invalid': errors.unit}"
+                                    v-model.trim="form.unit">
+                                <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
                             </select>
 
-                            <div v-if="errors.unit_id" class="error invalid-feedback">
-                                {{ errors.unit_id }}
+                            <div v-if="errors.unit" class="error invalid-feedback">
+                                {{ errors.unit }}
                             </div>
                         </div>
                     </div>
@@ -120,7 +107,7 @@ export default {
                 price_for_sale: this.nomenclature?.price_for_sale,
                 currency_type: this.nomenclature?.currency_type,
                 type: this.nomenclature?.type,
-                unit_id: this.nomenclature?.unit_id,
+                unit: this.nomenclature?.unit,
             }),
         }
     },

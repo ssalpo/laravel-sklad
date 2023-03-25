@@ -36,7 +36,11 @@
                             <tbody>
                             <tr v-for="(mixtureComposition, index) in mixtureCompositions.data">
                                 <td :data-id="mixtureComposition.id">{{ ((mixtureCompositions.current_page - 1) * mixtureCompositions.per_page) + index + 1 }}</td>
-                                <td>{{mixtureComposition.nomenclature}}</td>
+                                <td>
+                                    <Link :href="route('mixture-compositions.show', mixtureComposition.id)">
+                                        {{mixtureComposition.nomenclature}}
+                                    </Link>
+                                </td>
                                 <td>{{mixtureComposition.weight}} {{mixtureComposition.weight_unit}}</td>
                                 <td>{{mixtureComposition.water}} {{mixtureComposition.water_unit}}</td>
                                 <td>{{mixtureComposition.worker_price}}</td>

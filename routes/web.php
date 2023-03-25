@@ -4,17 +4,14 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MixtureCompositionController;
+use App\Http\Controllers\MixtureCompositionItemController;
 use App\Http\Controllers\NomenclatureArrivalController;
 use App\Http\Controllers\NomenclatureController;
-use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
-
-    // Units
-    Route::resource('units', UnitController::class);
 
     // Clients
     Route::resource('clients', ClientController::class);
@@ -27,6 +24,9 @@ Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static functio
 
     // Mixture Compositions
     Route::resource('mixture-compositions', MixtureCompositionController::class);
+
+    // Mixture Compositions Items
+    Route::resource('/mixture-compositions/{mixture_composition}/mixture-composition-items', MixtureCompositionItemController::class);
 
     // Users
     Route::post('/users/{user}/toggle-activity', [UserController::class, 'toggleActivity'])->name('users.toggle_activity');

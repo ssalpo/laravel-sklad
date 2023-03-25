@@ -43,11 +43,6 @@
                                 </Link>
                             </li>
                             <li>
-                                <Link :href="route('units.index')" class="nav-link">
-                                    Ед. измерения
-                                </Link>
-                            </li>
-                            <li>
                                 <Link :href="route('users.index')" class="nav-link">
                                     Пользователи
                                 </Link>

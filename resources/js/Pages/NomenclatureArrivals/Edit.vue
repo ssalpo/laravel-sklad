@@ -44,13 +44,13 @@
                         <div class="form-group">
                             <label class="form-asterisk">Единица измерения</label>
                             <select disabled class="form-control"
-                                    :class="{'is-invalid': errors.unit_id}"
-                                    v-model.trim="form.unit_id">
-                                <option :value="unit.id" v-for="unit in units">{{ unit.name }}</option>
+                                    :class="{'is-invalid': errors.unit}"
+                                    v-model.trim="form.unit">
+                                <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
                             </select>
 
-                            <div v-if="errors.unit_id" class="error invalid-feedback">
-                                {{ errors.unit_id }}
+                            <div v-if="errors.unit" class="error invalid-feedback">
+                                {{ errors.unit }}
                             </div>
                         </div>
 
@@ -139,14 +139,14 @@ import get from "lodash/get";
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
-    props: ['nomenclatureArrival', 'nomenclatures', 'units', 'currentDate', 'errors'],
+    props: ['nomenclatureArrival', 'nomenclatures', 'currentDate', 'errors'],
     components: {Head, Link},
     data() {
         return {
             form: useForm({
                 nomenclature_id: this.nomenclatureArrival?.nomenclature_id,
                 quantity: this.nomenclatureArrival?.quantity,
-                unit_id: this.nomenclatureArrival?.unit_id,
+                unit: this.nomenclatureArrival?.unit,
                 price: this.nomenclatureArrival?.price,
                 price_for_sale: this.nomenclatureArrival?.price_for_sale,
                 currency_type: this.nomenclatureArrival?.currency_type,
@@ -167,7 +167,7 @@ export default {
     },
     watch: {
         ['form.nomenclature_id'](value) {
-            this.form.unit_id = get(find(this.units, 'id', value), 'id');
+            this.form.unit = get(find(this.nomenclatures, {'id': value}), 'unit');
         }
     }
 }

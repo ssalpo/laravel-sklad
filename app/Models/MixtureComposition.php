@@ -13,9 +13,9 @@ class MixtureComposition extends Model
         'nomenclature_id',
         'currency_type',
         'weight',
-        'weight_unit_id',
+        'weight_unit',
         'water',
-        'water_unit_id',
+        'water_unit',
         'worker_price'
     ];
 
@@ -24,13 +24,8 @@ class MixtureComposition extends Model
         return $this->belongsTo(Nomenclature::class);
     }
 
-    public function weightUnit()
+    public function mixtureCompositionItems()
     {
-        return $this->belongsTo(Unit::class, 'weight_unit_id');
-    }
-
-    public function waterUnit()
-    {
-        return $this->belongsTo(Unit::class, 'water_unit_id');
+        return $this->hasMany(MixtureCompositionItem::class);
     }
 }

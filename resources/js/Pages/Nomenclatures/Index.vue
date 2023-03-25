@@ -27,7 +27,6 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>Наименование</th>
-                                <th>Категория</th>
                                 <th>Цена продажи</th>
                                 <th>Тип номенклатуры</th>
                                 <th title="Единица измерения">Ед. изм.</th>
@@ -38,7 +37,6 @@
                             <tr v-for="(nomenclature, index) in nomenclatures.data">
                                 <td :data-id="nomenclature.id">{{ ((nomenclatures.current_page - 1) * nomenclatures.per_page) + index + 1 }}</td>
                                 <td>{{nomenclature.name}}</td>
-                                <td>{{nomenclature.category}}</td>
                                 <td>{{nomenclature.price_for_sale}} {{$page.props.shared.currencyTypeLabelsShort[nomenclature.currency_type]}}</td>
                                 <td>{{$page.props.shared.nomenclatureTypes[nomenclature.type]}}</td>
                                 <td>{{nomenclature.unit}}</td>

@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Nomenclature;
+use App\UnitConvertor;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -43,7 +44,8 @@ class HandleInertiaRequests extends Middleware
                 'userId' => auth()->id(),
                 'currencyTypeLabels' => Nomenclature::CURRENCY_TYPES,
                 'currencyTypeLabelsShort' => Nomenclature::CURRENCY_TYPES_SHORT,
-                'nomenclatureTypes' => Nomenclature::TYPES_LIST
+                'nomenclatureTypes' => Nomenclature::TYPES_LIST,
+                'unitLabels' => UnitConvertor::UNIT_LABELS
             ],
             'flash' => [
                 'isCreated' => fn() => $request->session()->get('isCreated')

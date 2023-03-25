@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('nomenclature_id')->constrained();
             $table->double('price')->default(0);
             $table->integer('quantity')->default(0);
-            $table->foreignId('unit_id')->constrained();
+            $table->tinyInteger('unit');
             $table->timestamps();
         });
     }

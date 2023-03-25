@@ -5,21 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MixtureCompositionRequest;
 use App\Models\MixtureComposition;
 use App\Models\Nomenclature;
-use App\Models\Unit;
+use App\UnitConvertor;
 use Illuminate\Http\Request;
 
 class MixtureCompositionController extends Controller
 {
     public function index()
     {
-        $mixtureCompositions = MixtureComposition::with(['nomenclature', 'weightUnit', 'waterUnit'])->paginate()
+        $mixtureCompositions = MixtureComposition::with(['nomenclature'])->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'nomenclature' => $model->nomenclature->name,
                 'weight' => $model->weight,
-                'weight_unit' => $model->weightUnit->name,
+                'weight_unit' => UnitConvertor::UNIT_LABELS[$model->weight_unit],
                 'water' => $model->water,
-                'water_unit' => $model->waterUnit->name,
+                'water_unit' => UnitConvertor::UNIT_LABELS[$model->water_unit],
                 'worker_price' => $model->worker_price
             ]);
 
@@ -28,10 +28,9 @@ class MixtureCompositionController extends Controller
 
     public function create()
     {
-        $units = Unit::all();
         $nomenclatures = Nomenclature::saleType()->get(['id', 'name']);
 
-        return inertia('MixtureCompositions/Edit', compact('units', 'nomenclatures'));
+        return inertia('MixtureCompositions/Edit', compact('nomenclatures'));
     }
 
     public function store(MixtureCompositionRequest $request)
@@ -41,12 +40,41 @@ class MixtureCompositionController extends Controller
         return to_route('mixture-compositions.index');
     }
 
+    public function show(int $mixtureCompositionId)
+    {
+        $mixtureComposition = MixtureComposition::with('nomenclature')
+            ->with('mixtureCompositionItems.nomenclature', 'mixtureCompositionItems.unit')
+            ->findOrFail($mixtureCompositionId);
+
+        $totalSum = $mixtureComposition->mixtureCompositionItems->sum('price') / $mixtureComposition->water;
+
+        return inertia('MixtureCompositions/Show', [
+            'totalSum' => $totalSum,
+            'mixtureComposition' => [
+                'id' => $mixtureComposition->id,
+                'nomenclature' => $mixtureComposition->nomenclature->name,
+                'currency_type' => $mixtureComposition->currency_type,
+                'worker_price' => $mixtureComposition->worker_price,
+                'weight' => $mixtureComposition->weight,
+                'weightUnit' => UnitConvertor::UNIT_LABELS[$mixtureComposition->weight_unit],
+                'water' => $mixtureComposition->water,
+                'waterUnit' => UnitConvertor::UNIT_LABELS[$mixtureComposition->water_unit],
+                'mixtureCompositionItems' => $mixtureComposition->mixtureCompositionItems->transform(fn($model) => [
+                    'id' => $model->id,
+                    'nomenclature' => $model->nomenclature->name,
+                    'price' => $model->price,
+                    'quantity' => $model->quantity,
+                    'unit' => $model->unit->name
+                ])
+            ]
+        ]);
+    }
+
     public function edit(MixtureComposition $mixtureComposition)
     {
-        $units = Unit::all();
         $nomenclatures = Nomenclature::saleType()->get(['id', 'name']);
 
-        return inertia('MixtureCompositions/Edit', compact('mixtureComposition', 'units', 'nomenclatures'));
+        return inertia('MixtureCompositions/Edit', compact('mixtureComposition', 'nomenclatures'));
     }
 
     public function update(MixtureComposition $mixtureComposition, MixtureCompositionRequest $request)

@@ -19,7 +19,7 @@ return new class extends Migration
             $table->decimal('price_for_sale')->default(0);
             $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_TJS);
             $table->tinyInteger('type');
-            $table->foreignId('unit_id')->constrained();
+            $table->tinyInteger('unit');
             $table->timestamps();
         });
     }

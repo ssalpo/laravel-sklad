@@ -59,13 +59,13 @@
                         <div class="form-group">
                             <label class="form-asterisk">Единица измерения для массы продукта</label>
                             <select class="form-control"
-                                    :class="{'is-invalid': errors.weight_unit_id}"
-                                    v-model.trim="form.weight_unit_id">
-                                <option :value="unit.id" v-for="unit in units">{{unit.name}}</option>
+                                    :class="{'is-invalid': errors.weight_unit}"
+                                    v-model.trim="form.weight_unit">
+                                <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
                             </select>
 
-                            <div v-if="errors.weight_unit_id" class="error invalid-feedback">
-                                {{ errors.weight_unit_id }}
+                            <div v-if="errors.weight_unit" class="error invalid-feedback">
+                                {{ errors.weight_unit }}
                             </div>
                         </div>
 
@@ -82,13 +82,13 @@
                         <div class="form-group">
                             <label class="form-asterisk">Единица измерения для массы воды</label>
                             <select class="form-control"
-                                    :class="{'is-invalid': errors.water_unit_id}"
-                                    v-model.trim="form.water_unit_id">
-                                <option :value="unit.id" v-for="unit in units">{{unit.name}}</option>
+                                    :class="{'is-invalid': errors.water_unit}"
+                                    v-model.trim="form.water_unit">
+                                <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
                             </select>
 
-                            <div v-if="errors.water_unit_id" class="error invalid-feedback">
-                                {{ errors.water_unit_id }}
+                            <div v-if="errors.water_unit" class="error invalid-feedback">
+                                {{ errors.water_unit }}
                             </div>
                         </div>
 
@@ -131,9 +131,9 @@ export default {
                 nomenclature_id: this.mixtureComposition?.nomenclature_id,
                 currency_type: this.mixtureComposition?.currency_type,
                 weight: this.mixtureComposition?.weight,
-                weight_unit_id: this.mixtureComposition?.weight_unit_id,
+                weight_unit: this.mixtureComposition?.weight_unit,
                 water: this.mixtureComposition?.water,
-                water_unit_id: this.mixtureComposition?.water_unit_id,
+                water_unit: this.mixtureComposition?.water_unit,
                 worker_price: this.mixtureComposition?.worker_price,
             }),
         }

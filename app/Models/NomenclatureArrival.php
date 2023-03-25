@@ -12,7 +12,7 @@ class NomenclatureArrival extends Model
     protected $fillable = [
         'nomenclature_id',
         'quantity',
-        'unit_id',
+        'unit',
         'price_for_sale',
         'currency_type',
         'comment',
@@ -27,10 +27,5 @@ class NomenclatureArrival extends Model
     public function nomenclature()
     {
         return $this->belongsTo(Nomenclature::class);
-    }
-
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
     }
 }

@@ -2,11 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Nomenclature;
 use App\UnitConvertor;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NomenclatureRequest extends FormRequest
+class MixtureCompositionItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +25,18 @@ class NomenclatureRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|min:2|max:255',
-            'type' => 'required|in:' . implode(',', array_keys(Nomenclature::TYPES_LIST)),
-            'price_for_sale' => 'nullable|regex:/^\d+(\.\d{1,2})?$/',
-            'currency_type' => 'required|in:' . implode(',', array_keys(Nomenclature::CURRENCY_TYPES)),
+            'mixture_composition_id' => 'required|exists:mixture_compositions,id',
+            'nomenclature_id' => 'required|exists:nomenclatures,id',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'quantity' => 'required|numeric',
             'unit' => 'required|int:'. implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        return $this->merge([
+            'mixture_composition_id' => $this->route('mixture_composition')
+        ]);
     }
 }

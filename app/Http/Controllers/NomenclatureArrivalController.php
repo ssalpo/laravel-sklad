@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Nomenclature;
 use App\Models\NomenclatureArrival;
-use App\Models\Unit;
+use App\UnitConvertor;
 use Illuminate\Http\Request;
 
 class NomenclatureArrivalController extends Controller
@@ -12,13 +12,13 @@ class NomenclatureArrivalController extends Controller
 
     public function index()
     {
-        $nomenclatureArrivals = NomenclatureArrival::with(['nomenclature', 'unit'])
+        $nomenclatureArrivals = NomenclatureArrival::with(['nomenclature'])
             ->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'nomenclature' => $model->nomenclature->name,
                 'quantity' => $model->quantity,
-                'unit' => $model->unit->name,
+                'unit' => UnitConvertor::UNIT_LABELS[$model->unit],
                 'price_for_sale' => $model->price_for_sale,
                 'currency_type' => $model->currency_type,
                 'comment' => $model->comment,
@@ -36,14 +36,12 @@ class NomenclatureArrivalController extends Controller
             ->transform(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,
-                'unit_id' => $model->unit_id,
+                'unit' => $model->unit,
             ]);
 
         $currentDate = date('yyyy-MM-ddThh:mm');
 
-        $units = Unit::all();
-
-        return inertia('NomenclatureArrivals/Edit', compact('nomenclatures', 'units', 'currentDate'));
+        return inertia('NomenclatureArrivals/Edit', compact('nomenclatures', 'currentDate'));
     }
 
     /**

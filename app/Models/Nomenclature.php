@@ -14,7 +14,7 @@ class Nomenclature extends Model
         'type',
         'price_for_sale',
         'currency_type',
-        'unit_id',
+        'unit',
     ];
 
     protected $casts = [
@@ -50,10 +50,5 @@ class Nomenclature extends Model
     public function scopeCompositeType($q)
     {
         $q->whereType(self::TYPE_COMPOSITE);
-    }
-
-    public function unit()
-    {
-        return $this->belongsTo(Unit::class);
     }
 }

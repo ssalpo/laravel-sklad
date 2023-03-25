@@ -15,7 +15,7 @@ class OrderItem extends Model
         'price',
         'price_for_sale',
         'quantity',
-        'unit_id',
+        'unit',
         'discount'
     ];
 }

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->foreignId('nomenclature_id')->constrained();
             $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_USD);
             $table->double('weight')->default(0);
-            $table->foreignId('weight_unit_id')->constrained('units');
+            $table->tinyInteger('weight_unit');
             $table->double('water')->default(0);
-            $table->foreignId('water_unit_id')->constrained('units');
+            $table->tinyInteger('water_unit');
             $table->double('worker_price')->default(0);
             $table->timestamps();
         });

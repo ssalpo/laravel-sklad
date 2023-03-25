@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\NomenclatureArrival;
+use App\UnitConvertor;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,7 +20,7 @@ class NomenclatureArrivalsTableSeeder extends Seeder
             [
                 'nomenclature_id' => 1,
                 'quantity' => 12,
-                'unit_id' => 1,
+                'unit' => UnitConvertor::UNIT_PCS,
                 'price_for_sale' => 13,
                 'currency_type' => 1,
                 'comment' => 'Simple arrival comment',
@@ -28,7 +29,7 @@ class NomenclatureArrivalsTableSeeder extends Seeder
             [
                 'nomenclature_id' => 2,
                 'quantity' => 15,
-                'unit_id' => 1,
+                'unit' => UnitConvertor::UNIT_PCS,
                 'price_for_sale' => 15,
                 'currency_type' => 1,
                 'comment' => 'Simple arrival comment 2',

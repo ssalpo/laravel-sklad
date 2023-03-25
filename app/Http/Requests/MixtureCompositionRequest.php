@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Nomenclature;
+use App\UnitConvertor;
 use Illuminate\Foundation\Http\FormRequest;
 
 class MixtureCompositionRequest extends FormRequest
@@ -24,13 +25,15 @@ class MixtureCompositionRequest extends FormRequest
      */
     public function rules()
     {
+        $unitKeys = implode(',', array_keys(UnitConvertor::UNIT_LABELS));
+
         return [
             'nomenclature_id' => 'required|exists:nomenclatures,id',
             'currency_type' => 'required|in:' . implode(',', array_keys(Nomenclature::CURRENCY_TYPES)),
             'weight' => 'required|numeric',
-            'weight_unit_id' => 'required|exists:units,id',
+            'weight_unit' => 'required|int:' . $unitKeys,
             'water' => 'required|numeric',
-            'water_unit_id' => 'required|exists:units,id',
+            'water_unit' => 'required|int:' . $unitKeys,
             'worker_price' => 'required|regex:/^\d+(\.\d{1,2})?$/'
         ];
     }

@@ -17,7 +17,6 @@ class NomenclaturesTableSeeder extends Seeder
     {
         $nomenclatures = [
             [
-                'category_id' => 1,
                 'name' => 'Товар 1',
                 'type' => 1,
                 'price_for_sale' => 300,
@@ -25,7 +24,6 @@ class NomenclaturesTableSeeder extends Seeder
                 'unit_id' => 1,
             ],
             [
-                'category_id' => 1,
                 'name' => 'Товар 2',
                 'type' => 1,
                 'price_for_sale' => 500,
@@ -33,7 +31,6 @@ class NomenclaturesTableSeeder extends Seeder
                 'unit_id' => 1,
             ],
             [
-                'category_id' => 3,
                 'name' => 'Сырье 1',
                 'type' => 2,
                 'price_for_sale' => 2000,
@@ -41,7 +38,6 @@ class NomenclaturesTableSeeder extends Seeder
                 'unit_id' => 5,
             ],
             [
-                'category_id' => 3,
                 'name' => 'Сырье 2',
                 'type' => 2,
                 'price_for_sale' => 1560,

@@ -25,7 +25,6 @@ class NomenclatureRequest extends FormRequest
     public function rules()
     {
         return [
-            'category_id' => 'required|exists:categories,id',
             'name' => 'required|min:2|max:255',
             'type' => 'required|in:' . implode(',', array_keys(Nomenclature::TYPES_LIST)),
             'price_for_sale' => 'nullable|regex:/^\d+(\.\d{1,2})?$/',

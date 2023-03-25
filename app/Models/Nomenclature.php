@@ -10,7 +10,6 @@ class Nomenclature extends Model
     use HasFactory;
 
     protected $fillable = [
-        'category_id',
         'name',
         'type',
         'price_for_sale',
@@ -51,11 +50,6 @@ class Nomenclature extends Model
     public function scopeCompositeType($q)
     {
         $q->whereType(self::TYPE_COMPOSITE);
-    }
-
-    public function category()
-    {
-        return $this->belongsTo(Category::class);
     }
 
     public function unit()

@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Dashboard</title>
+        <title>Аналитика</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Dashboard</h1>
+            <h1 class="m-0">Аналитика</h1>
         </div>
     </div>
 

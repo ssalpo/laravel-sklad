@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('nomenclatures', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('category_id')->constrained();
             $table->decimal('price_for_sale')->default(0);
             $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_TJS);
             $table->tinyInteger('type');

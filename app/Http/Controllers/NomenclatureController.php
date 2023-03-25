@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NomenclatureRequest;
-use App\Models\Category;
 use App\Models\Nomenclature;
 use App\Models\Unit;
 use Illuminate\Http\RedirectResponse;
@@ -14,11 +13,10 @@ class NomenclatureController extends Controller
 {
     public function index(): Response
     {
-        $nomenclatures = Nomenclature::with(['category', 'unit'])->paginate()
+        $nomenclatures = Nomenclature::with(['unit'])->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,
-                'category' => $model->category->name,
                 'price_for_sale' => $model->price_for_sale,
                 'currency_type' => $model->currency_type,
                 'type' => $model->type,
@@ -30,13 +28,11 @@ class NomenclatureController extends Controller
 
     public function create(): Response
     {
-        $categories = Category::all();
         $units = Unit::all();
         $currencyTypes = Nomenclature::CURRENCY_TYPES;
         $nomenclatureTypes = Nomenclature::TYPES_LIST;
 
         return inertia('Nomenclatures/Edit', compact(
-            'categories',
             'units',
             'currencyTypes',
             'nomenclatureTypes'
@@ -53,13 +49,11 @@ class NomenclatureController extends Controller
 
     public function edit(Nomenclature $nomenclature): Response
     {
-        $categories = Category::all();
         $units = Unit::all();
         $currencyTypes = Nomenclature::CURRENCY_TYPES;
         $nomenclatureTypes = Nomenclature::TYPES_LIST;
 
         return inertia('Nomenclatures/Edit', compact(
-            'categories',
             'units',
             'nomenclature',
             'currencyTypes',

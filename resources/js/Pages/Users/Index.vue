@@ -12,7 +12,7 @@
     <div class="content">
         <div class="container">
             <div class="card">
-                <div class="card-header" v-if="$page.props.shared.userPermissions.includes('create_users')">
+                <div class="card-header">
                     <div class="card-tools">
                         <Link :href="route('users.create')" class="btn btn-success btn-sm px-3">
                             Новый пользователь
@@ -29,7 +29,6 @@
                                 <th>Имя</th>
                                 <th>Логин</th>
                                 <th>Дата создания</th>
-                                <th>Роль</th>
                                 <th>Активность</th>
                                 <th width="40"></th>
                             </tr>
@@ -40,12 +39,10 @@
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.username }}</td>
                                 <td>{{ user.created_at }}</td>
-                                <td>{{ user.roles.join(', ') }}</td>
                                 <td>
-                                    <input type="checkbox" :checked="user.is_active" @change="$page.props.shared.userPermissions.includes('toggle_activity_users') ? toggleActivity(user.id) : null">
+                                    <input type="checkbox" :checked="user.is_active" @change="toggleActivity(user.id)">
                                 </td>
-                                <td class="text-center"
-                                    v-if="$page.props.shared.userPermissions.includes('edit_users')">
+                                <td class="text-center">
                                     <Link :href="route('users.edit', user.id)">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>

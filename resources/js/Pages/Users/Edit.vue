@@ -38,19 +38,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Роль</label>
-                            <select class="form-control"
-                                   :class="{'is-invalid': errors.role}"
-                                   v-model.trim="form.role">
-                                <option :value="role" v-for="(description, role) in roles">{{description}}</option>
-                            </select>
-
-                            <div v-if="errors.role" class="error invalid-feedback">
-                                {{ errors.role }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-asterisk">Пароль</label>
                             <input type="password" class="form-control"
                                    :class="{'is-invalid': errors.password}"
@@ -82,15 +69,14 @@
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
-    props: ['user', 'errors', 'roles'],
+    props: ['user', 'errors'],
     components: {Head, Link},
     data() {
         return {
             form: useForm({
                 name: this.user?.name,
                 username: this.user?.username,
-                password: this.user?.password,
-                role: this.user?.role || 'doctor'
+                password: this.user?.password
             }),
         }
     },

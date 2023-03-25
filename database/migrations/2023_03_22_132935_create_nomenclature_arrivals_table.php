@@ -18,7 +18,6 @@ return new class extends Migration
             $table->foreignId('nomenclature_id')->constrained();
             $table->foreignId('unit_id')->constrained();
             $table->double('quantity')->default(0);
-            $table->decimal('price')->default(0);
             $table->decimal('price_for_sale')->default(0);
             $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_TJS);
             $table->text('comment')->nullable();

@@ -19,7 +19,6 @@ class NomenclatureArrivalController extends Controller
                 'nomenclature' => $model->nomenclature->name,
                 'quantity' => $model->quantity,
                 'unit' => $model->unit->name,
-                'price' => $model->price,
                 'price_for_sale' => $model->price_for_sale,
                 'currency_type' => $model->currency_type,
                 'comment' => $model->comment,

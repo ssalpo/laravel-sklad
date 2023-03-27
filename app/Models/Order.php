@@ -13,8 +13,10 @@ class Order extends Model
         'user_id',
         'client_id',
         'amount',
+        'profit',
         'currency_type',
         'discount',
+        'status',
         'currency_type'
     ];
 

@@ -17,6 +17,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <Link :href="route('storehouses.index')" class="nav-link">
+                            Склад
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
                         <Link :href="route('orders.index')" class="nav-link">
                             Заявки
                         </Link>

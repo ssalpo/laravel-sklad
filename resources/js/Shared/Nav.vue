@@ -11,8 +11,14 @@
                 <ul class="navbar-nav">
 
                     <li class="nav-item">
-                        <Link :href="route('nomenclature-arrivals.index')" class="nav-link">
+                        <Link :href="route('dashboard.index')" class="nav-link">
                             Аналитика
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
+                        <Link :href="route('orders.index')" class="nav-link">
+                            Заявки
                         </Link>
                     </li>
 

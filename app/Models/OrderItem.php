@@ -18,4 +18,14 @@ class OrderItem extends Model
         'unit',
         'discount'
     ];
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function nomenclature()
+    {
+        return $this->belongsTo(Nomenclature::class);
+    }
 }

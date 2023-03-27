@@ -7,11 +7,15 @@ use App\Http\Controllers\MixtureCompositionController;
 use App\Http\Controllers\MixtureCompositionItemController;
 use App\Http\Controllers\NomenclatureArrivalController;
 use App\Http\Controllers\NomenclatureController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
+    // Orders
+    Route::resource('orders', OrderController::class);
 
     // Clients
     Route::resource('clients', ClientController::class);

@@ -43,10 +43,16 @@ class MixtureCompositionController extends Controller
     public function show(int $mixtureCompositionId)
     {
         $mixtureComposition = MixtureComposition::with('nomenclature')
-            ->with('mixtureCompositionItems.nomenclature', 'mixtureCompositionItems.unit')
+            ->with('mixtureCompositionItems.nomenclature')
             ->findOrFail($mixtureCompositionId);
 
-        $totalSum = $mixtureComposition->mixtureCompositionItems->sum('price') / $mixtureComposition->water;
+        $weight = UnitConvertor::toKg($mixtureComposition->weight, $mixtureComposition->weight_unit);
+
+        $endResultPrice = $mixtureComposition->mixtureCompositionItems->where('end_result', true)->sum('price');
+
+        $totalSum = round(($mixtureComposition->mixtureCompositionItems->where('end_result', false)->sum('price') / $mixtureComposition->water) * $weight, 3, PHP_ROUND_HALF_UP);
+
+        $totalSum += $endResultPrice;
 
         return inertia('MixtureCompositions/Show', [
             'totalSum' => $totalSum,
@@ -64,7 +70,7 @@ class MixtureCompositionController extends Controller
                     'nomenclature' => $model->nomenclature->name,
                     'price' => $model->price,
                     'quantity' => $model->quantity,
-                    'unit' => $model->unit->name
+                    'unit' => UnitConvertor::UNIT_LABELS[$model->unit]
                 ])
             ]
         ]);

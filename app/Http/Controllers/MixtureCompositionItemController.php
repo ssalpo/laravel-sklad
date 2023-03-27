@@ -44,4 +44,12 @@ class MixtureCompositionItemController extends Controller
 
         return to_route('mixture-compositions.show', $mixtureCompositionId);
     }
+
+    public function destroy(int $mixtureCompositionId, int $mixtureCompositionItemId)
+    {
+        MixtureCompositionItem::where('mixture_composition_id', $mixtureCompositionId)
+            ->findOrFail($mixtureCompositionItemId)->delete();
+
+        return to_route('mixture-compositions.show', $mixtureCompositionId);
+    }
 }

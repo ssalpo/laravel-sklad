@@ -15,6 +15,11 @@ class MixtureCompositionItem extends Model
         'price',
         'quantity',
         'unit',
+        'end_result',
+    ];
+
+    protected $casts = [
+        'end_result' => 'boolean'
     ];
 
     public function mixtureComposition()

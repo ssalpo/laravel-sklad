@@ -20,6 +20,7 @@ return new class extends Migration
             $table->double('price')->default(0);
             $table->integer('quantity')->default(0);
             $table->tinyInteger('unit');
+            $table->boolean('end_result')->comment('При перерасчете суммы состава текущий состав добавляет в конечный итог');
             $table->timestamps();
         });
     }

@@ -27,9 +27,10 @@ class MixtureCompositionItemRequest extends FormRequest
         return [
             'mixture_composition_id' => 'required|exists:mixture_compositions,id',
             'nomenclature_id' => 'required|exists:nomenclatures,id',
-            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'price' => 'required|regex:/^\d+(\.\d{1,3})?$/',
             'quantity' => 'required|numeric',
             'unit' => 'required|int:'. implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
+            'end_result' => 'nullable|boolean'
         ];
     }
 

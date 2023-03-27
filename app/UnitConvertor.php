@@ -21,4 +21,50 @@ class UnitConvertor
         self::UNIT_ML => 'мл.',
         self::UNIT_PCS => 'шт.',
     ];
+
+    public const MASS_UNITS = [
+        self::UNIT_T,
+        self::UNIT_KG,
+        self::UNIT_G,
+        self::UNIT_MG
+    ];
+
+    public const FORMULAS = [
+        self::UNIT_T => 1000,
+        self::UNIT_KG => 1,
+        self::UNIT_G => 0.001,
+        self::UNIT_MG => 0.000001
+    ];
+
+    public static function toGram(int $value, int $currentUnit)
+    {
+        if (in_array($currentUnit, self::MASS_UNITS)) {
+
+            if ($currentUnit === self::UNIT_G) {
+                return $value;
+            }
+
+            $base = $value * self::FORMULAS[$currentUnit];
+
+            return $base / self::FORMULAS[self::UNIT_G];
+        }
+
+        return 0;
+    }
+
+    public static function toKg(int $value, int $currentUnit, int $precision = 3)
+    {
+        if (in_array($currentUnit, self::MASS_UNITS)) {
+
+            if ($currentUnit === self::UNIT_KG) {
+                return $value;
+            }
+
+            $base = $value * self::FORMULAS[$currentUnit];
+
+            return round($base / self::FORMULAS[self::UNIT_KG], $precision, PHP_ROUND_HALF_UP);
+        }
+
+        return 0;
+    }
 }

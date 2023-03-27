@@ -63,6 +63,20 @@
                                 {{ errors.price }}
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="custom-control custom-checkbox">
+                                <input class="custom-control-input" id="endResult" v-model="form.end_result" type="checkbox" />
+
+                                <label for="endResult" class="custom-control-label">
+                                    Добавить в результат расчета в конце?
+                                </label>
+                            </div>
+
+                            <div v-if="errors.end_result" class="invalid-feedback-simple">
+                                {{ errors.end_result }}
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
 
@@ -96,6 +110,7 @@ export default {
                 price: this.mixtureCompositionItem?.price,
                 quantity: this.mixtureCompositionItem?.quantity,
                 unit: this.mixtureCompositionItem?.unit,
+                end_result: this.mixtureCompositionItem?.end_result,
             }),
         }
     },

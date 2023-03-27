@@ -34,7 +34,7 @@ class MixtureCompositionRequest extends FormRequest
             'weight_unit' => 'required|int:' . $unitKeys,
             'water' => 'required|numeric',
             'water_unit' => 'required|int:' . $unitKeys,
-            'worker_price' => 'required|regex:/^\d+(\.\d{1,2})?$/'
+            'worker_price' => 'required|regex:/^\d+(\.\d{1,3})?$/'
         ];
     }
 }

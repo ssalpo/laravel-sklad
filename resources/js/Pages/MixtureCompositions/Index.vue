@@ -5,7 +5,7 @@
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Состав продуктов</h1>
+            <h5 class="m-0">Состав продуктов</h5>
         </div>
     </div>
 

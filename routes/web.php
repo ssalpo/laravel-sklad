@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientDiscountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MixtureCompositionController;
 use App\Http\Controllers\MixtureCompositionItemController;
@@ -24,6 +25,7 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(stati
 
     // Clients
     Route::resource('clients', ClientController::class);
+    Route::resource('clients/{client}/client-discounts', ClientDiscountController::class);
 
     // Nomenclatures
     Route::resource('nomenclatures', NomenclatureController::class);

@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         $this->call(NomenclaturesTableSeeder::class);
         $this->call(NomenclatureArrivalsTableSeeder::class);
         $this->call(MixtureCompositionsSeeder::class);
+        $this->call(ClientDiscountsTableSeeder::class);
     }
 }

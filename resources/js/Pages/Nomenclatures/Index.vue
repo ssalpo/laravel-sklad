@@ -5,7 +5,7 @@
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Номенклатура</h1>
+            <h5 class="m-0">Номенклатура</h5>
         </div>
     </div>
 

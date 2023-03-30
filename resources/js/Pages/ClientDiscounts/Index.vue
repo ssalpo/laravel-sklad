@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Клиенты</title>
+        <title>Скидки</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Клиенты</h1>
+            <h5 class="m-0">Скидки</h5>
         </div>
     </div>
 
@@ -14,8 +14,8 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-tools">
-                        <Link :href="route('clients.create')" class="btn btn-success btn-sm px-3">
-                            Новый клиент
+                        <Link :href="route('client-discounts.create', client.id)" class="btn btn-success btn-sm px-3">
+                            Новая скидка
                         </Link>
                     </div>
                 </div>
@@ -26,22 +26,18 @@
                             <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Наименование</th>
-                                <th>Телефон</th>
-                                <th></th>
+                                <th>Номенклатура</th>
+                                <th>Сумма скидки</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(client, index) in clients.data">
-                                <td :data-id="client.id">{{ ((clients.current_page - 1) * clients.per_page) + index + 1 }}</td>
-                                <td>{{client.name}}</td>
-                                <td>{{client.phone}}</td>
-                                <td>
-                                    <Link :href="route('client-discounts.index', client.id)">Скидки</Link>
-                                </td>
+                            <tr v-for="(clientDiscount, index) in clientDiscounts.data">
+                                <td :data-id="clientDiscount.id">{{ ((clientDiscounts.current_page - 1) * clientDiscounts.per_page) + index + 1 }}</td>
+                                <td>{{clientDiscount.nomenclature}}</td>
+                                <td>{{numberFormat(clientDiscount.discount)}} сом.</td>
                                 <td class="text-center">
-                                    <Link :href="route('clients.edit', client.id)">
+                                    <Link :href="route('client-discounts.edit', {client: client.id, client_discount: clientDiscount.id})">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
                                 </td>
@@ -52,8 +48,8 @@
                 </div>
                 <!-- /.card-body -->
 
-                <div class="card-footer clearfix" v-if="clients.links.length > 3">
-                    <pagination :links="clients.links"/>
+                <div class="card-footer clearfix" v-if="clientDiscounts.links.length > 3">
+                    <pagination :links="clientDiscounts.links"/>
                 </div>
             </div>
         </div>
@@ -65,6 +61,6 @@ import Pagination from "../../Shared/Pagination.vue";
 
 export default {
     components: {Pagination, Head, Link},
-    props: ['clients'],
+    props: ['client', 'clientDiscounts'],
 }
 </script>

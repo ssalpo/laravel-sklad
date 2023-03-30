@@ -21,7 +21,8 @@
                                     :class="{'is-invalid': errors.nomenclature_id}"
                                     v-model.trim="form.nomenclature_id">
                                 <option :value="nomenclature.id"
-                                        v-for="nomenclature in nomenclatures">{{ nomenclature.name }}
+                                        :selected="!form.nomenclature_id && index === 0"
+                                        v-for="(nomenclature, index) in nomenclatures">{{ nomenclature.name }}
                                 </option>
                             </select>
 

@@ -28,7 +28,11 @@ class MixtureCompositionItemController extends Controller
     public function edit(int $mixtureCompositionId, int $mixtureCompositionItemId)
     {
         $mixtureCompositionItem = MixtureCompositionItem::where('mixture_composition_id', $mixtureCompositionId)->findOrFail($mixtureCompositionItemId);
-        $nomenclatures = Nomenclature::compositeType()->get(['id', 'name']);
+        $nomenclatures = Nomenclature::compositeType()
+            ->whereNotIn(
+                'id', MixtureCompositionItem::whereMixtureCompositionId($mixtureCompositionId)->whereNot('id', $mixtureCompositionItemId)->pluck('nomenclature_id')
+            )
+            ->get(['id', 'name']);
 
         return inertia('MixtureCompositionItems/Edit', compact(
             'mixtureCompositionId',

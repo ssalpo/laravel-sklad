@@ -11,7 +11,9 @@ class MixtureCompositionItemController extends Controller
 {
     public function create(int $mixtureCompositionId)
     {
-        $nomenclatures = Nomenclature::compositeType()->get(['id', 'name']);
+        $nomenclatures = Nomenclature::compositeType()->whereNotIn(
+            'id', MixtureCompositionItem::whereMixtureCompositionId($mixtureCompositionId)->pluck('nomenclature_id')
+        )->get(['id', 'name']);
 
         return inertia('MixtureCompositionItems/Edit', compact('mixtureCompositionId', 'nomenclatures'));
     }

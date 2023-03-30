@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('mixture_compositions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('nomenclature_id')->constrained();
-            $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_USD);
             $table->double('weight')->default(0);
             $table->tinyInteger('weight_unit');
             $table->double('water')->default(0);

@@ -26,7 +26,6 @@ class OrderService
                     'status' => Order::STATUS_NEW,
                     'profit' => $totals['profit'],
                     'amount' => $totals['amount'],
-                    'currency_type' => Nomenclature::CURRENCY_TYPE_TJS
                 ],
                 Arr::except($data, 'orderItems')
             ));
@@ -37,7 +36,6 @@ class OrderService
                 $item['price'] = $nomenclature->price;
                 $item['price_for_sale'] = $nomenclature->price_for_sale;
                 $item['unit'] = $nomenclature->unit;
-                $item['currency_type'] = $nomenclature->currency_type;
 
                 $order->orderItems()->create($item);
             }

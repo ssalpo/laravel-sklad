@@ -31,22 +31,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Тип валюты</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.currency_type}"
-                                    v-model.number="form.currency_type">
-                                <option :value="index"
-                                        v-for="(currencyType, index) in $page.props.shared.currencyTypeLabels">
-                                    {{ currencyType }}
-                                </option>
-                            </select>
-
-                            <div v-if="errors.currency_type" class="error invalid-feedback">
-                                {{ errors.currency_type }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-asterisk">Масса продукта</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.weight}"
@@ -129,7 +113,6 @@ export default {
         return {
             form: useForm({
                 nomenclature_id: this.mixtureComposition?.nomenclature_id,
-                currency_type: this.mixtureComposition?.currency_type,
                 weight: this.mixtureComposition?.weight,
                 weight_unit: this.mixtureComposition?.weight_unit,
                 water: this.mixtureComposition?.water,

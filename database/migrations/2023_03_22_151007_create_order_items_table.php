@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('nomenclature_id')->constrained();
             $table->double('price')->default(0);
             $table->double('price_for_sale')->default(0);
-            $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_TJS);
             $table->integer('quantity')->default(0);
             $table->tinyInteger('unit');
             $table->double('discount')->default(0);

@@ -29,7 +29,6 @@ class MixtureCompositionRequest extends FormRequest
 
         return [
             'nomenclature_id' => 'required|exists:nomenclatures,id',
-            'currency_type' => 'required|in:' . implode(',', array_keys(Nomenclature::CURRENCY_TYPES)),
             'weight' => 'required|numeric',
             'weight_unit' => 'required|int:' . $unitKeys,
             'water' => 'required|numeric',

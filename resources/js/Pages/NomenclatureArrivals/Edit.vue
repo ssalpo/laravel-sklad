@@ -77,22 +77,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Тип валюты</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.currency_type}"
-                                    v-model.number="form.currency_type">
-                                <option :value="index"
-                                        v-for="(currencyType, index) in $page.props.shared.currencyTypeLabels">
-                                    {{ currencyType }}
-                                </option>
-                            </select>
-
-                            <div v-if="errors.currency_type" class="error invalid-feedback">
-                                {{ errors.currency_type }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-asterisk">Комментарий</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.comment}"
@@ -149,7 +133,6 @@ export default {
                 unit: this.nomenclatureArrival?.unit,
                 price: this.nomenclatureArrival?.price,
                 price_for_sale: this.nomenclatureArrival?.price_for_sale,
-                currency_type: this.nomenclatureArrival?.currency_type,
                 comment: this.nomenclatureArrival?.comment,
                 arrival_at: this.nomenclatureArrival?.arrival_at || this.currentDate,
             }),

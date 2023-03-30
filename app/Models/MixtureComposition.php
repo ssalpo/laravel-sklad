@@ -11,7 +11,6 @@ class MixtureComposition extends Model
 
     protected $fillable = [
         'nomenclature_id',
-        'currency_type',
         'weight',
         'weight_unit',
         'water',

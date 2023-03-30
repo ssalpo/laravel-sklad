@@ -19,23 +19,19 @@
                     <div class="table-responsive table-hover mb-4 mt-3">
                         <table width="350" border="1">
                             <tr>
-                                <td class="p-1">Валюта для расчета состава</td>
-                                <td class="p-1">{{$page.props.shared.currencyTypeLabels[mixtureComposition.currency_type]}}</td>
-                            </tr>
-                            <tr>
                                 <td class="p-1">Общий объём состава</td>
                                 <td class="p-1">{{mixtureComposition.water}} {{mixtureComposition.waterUnit}}</td>
                             </tr>
                             <tr>
                                 <td class="p-1">Цена работника за единицу</td>
-                                <td class="p-1">{{mixtureComposition.worker_price}}</td>
+                                <td class="p-1">${{mixtureComposition.worker_price}}</td>
                             </tr>
                             <tr>
                                 <td class="p-1">
                                     <b>Итого сумма за единице состава</b>
                                 </td>
                                 <td class="p-1">
-                                    {{totalSum}} {{$page.props.shared.currencyTypeLabelsShort[mixtureComposition.currency_type]}}
+                                    ${{totalSum}}
                                 </td>
                             </tr>
                         </table>
@@ -67,7 +63,7 @@
                                 <td :data-id="mixtureCompositionItem.id">{{ index + 1 }}</td>
                                 <td>{{mixtureCompositionItem.nomenclature}}</td>
                                 <td>{{mixtureCompositionItem.quantity}} {{mixtureCompositionItem.unit}}</td>
-                                <td>{{mixtureCompositionItem.price}} {{$page.props.shared.currencyTypeLabelsShort[mixtureComposition.currency_type]}}</td>
+                                <td>${{mixtureCompositionItem.price}}</td>
                                 <td class="text-center">
                                     <Link class="btn btn-sm btn-link" :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
                                         <i class="fa fa-pencil-alt"></i>

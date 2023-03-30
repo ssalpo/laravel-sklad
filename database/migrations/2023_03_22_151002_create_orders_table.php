@@ -19,7 +19,6 @@ return new class extends Migration
             $table->foreignId('client_id')->constrained();
             $table->double('amount')->default(0);
             $table->double('profit')->default(0);
-            $table->tinyInteger('currency_type');
             $table->double('discount')->default(0);
             $table->tinyInteger('status');
             $table->timestamps();

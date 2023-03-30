@@ -59,7 +59,6 @@ class MixtureCompositionController extends Controller
             'mixtureComposition' => [
                 'id' => $mixtureComposition->id,
                 'nomenclature' => $mixtureComposition->nomenclature->name,
-                'currency_type' => $mixtureComposition->currency_type,
                 'worker_price' => $mixtureComposition->worker_price,
                 'weight' => $mixtureComposition->weight,
                 'weightUnit' => UnitConvertor::UNIT_LABELS[$mixtureComposition->weight_unit],

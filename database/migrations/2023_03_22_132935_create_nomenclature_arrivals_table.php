@@ -19,7 +19,6 @@ return new class extends Migration
             $table->tinyInteger('unit');
             $table->double('quantity')->default(0);
             $table->decimal('price_for_sale')->default(0);
-            $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_TJS);
             $table->text('comment')->nullable();
             $table->timestamp('arrival_at')->useCurrent();
             $table->timestamps();

@@ -14,7 +14,6 @@ class NomenclatureArrival extends Model
         'quantity',
         'unit',
         'price_for_sale',
-        'currency_type',
         'comment',
         'arrival_at'
     ];

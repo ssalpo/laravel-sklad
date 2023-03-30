@@ -20,7 +20,6 @@ class NomenclatureArrivalController extends Controller
                 'quantity' => $model->quantity,
                 'unit' => UnitConvertor::UNIT_LABELS[$model->unit],
                 'price_for_sale' => $model->price_for_sale,
-                'currency_type' => $model->currency_type,
                 'comment' => $model->comment,
                 'arrival_at' => $model->arrival_at->format('d.m.Y H:i'),
             ]);

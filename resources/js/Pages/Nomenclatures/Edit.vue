@@ -38,19 +38,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Тип валюты</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.currency_type}"
-                                    v-model.number="form.currency_type">
-                                <option :value="index" v-for="(currencyType, index) in $page.props.shared.currencyTypeLabels">{{currencyType}}</option>
-                            </select>
-
-                            <div v-if="errors.currency_type" class="error invalid-feedback">
-                                {{ errors.currency_type }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-asterisk">Тип номенклатуры</label>
                             <select class="form-control"
                                     :class="{'is-invalid': errors.type}"
@@ -105,7 +92,6 @@ export default {
                 name: this.nomenclature?.name,
                 category_id: this.nomenclature?.category_id,
                 price_for_sale: this.nomenclature?.price_for_sale,
-                currency_type: this.nomenclature?.currency_type,
                 type: this.nomenclature?.type,
                 unit: this.nomenclature?.unit,
             }),

@@ -18,7 +18,6 @@ class NomenclatureController extends Controller
                 'id' => $model->id,
                 'name' => $model->name,
                 'price_for_sale' => $model->price_for_sale,
-                'currency_type' => $model->currency_type,
                 'type' => $model->type,
                 'unit' => UnitConvertor::UNIT_LABELS[$model->unit],
             ]);
@@ -28,11 +27,9 @@ class NomenclatureController extends Controller
 
     public function create(): Response
     {
-        $currencyTypes = Nomenclature::CURRENCY_TYPES;
         $nomenclatureTypes = Nomenclature::TYPES_LIST;
 
         return inertia('Nomenclatures/Edit', compact(
-            'currencyTypes',
             'nomenclatureTypes'
         ));
     }
@@ -47,12 +44,10 @@ class NomenclatureController extends Controller
 
     public function edit(Nomenclature $nomenclature): Response
     {
-        $currencyTypes = Nomenclature::CURRENCY_TYPES;
         $nomenclatureTypes = Nomenclature::TYPES_LIST;
 
         return inertia('Nomenclatures/Edit', compact(
             'nomenclature',
-            'currencyTypes',
             'nomenclatureTypes'
         ));
     }

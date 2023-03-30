@@ -22,7 +22,6 @@ class NomenclatureArrivalsTableSeeder extends Seeder
                 'quantity' => 12,
                 'unit' => UnitConvertor::UNIT_PCS,
                 'price_for_sale' => 13,
-                'currency_type' => 1,
                 'comment' => 'Simple arrival comment',
                 'arrival_at' => now()
             ],
@@ -31,7 +30,6 @@ class NomenclatureArrivalsTableSeeder extends Seeder
                 'quantity' => 15,
                 'unit' => UnitConvertor::UNIT_PCS,
                 'price_for_sale' => 15,
-                'currency_type' => 1,
                 'comment' => 'Simple arrival comment 2',
                 'arrival_at' => now()
             ],

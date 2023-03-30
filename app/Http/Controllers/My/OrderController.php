@@ -56,7 +56,6 @@ class OrderController extends Controller
                 'user' => $order->user->name,
                 'client' => $order->client->name,
                 'amount' => $order->amount,
-                'currency_type' => $order->currency_type,
                 'status' => $order->status,
             ],
             'orderItems' => $orderItems

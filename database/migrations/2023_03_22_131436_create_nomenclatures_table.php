@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price')->default(0);
             $table->decimal('price_for_sale')->default(0);
-            $table->tinyInteger('currency_type')->default(\App\Models\Nomenclature::CURRENCY_TYPE_TJS);
             $table->tinyInteger('type');
             $table->tinyInteger('unit');
             $table->timestamps();

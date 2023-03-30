@@ -14,7 +14,6 @@ class Nomenclature extends Model
         'type',
         'price',
         'price_for_sale',
-        'currency_type',
         'unit',
     ];
 

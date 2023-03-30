@@ -19,7 +19,6 @@ class MixtureCompositionsSeeder extends Seeder
         $data = [
             [
                 'nomenclature_id' => 1,
-                'currency_type' => 1,
                 'weight' => 1,
                 'weight_unit' => UnitConvertor::UNIT_KG,
                 'water' => 700,
@@ -28,7 +27,6 @@ class MixtureCompositionsSeeder extends Seeder
             ],
             [
                 'nomenclature_id' => 2,
-                'currency_type' => 1,
                 'weight' => 900,
                 'weight_unit' => UnitConvertor::UNIT_ML,
                 'water' => 1000,

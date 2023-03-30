@@ -29,7 +29,6 @@ class NomenclatureRequest extends FormRequest
             'name' => 'required|min:2|max:255',
             'type' => 'required|in:' . implode(',', array_keys(Nomenclature::TYPES_LIST)),
             'price_for_sale' => 'nullable|regex:/^\d+(\.\d{1,3})?$/',
-            'currency_type' => 'required|in:' . implode(',', array_keys(Nomenclature::CURRENCY_TYPES)),
             'unit' => 'required|int:'. implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
         ];
     }

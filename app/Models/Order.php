@@ -15,11 +15,9 @@ class Order extends Model
         'client_id',
         'amount',
         'profit',
-        'currency_type',
         'discount',
         'status',
         'is_admin',
-        'currency_type'
     ];
 
     protected $casts = [

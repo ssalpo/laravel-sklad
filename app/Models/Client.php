@@ -11,12 +11,6 @@ class Client extends Model
 
     protected $fillable = [
         'name',
-        'phone',
-        'discount',
-        'discount_for_single',
-    ];
-
-    protected $casts = [
-        'discount_for_single' => 'bool'
+        'phone'
     ];
 }

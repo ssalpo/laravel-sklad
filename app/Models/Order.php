@@ -15,7 +15,6 @@ class Order extends Model
         'client_id',
         'amount',
         'profit',
-        'discount',
         'status',
         'is_admin',
     ];

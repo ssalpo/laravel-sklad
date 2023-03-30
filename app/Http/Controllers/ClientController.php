@@ -15,9 +15,7 @@ class ClientController extends Controller
             ->through(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,
-                'phone' => $model->phone,
-                'discount' => $model->discount,
-                'discount_for_single' => $model->discount_for_single,
+                'phone' => $model->phone
             ]);
 
         return inertia('Clients/Index', compact('clients'));

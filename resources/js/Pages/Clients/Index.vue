@@ -28,8 +28,6 @@
                                 <th style="width: 10px">#</th>
                                 <th>Наименование</th>
                                 <th>Телефон</th>
-                                <th>Скидка</th>
-                                <th>Скидка для каждого товара</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
@@ -38,8 +36,6 @@
                                 <td :data-id="client.id">{{ ((clients.current_page - 1) * clients.per_page) + index + 1 }}</td>
                                 <td>{{client.name}}</td>
                                 <td>{{client.phone}}</td>
-                                <td>{{client.discount}} %</td>
-                                <td>{{client.discount_for_single ? 'ДА' : 'НЕТ'}}</td>
                                 <td class="text-center">
                                     <Link :href="route('clients.edit', client.id)">
                                         <i class="fa fa-pencil-alt"></i>

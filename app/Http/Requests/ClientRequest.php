@@ -25,9 +25,7 @@ class ClientRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:255',
-            'phone' => 'nullable|min:2|max:255',
-            'discount' => 'nullable|regex:/^\d+(\.\d{1,3})?$/',
-            'discount_for_single' => 'nullable|bool'
+            'phone' => 'nullable|min:2|max:255'
         ];
     }
 }

@@ -43,7 +43,7 @@
                                 </td>
                                 <td>{{mixtureComposition.weight}} {{mixtureComposition.weight_unit}}</td>
                                 <td>{{mixtureComposition.water}} {{mixtureComposition.water_unit}}</td>
-                                <td>{{mixtureComposition.worker_price}}</td>
+                                <td>{{numberFormat(mixtureComposition.worker_price, 4)}}</td>
                                 <td class="text-center">
                                     <Link :href="route('mixture-compositions.edit', mixtureComposition.id)">
                                         <i class="fa fa-pencil-alt"></i>

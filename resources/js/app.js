@@ -5,6 +5,7 @@ import VueLazyload from 'vue-lazyload'
 import { createInertiaApp} from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { InertiaProgress } from '@inertiajs/progress'
+import {numberFormat} from "./functions";
 
 import DefaultLayout from './Layouts/DefaultLayout.vue';
 
@@ -22,7 +23,7 @@ createInertiaApp({
     },
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) })
-            .mixin({ methods: {route}})
+            .mixin({ methods: {route, numberFormat}})
             .use(plugin)
             .use(VueLazyload)
             .mount(el)

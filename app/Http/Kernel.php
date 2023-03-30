@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\IsAdmin;
+use App\Http\Middleware\IsApplicant;
 use App\Http\Middleware\UserActivityCheck;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -67,6 +68,7 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'user.activity.check' => UserActivityCheck::class,
-        'admin' => IsAdmin::class
+        'admin' => IsAdmin::class,
+        'applicant' => IsApplicant::class,
     ];
 }

@@ -40,8 +40,8 @@
                                 <td :data-id="nomenclatureArrival.id">{{ ((nomenclatureArrivals.current_page - 1) * nomenclatureArrivals.per_page) + index + 1 }}</td>
                                 <td>{{nomenclatureArrival.nomenclature}}</td>
                                 <td>{{nomenclatureArrival.quantity}} {{nomenclatureArrival.unit}}</td>
-                                <td>{{nomenclatureArrival.price}} сом.</td>
-                                <td>{{nomenclatureArrival.price_for_sale}} сом.</td>
+                                <td>{{numberFormat(nomenclatureArrival.price)}} сом.</td>
+                                <td>{{numberFormat(nomenclatureArrival.price_for_sale)}} сом.</td>
                                 <td>{{nomenclatureArrival.comment}}</td>
                                 <td>{{nomenclatureArrival.arrival_at}}</td>
                                 <td class="text-center">

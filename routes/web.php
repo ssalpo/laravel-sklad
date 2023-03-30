@@ -20,6 +20,7 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(stati
 
     // Orders
     Route::resource('orders', OrderController::class);
+    Route::get('orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 
     // Clients
     Route::resource('clients', ClientController::class);
@@ -41,7 +42,7 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(stati
     Route::resource('users', UserController::class);
 });
 
-Route::middleware(['auth:sanctum', 'user.activity.check'])
+Route::middleware(['auth:sanctum', 'user.activity.check', 'applicant'])
     ->name('my.')
     ->prefix('my')
     ->group(static function () {

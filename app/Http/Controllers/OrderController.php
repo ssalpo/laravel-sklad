@@ -35,10 +35,37 @@ class OrderController extends Controller
                 'nomenclature' => $model->nomenclature->name,
                 'price_for_sale' => $model->price_for_sale,
                 'quantity' => $model->quantity,
-                'unit' => $model->unit,
+                'unit' => $model->unit
             ]);
 
         return inertia('Orders/Show', [
+            'order' => [
+                'id' => $order->id,
+                'user' => $order->user->name,
+                'client' => $order->client->name,
+                'amount' => number_format($order->amount, 2, '.', ''),
+                'status' => $order->status,
+            ],
+            'orderItems' => $orderItems
+        ]);
+    }
+
+    public function invoice(Order $order)
+    {
+        $order->load(['user', 'client']);
+
+        $orderItems = OrderItem::with(['nomenclature'])
+            ->whereOrderId($order->id)
+            ->get()
+            ->transform(fn($model) => [
+                'id' => $model->id,
+                'nomenclature' => $model->nomenclature->name,
+                'price_for_sale' => $model->price_for_sale,
+                'quantity' => $model->quantity,
+                'unit' => $model->unit,
+            ]);
+
+        return inertia('Orders/Invoice', [
             'order' => [
                 'id' => $order->id,
                 'user' => $order->user->name,

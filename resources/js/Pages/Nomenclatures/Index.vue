@@ -37,7 +37,7 @@
                             <tr v-for="(nomenclature, index) in nomenclatures.data">
                                 <td :data-id="nomenclature.id">{{ ((nomenclatures.current_page - 1) * nomenclatures.per_page) + index + 1 }}</td>
                                 <td>{{nomenclature.name}}</td>
-                                <td>{{nomenclature.price_for_sale}} сом.</td>
+                                <td>{{numberFormat(nomenclature.price_for_sale)}} сом.</td>
                                 <td>{{$page.props.shared.nomenclatureTypes[nomenclature.type]}}</td>
                                 <td>{{nomenclature.unit}}</td>
                                 <td class="text-center">

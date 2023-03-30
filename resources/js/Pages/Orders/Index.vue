@@ -23,6 +23,7 @@
                                 <th>Сумма</th>
                                 <th>Статус</th>
                                 <th>Прибыль</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -30,9 +31,12 @@
                                 <td>{{order.id}}</td>
                                 <td><Link :href="route('orders.show', order.id)">{{order.user}}</Link></td>
                                 <td>{{order.client}}</td>
-                                <td>{{order.amount}} сом.</td>
+                                <td>{{numberFormat(order.amount)}} сом.</td>
                                 <td>{{$page.props.shared.orderStatusLabels[order.status]}}</td>
-                                <td>{{order.profit}} сом.</td>
+                                <td>{{numberFormat(order.profit)}} сом.</td>
+                                <td>
+                                    <Link :href="route('orders.invoice', order.id)">Накладная</Link>
+                                </td>
                             </tr>
                             </tbody>
                         </table>

@@ -31,7 +31,7 @@
                             </tr>
                             <tr>
                                 <td class="p-1">Общая сумма</td>
-                                <td class="p-1">{{order.amount}} сом.</td>
+                                <td class="p-1">{{numberFormat(order.amount)}} сом.</td>
                             </tr>
                         </table>
                     </div>
@@ -55,7 +55,7 @@
                                 <td>{{index + 1}}</td>
                                 <td>{{orderItem.nomenclature}}</td>
                                 <td>{{orderItem.quantity}} {{$page.props.shared.unitLabels[orderItem.unit]}}</td>
-                                <td>{{orderItem.price_for_sale * orderItem.quantity}} сом.</td>
+                                <td>{{numberFormat(orderItem.price_for_sale * orderItem.quantity)}} сом.</td>
                             </tr>
                             </tbody>
                         </table>

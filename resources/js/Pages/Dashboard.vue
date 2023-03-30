@@ -16,11 +16,11 @@
                     <h5 class="mb-3 mt-2">Прибыль</h5>
 
                     <div class="row">
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="col-lg-4 col-sm-6 col-12">
 
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>{{ todayProfit }} с.</h3>
+                                    <h3>{{ numberFormat(todayProfit) }} с.</h3>
                                     <p>За сегодня</p>
                                 </div>
                                 <div class="icon">
@@ -29,11 +29,11 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-3 col-sm-6 col-12">
+                        <div class="col-lg-4 col-sm-6 col-12">
 
                             <div class="small-box bg-success">
                                 <div class="inner">
-                                    <h3>{{ monthProfit }} с.</h3>
+                                    <h3>{{ numberFormat(monthProfit) }} с.</h3>
                                     <p>За месяц</p>
                                 </div>
                                 <div class="icon">
@@ -58,7 +58,7 @@
                             <tbody>
                             <tr v-for="nomenclature in todayNomenclatureProfits">
                                 <td>{{ nomenclature.name }}</td>
-                                <td>{{ nomenclature.profit }} сом.</td>
+                                <td>{{ numberFormat(nomenclature.profit) }} сом.</td>
                             </tr>
                             </tbody>
                         </table>
@@ -76,7 +76,7 @@
                             <tbody>
                             <tr v-for="nomenclature in monthNomenclatureProfits">
                                 <td>{{ nomenclature.name }}</td>
-                                <td>{{ nomenclature.profit }} сом.</td>
+                                <td>{{ numberFormat(nomenclature.profit) }} сом.</td>
                             </tr>
                             </tbody>
                         </table>

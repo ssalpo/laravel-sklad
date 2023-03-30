@@ -51,7 +51,7 @@
                                 <td>{{index + 1}}</td>
                                 <td>{{orderItem.nomenclature}}</td>
                                 <td>{{orderItem.quantity}} {{$page.props.shared.unitLabels[orderItem.unit]}}</td>
-                                <td>{{orderItem.price_for_sale * orderItem.quantity}} сом.</td>
+                                <td>{{numberFormat(orderItem.price_for_sale * orderItem.quantity)}} сом.</td>
                             </tr>
                             </tbody>
                         </table>

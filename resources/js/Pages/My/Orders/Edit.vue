@@ -5,7 +5,7 @@
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">{{ order?.id ? 'Обновление данных заявки' : 'Новая заявка' }}</h1>
+            <h5 class="m-0">{{ order?.id ? 'Обновление данных заявки' : 'Новая заявка' }}</h5>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="row mb-1" v-for="(orderItem, index) in form.orderItems">
-                            <div class="col-3">
+                            <div class="col-6 col-sm-6">
                                 <select class="form-control form-control-sm" v-model.trim="orderItem.nomenclature_id">
                                     <option :value="nomenclature.id"
                                             :disabled="selectedNomenclatures.includes(nomenclature.id)"
@@ -39,7 +39,7 @@
                                     </option>
                                 </select>
                             </div>
-                            <div class="col-1">
+                            <div class="col-4 col-sm-4">
                                 <input type="text" class="form-control form-control-sm"
                                        v-model.trim="orderItem.quantity">
                             </div>
@@ -51,14 +51,14 @@
                         </div>
 
                         <div class="row mt-3">
-                            <div class="col-3">
+                            <div class="col-12 col-sm-6">
                                 <button v-if="this.canAddNomenclature" type="button" class="btn btn-sm btn-link"
                                         @click="addOrderItem">
                                     <i class="fa fa-plus-circle"></i>
                                     Добавить товар
                                 </button>
                             </div>
-                            <div class="col-3" v-if="this.form.orderItems.length > 0">
+                            <div class="col-12 col-sm-6 mt-3 mt-sm-0" v-if="this.form.orderItems.length > 0">
                                 Итого: {{ totalSum }} сом.
                             </div>
                         </div>

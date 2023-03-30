@@ -2,7 +2,7 @@
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
         <div class="container">
-            <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler p-0 px-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -80,9 +80,15 @@
 
             <!-- Right navbar links -->
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+                <li class="nav-item d-block d-sm-none">
+                    <Link :href="route('my.orders.create')" class="btn btn-link text-success">
+                        <i class="fa fa-plus-circle"></i>
+                    </Link>
+                </li>
                 <li class="nav-item">
                     <Link :href="route('logout')" method="delete" class="btn btn-link" as="button">
-                        <i class="fa fa-sign-out-alt"></i> Выйти
+                        <i class="fa fa-sign-out-alt"></i>&nbsp;
+                        <span class="d-none d-sm-inline">Выйти</span>
                     </Link>
                 </li>
             </ul>

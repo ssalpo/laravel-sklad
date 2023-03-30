@@ -36,7 +36,7 @@
                         <div class="row">
 
                             <!-- /.col -->
-                            <div class="offset-4 col-4">
+                            <div class="offset-3 col-6 offset-sm-4 col-sm-4">
                                 <button :disabled="form.processing" type="submit" class="btn btn-primary btn-block">Войти</button>
                             </div>
                             <!-- /.col -->

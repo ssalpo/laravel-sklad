@@ -17,6 +17,7 @@ class NomenclatureController extends Controller
             ->through(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,
+                'price' => $model->price,
                 'price_for_sale' => $model->price_for_sale,
                 'type' => $model->type,
                 'unit' => UnitConvertor::UNIT_LABELS[$model->unit],

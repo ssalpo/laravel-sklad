@@ -27,6 +27,17 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="form-asterisk">Цена покупки</label>
+                            <input type="text" class="form-control"
+                                   :class="{'is-invalid': errors.price}"
+                                   v-model.trim="form.price">
+
+                            <div v-if="errors.price" class="error invalid-feedback">
+                                {{ errors.price }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="form-asterisk">Цена продажи</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.price_for_sale}"
@@ -91,6 +102,7 @@ export default {
             form: useForm({
                 name: this.nomenclature?.name,
                 category_id: this.nomenclature?.category_id,
+                price: this.nomenclature?.price,
                 price_for_sale: this.nomenclature?.price_for_sale,
                 type: this.nomenclature?.type,
                 unit: this.nomenclature?.unit,

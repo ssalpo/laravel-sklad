@@ -10,7 +10,8 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::paginate()
+        $clients = Client::orderBy('created_at', 'DESC')
+            ->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,

@@ -12,7 +12,9 @@ class MixtureCompositionController extends Controller
 {
     public function index()
     {
-        $mixtureCompositions = MixtureComposition::with(['nomenclature'])->paginate()
+        $mixtureCompositions = MixtureComposition::with(['nomenclature'])
+            ->orderBy('created_at', 'DESC')
+            ->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'nomenclature' => $model->nomenclature->name,

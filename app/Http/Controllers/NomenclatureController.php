@@ -13,7 +13,7 @@ class NomenclatureController extends Controller
 {
     public function index(): Response
     {
-        $nomenclatures = Nomenclature::paginate()
+        $nomenclatures = Nomenclature::orderBy('created_at', 'DESC')->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,

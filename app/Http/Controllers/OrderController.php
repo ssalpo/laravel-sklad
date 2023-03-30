@@ -10,7 +10,9 @@ class OrderController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['user', 'client'])->paginate()
+        $orders = Order::with(['user', 'client'])
+            ->orderBy('created_at', 'DESC')
+            ->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'user' => $model->user->name,

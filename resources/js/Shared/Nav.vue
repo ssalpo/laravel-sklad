@@ -26,19 +26,19 @@
 
                     <li class="nav-item">
                         <Link :href="route('dashboard.index')" class="nav-link">
-                            Аналитика
+                            <i class="fa fa-chart-pie"></i> Аналитика
                         </Link>
                     </li>
 
                     <li class="nav-item">
                         <Link :href="route('storehouses.index')" class="nav-link">
-                            Склад
+                            <i class="fa fa-warehouse"></i>  Склад
                         </Link>
                     </li>
 
                     <li class="nav-item">
                         <Link :href="route('orders.index')" class="nav-link">
-                            Заявки
+                            <i class="fa fa-clipboard-list"></i> Заявки
                         </Link>
                     </li>
 
@@ -48,29 +48,31 @@
                         </Link>
                     </li>
 
-                    <li class="nav-item">
-                        <Link :href="route('clients.index')" class="nav-link">
-                            Клиенты
-                        </Link>
-                    </li>
-
-                    <li class="nav-item">
-                        <Link :href="route('mixture-compositions.index')" class="nav-link">
-                            Состав продуктов
-                        </Link>
-                    </li>
-
                     <li class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Справочник</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
-                            <li>
-                                <Link :href="route('nomenclatures.index')" class="nav-link">
-                                    Номенклатура
+
+                            <li class="nav-item">
+                                <Link :href="route('clients.index')" class="nav-link">
+                                    <i class="fa fa-users"></i> Клиенты
                                 </Link>
                             </li>
+
+                            <li>
+                                <Link :href="route('nomenclatures.index')" class="nav-link">
+                                    <i class="fa fa-list-alt"></i> Номенклатура
+                                </Link>
+                            </li>
+
+                            <li class="nav-item">
+                                <Link :href="route('mixture-compositions.index')" class="nav-link">
+                                    Состав продуктов
+                                </Link>
+                            </li>
+
                             <li>
                                 <Link :href="route('users.index')" class="nav-link">
-                                    Пользователи
+                                    <i class="fa fa-user-circle"></i> Пользователи
                                 </Link>
                             </li>
                         </ul>

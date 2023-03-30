@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Список пользователей</title>
+        <title>Сотрудники</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Список пользователей</h1>
+            <h1 class="m-0">Сотрудники</h1>
         </div>
     </div>
 
@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="card-tools">
                         <Link :href="route('users.create')" class="btn btn-success btn-sm px-3">
-                            Новый пользователь
+                            Новый сотрудник
                         </Link>
                     </div>
                 </div>

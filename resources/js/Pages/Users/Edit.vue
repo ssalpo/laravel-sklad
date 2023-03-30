@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>{{user?.id ? 'Обновление данных пользователя' : 'Новый пользователя'}}</title>
+        <title>{{user?.id ? 'Обновление данных сотрудника' : 'Новый сотрудник'}}</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">{{ user?.id ? 'Обновление данных пользователя' : 'Новый пользователя' }}</h1>
+            <h1 class="m-0">{{ user?.id ? 'Обновление данных сотрудника' : 'Новый сотрудник' }}</h1>
         </div>
     </div>
 
@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Пароль</label>
+                            <label :class="{'form-asterisk': !user.id}">Пароль</label>
                             <input type="password" class="form-control"
                                    :class="{'is-invalid': errors.password}"
                                    v-model.trim="form.password">

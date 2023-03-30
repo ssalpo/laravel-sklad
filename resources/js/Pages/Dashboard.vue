@@ -14,24 +14,39 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3 mt-2">Прибыль</h5>
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                            <tr>
-                                <th width="50%">За сегодня</th>
-                                <th>За месяц</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr>
-                                <td>{{todayProfit}} сом.</td>
-                                <td>{{monthProfit}} сом.</td>
-                            </tr>
-                            </tbody>
-                        </table>
+
+                    <div class="row">
+                        <div class="col-lg-3 col-sm-6 col-12">
+
+                            <div class="small-box bg-info">
+                                <div class="inner">
+                                    <h3>{{ todayProfit }} с.</h3>
+                                    <p>За сегодня</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-chart-bar"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-sm-6 col-12">
+
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3>{{ monthProfit }} с.</h3>
+                                    <p>За месяц</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-chart-line"></i>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
+
                     <h5 class="mb-3 mt-4">Прибыль по товарам за сегодня</h5>
+
                     <div class="table-responsive">
                         <table class="table table-bordered">
                             <thead>
@@ -42,8 +57,8 @@
                             </thead>
                             <tbody>
                             <tr v-for="nomenclature in todayNomenclatureProfits">
-                                <td>{{nomenclature.name}}</td>
-                                <td>{{nomenclature.profit}} сом.</td>
+                                <td>{{ nomenclature.name }}</td>
+                                <td>{{ nomenclature.profit }} сом.</td>
                             </tr>
                             </tbody>
                         </table>
@@ -60,8 +75,8 @@
                             </thead>
                             <tbody>
                             <tr v-for="nomenclature in monthNomenclatureProfits">
-                                <td>{{nomenclature.name}}</td>
-                                <td>{{nomenclature.profit}} сом.</td>
+                                <td>{{ nomenclature.name }}</td>
+                                <td>{{ nomenclature.profit }} сом.</td>
                             </tr>
                             </tbody>
                         </table>

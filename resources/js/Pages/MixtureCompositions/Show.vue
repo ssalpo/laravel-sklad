@@ -69,12 +69,17 @@
                                 <td>{{mixtureCompositionItem.quantity}} {{mixtureCompositionItem.unit}}</td>
                                 <td>{{mixtureCompositionItem.price}} {{$page.props.shared.currencyTypeLabelsShort[mixtureComposition.currency_type]}}</td>
                                 <td class="text-center">
-                                    <Link :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
+                                    <Link class="btn btn-sm btn-link" :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
-                                    <a href="" @click.prevent="deleteItem(mixtureCompositionItem.id)" class="ml-3">
+                                    <Link method="delete" as="button"
+                                          type="button"
+                                          preserve-sscroll
+                                          preserve-state
+                                          :href="route('mixture-composition-items.destroy', { 'mixture_composition': this.mixtureComposition.id, 'mixture_composition_item': mixtureCompositionItem.id })"
+                                          class="btn btn-sm btn-link">
                                         <i class="fa fa-trash-alt text-danger"></i>
-                                    </a>
+                                    </Link>
                                 </td>
                             </tr>
                             </tbody>
@@ -92,14 +97,6 @@ import Pagination from "../../Shared/Pagination.vue";
 
 export default {
     components: {Pagination, Head, Link},
-    props: ['totalSum', 'mixtureComposition'],
-    methods: {
-        deleteItem(id) {
-            this.$inertia.delete(route('mixture-composition-items.destroy', {
-                'mixture_composition': this.mixtureComposition.id,
-                'mixture_composition_item': id
-            }), {preserveScroll: true, preserveState: false})
-        }
-    }
+    props: ['totalSum', 'mixtureComposition']
 }
 </script>

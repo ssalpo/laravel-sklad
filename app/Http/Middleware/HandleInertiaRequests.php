@@ -42,6 +42,7 @@ class HandleInertiaRequests extends Middleware
         return array_merge(parent::share($request), [
             'shared' => [
                 'isAuth' => auth()->check(),
+                'isAdmin' => auth()->user()?->is_admin,
                 'userId' => auth()->id(),
                 'currencyTypeLabels' => Nomenclature::CURRENCY_TYPES,
                 'currencyTypeLabelsShort' => Nomenclature::CURRENCY_TYPES_SHORT,

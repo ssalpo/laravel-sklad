@@ -8,7 +8,21 @@
 
             <div v-if="$page.props.shared.isAuth" class="collapse navbar-collapse order-3" id="navbarCollapse">
                 <!-- Left navbar links -->
-                <ul class="navbar-nav">
+                <ul class="navbar-nav" v-if="!$page.props.shared.isAdmin">
+                    <li class="nav-item">
+                        <Link :href="route('dashboard.index')" class="nav-link">
+                            <i class="fa fa-list"></i> Мои заявки
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
+                        <Link :href="route('my.orders.create')" class="nav-link text-success">
+                            <i class="fa fa-plus-circle"></i> Новая заявка
+                        </Link>
+                    </li>
+                </ul>
+
+                <ul class="navbar-nav" v-if="$page.props.shared.isAdmin">
 
                     <li class="nav-item">
                         <Link :href="route('dashboard.index')" class="nav-link">
@@ -68,7 +82,7 @@
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
                 <li class="nav-item">
                     <Link :href="route('logout')" method="delete" class="btn btn-link" as="button">
-                        Выйти
+                        <i class="fa fa-sign-out-alt"></i> Выйти
                     </Link>
                 </li>
             </ul>

@@ -12,13 +12,15 @@ class Nomenclature extends Model
     protected $fillable = [
         'name',
         'type',
+        'price',
         'price_for_sale',
         'currency_type',
         'unit',
     ];
 
     protected $casts = [
-        'price' => 'double'
+        'price' => 'double',
+        'price_for_sale' => 'double',
     ];
 
     public const TYPE_SALE = 1; // продажа

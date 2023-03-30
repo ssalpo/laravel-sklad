@@ -21,7 +21,6 @@ return new class extends Migration
             $table->double('profit')->default(0);
             $table->tinyInteger('currency_type');
             $table->double('discount')->default(0);
-            $table->tinyInteger('currency_type');
             $table->tinyInteger('status');
             $table->timestamps();
         });

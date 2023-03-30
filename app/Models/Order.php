@@ -2,12 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Traits\CurrentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    use HasFactory;
+    use HasFactory, CurrentUser;
 
     protected $fillable = [
         'user_id',
@@ -17,7 +18,12 @@ class Order extends Model
         'currency_type',
         'discount',
         'status',
+        'is_admin',
         'currency_type'
+    ];
+
+    protected $casts = [
+        'is_admin' => 'boolean'
     ];
 
     public const STATUS_NEW = 1;
@@ -30,6 +36,11 @@ class Order extends Model
         self::STATUS_CANCELED => 'Отменен',
     ];
 
+    public function scopeStatusNew($q)
+    {
+        $q->whereStatus(self::STATUS_NEW);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -38,5 +49,10 @@ class Order extends Model
     public function client()
     {
         return $this->belongsTo(Client::class);
+    }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
     }
 }

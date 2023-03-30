@@ -11,9 +11,11 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\StorehouseController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\My\OrderController as MyOrderController;
 
-Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static function () {
+Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(static function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+
     Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
 
     // Orders
@@ -38,6 +40,13 @@ Route::middleware(['auth:sanctum', 'user.activity.check'])->group(static functio
     Route::post('/users/{user}/toggle-activity', [UserController::class, 'toggleActivity'])->name('users.toggle_activity');
     Route::resource('users', UserController::class);
 });
+
+Route::middleware(['auth:sanctum', 'user.activity.check'])
+    ->name('my.')
+    ->prefix('my')
+    ->group(static function () {
+        Route::resource('orders', MyOrderController::class);
+    });
 
 // Auth
 Route::controller(LoginController::class)->group(static function () {

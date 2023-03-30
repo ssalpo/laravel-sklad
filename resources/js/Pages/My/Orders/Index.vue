@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Заявки</title>
+        <title>Мои заявки</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Заявки</h1>
+            <h1 class="m-0">Мои заявки</h1>
         </div>
     </div>
 
@@ -18,21 +18,28 @@
                             <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Заявщик</th>
                                 <th>Клиент</th>
                                 <th>Сумма</th>
                                 <th>Статус</th>
-                                <th>Прибыль</th>
+                                <th width="100">Действия</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="order in orders.data">
                                 <td>{{order.id}}</td>
-                                <td><Link :href="route('orders.show', order.id)">{{order.user}}</Link></td>
-                                <td>{{order.client}}</td>
+                                <td><Link :href="route('my.orders.show', order.id)">{{order.client}}</Link></td>
                                 <td>{{order.amount}} сом.</td>
                                 <td>{{$page.props.shared.orderStatusLabels[order.status]}}</td>
-                                <td>{{order.profit}} сом.</td>
+                                <td class="text-center">
+                                    <Link v-if="order.status === 1" method="delete" as="button"
+                                          type="button"
+                                          preserve-sscroll
+                                          preserve-state
+                                          :href="route('my.orders.destroy', order.id)"
+                                          class="btn btn-sm btn-link">
+                                        <i class="fa fa-trash-alt text-danger"></i>
+                                    </Link>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -49,7 +56,7 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
+import Pagination from "../../../Shared/Pagination.vue";
 
 export default {
     components: {Pagination, Head, Link},

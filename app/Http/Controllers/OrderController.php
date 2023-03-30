@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\OrderItem;
-use Illuminate\Http\Request;
+use App\Services\OrderService;
 
 class OrderController extends Controller
 {
@@ -17,6 +17,7 @@ class OrderController extends Controller
                 'client' => $model->client->name,
                 'amount' => $model->amount,
                 'currency_type' => $model->currency_type,
+                'profit' => $model->profit,
                 'status' => $model->status,
             ]);
 

@@ -18,10 +18,6 @@
                     <div class="table-responsive table-hover mb-4 mt-3">
                         <table width="250" border="1">
                             <tr>
-                                <td class="p-1">Заявщик</td>
-                                <td class="p-1">{{order.user}}</td>
-                            </tr>
-                            <tr>
                                 <td class="p-1">Клиент</td>
                                 <td class="p-1">{{order.client}}</td>
                             </tr>

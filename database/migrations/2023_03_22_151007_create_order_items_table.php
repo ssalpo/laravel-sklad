@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->nullable()->constrained();
+            $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
             $table->foreignId('nomenclature_id')->constrained();
             $table->double('price')->default(0);
             $table->double('price_for_sale')->default(0);

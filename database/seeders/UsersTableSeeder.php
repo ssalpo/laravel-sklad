@@ -20,11 +20,13 @@ class UsersTableSeeder extends Seeder
             [
                 'name' => 'User 1',
                 'username' => 'user1',
+                'is_admin' => true,
                 'password' => 'secret'
             ],
             [
                 'name' => 'User 2',
                 'username' => 'user2',
+                'is_admin' => true,
                 'password' => 'secret'
             ],
             [

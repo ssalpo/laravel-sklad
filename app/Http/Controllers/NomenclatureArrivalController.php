@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NomenclatureArrivalRequest;
+use App\Http\Requests\NomenclatureRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureArrival;
-use App\UnitConvertor;
+use App\Services\UnitConvertor;
 use Illuminate\Http\Request;
 
 class NomenclatureArrivalController extends Controller
@@ -44,59 +46,42 @@ class NomenclatureArrivalController extends Controller
         return inertia('NomenclatureArrivals/Edit', compact('nomenclatures', 'currentDate'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(NomenclatureArrivalRequest $request)
     {
-        //
+        NomenclatureArrival::create($request->validated());
+
+        return to_route('nomenclature-arrivals.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function edit(NomenclatureArrival $nomenclatureArrival)
     {
-        //
+        $nomenclatures = Nomenclature::saleType()
+            ->get()
+            ->transform(fn($model) => [
+                'id' => $model->id,
+                'name' => $model->name,
+                'unit' => $model->unit,
+            ]);
+
+        return inertia('NomenclatureArrivals/Edit', [
+            'nomenclatures' => $nomenclatures,
+            'nomenclatureArrival' => [
+                'id' => $nomenclatureArrival->id,
+                'nomenclature_id' => $nomenclatureArrival->nomenclature_id,
+                'quantity' => $nomenclatureArrival->quantity,
+                'unit' => $nomenclatureArrival->unit,
+                'price' => $nomenclatureArrival->price,
+                'price_for_sale' => $nomenclatureArrival->price_for_sale,
+                'comment' => $nomenclatureArrival->comment,
+                'arrival_at' => $nomenclatureArrival->arrival_at?->format('d.m.Y H:i')
+            ]
+        ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+    public function update(NomenclatureArrivalRequest $request, NomenclatureArrival $nomenclatureArrival)
     {
-        //
-    }
+        $nomenclatureArrival->update($request->validated());
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return to_route('nomenclature-arrivals.index');
     }
 }

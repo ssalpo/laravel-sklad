@@ -38,7 +38,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label :class="{'form-asterisk': !user.id}">Пароль</label>
+                            <label :class="{'form-asterisk': !user?.id}">Пароль</label>
                             <input type="password" class="form-control"
                                    :class="{'is-invalid': errors.password}"
                                    v-model.trim="form.password">

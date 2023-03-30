@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\MixtureCompositionRequest;
 use App\Models\MixtureComposition;
 use App\Models\Nomenclature;
-use App\UnitConvertor;
+use App\Services\UnitConvertor;
 use Illuminate\Http\Request;
 
 class MixtureCompositionController extends Controller

@@ -31,7 +31,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Количество</label>
+                            <label class="form-asterisk">Количество поступления</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.quantity}"
                                    v-model.number="form.quantity">
@@ -55,17 +55,6 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Цена покупки</label>
-                            <input type="text" class="form-control"
-                                   :class="{'is-invalid': errors.price}"
-                                   v-model.number="form.price">
-
-                            <div v-if="errors.price" class="error invalid-feedback">
-                                {{ errors.price }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
                             <label class="form-asterisk">Цена продажи</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.price_for_sale}"
@@ -77,7 +66,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Комментарий</label>
+                            <label>Комментарий</label>
                             <input type="text" class="form-control"
                                    :class="{'is-invalid': errors.comment}"
                                    v-model.trim="form.comment">
@@ -88,10 +77,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-asterisk">Дата прихода</label>
-                            <input type="datetime-local" class="form-control"
+                            <label>Дата прихода</label>
+                            <input type="text" class="form-control"
+                                   v-maska data-maska="##.##.#### ##:##"
+                                   placeholder="ДД.ММ.ГГГГ ЧЧ:ММ"
                                    :class="{'is-invalid': errors.arrival_at}"
-                                   v-model="form.arrival_at">
+                                   v-model="form.arrival_at" />
 
                             <div v-if="errors.arrival_at" class="error invalid-feedback">
                                 {{ errors.arrival_at }}
@@ -120,21 +111,22 @@
 <script>
 import find from "lodash/find";
 import get from "lodash/get";
+import { vMaska } from "maska";
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
-    props: ['nomenclatureArrival', 'nomenclatures', 'currentDate', 'errors'],
+    props: ['nomenclatureArrival', 'nomenclatures', 'errors'],
     components: {Head, Link},
+    directives: { maska: vMaska },
     data() {
         return {
             form: useForm({
                 nomenclature_id: this.nomenclatureArrival?.nomenclature_id,
                 quantity: this.nomenclatureArrival?.quantity,
                 unit: this.nomenclatureArrival?.unit,
-                price: this.nomenclatureArrival?.price,
                 price_for_sale: this.nomenclatureArrival?.price_for_sale,
                 comment: this.nomenclatureArrival?.comment,
-                arrival_at: this.nomenclatureArrival?.arrival_at || this.currentDate,
+                arrival_at: this.nomenclatureArrival?.arrival_at,
             }),
         }
     },

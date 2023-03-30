@@ -3,9 +3,10 @@
 namespace App\Http\Requests;
 
 use App\Services\UnitConvertor;
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class MixtureCompositionItemRequest extends FormRequest
+class NomenclatureArrivalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,19 +26,19 @@ class MixtureCompositionItemRequest extends FormRequest
     public function rules()
     {
         return [
-            'mixture_composition_id' => 'required|exists:mixture_compositions,id',
             'nomenclature_id' => 'required|exists:nomenclatures,id',
-            'price' => 'required|regex:/^\d+(\.\d{1,3})?$/',
             'quantity' => 'required|numeric',
-            'unit' => 'required|int:'. implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
-            'end_result' => 'nullable|boolean'
+            'unit' => 'required|in:' . implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
+            'price_for_sale' => 'required|regex:/^\d+(\.\d{1,3})?$/',
+            'comment' => 'nullable|string',
+            'arrival_at' => 'nullable|date_format:Y-m-d H:i'
         ];
     }
 
     protected function prepareForValidation()
     {
         return $this->merge([
-            'mixture_composition_id' => $this->route('mixture_composition')
+            'arrival_at' => $this->arrival_at ? Carbon::parse($this->arrival_at)->format('Y-m-d H:i') : null
         ]);
     }
 }

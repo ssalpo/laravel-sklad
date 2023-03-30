@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Models\Nomenclature;
-use App\UnitConvertor;
+use App\Services\UnitConvertor;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NomenclatureRequest extends FormRequest

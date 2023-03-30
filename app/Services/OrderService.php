@@ -38,11 +38,12 @@ class OrderService
 
             foreach ($data['orderItems'] as $item) {
                 $nomenclature = $nomenclatures->where('id', $item['nomenclature_id'])->first();
+                $discount = Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
 
                 $item['price'] = $nomenclature->price;
-                $item['price_for_sale'] = $nomenclature->price_for_sale;
+                $item['price_for_sale'] = $nomenclature->price_for_sale - $discount;
                 $item['unit'] = $nomenclature->unit;
-                $item['discount'] = Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
+                $item['discount'] = $discount;
 
                 $order->orderItems()->create($item);
             }

@@ -4,7 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Nomenclature;
 use App\Models\Order;
-use App\UnitConvertor;
+use App\Services\UnitConvertor;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 

@@ -13,4 +13,9 @@ class Client extends Model
         'name',
         'phone'
     ];
+
+    public function discounts()
+    {
+        return $this->hasMany(ClientDiscount::class);
+    }
 }

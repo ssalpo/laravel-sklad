@@ -67,7 +67,14 @@ class OrderController extends Controller
 
     public function create()
     {
-        $clients = Client::all(['id', 'name']);
+        $clients = Client::with('discounts')
+            ->get()
+            ->transform(fn($m) => [
+                'id' => $m->id,
+                'name' => $m->name,
+                'discounts' => $m->discounts->pluck('discount', 'nomenclature_id')
+            ]);
+
         $nomenclatures = Nomenclature::saleType()->get(['id', 'name', 'price_for_sale']);
 
         return inertia('My/Orders/Edit', compact('clients', 'nomenclatures'));

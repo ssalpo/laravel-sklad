@@ -2,9 +2,11 @@
 
 namespace App\Services;
 
+use App\Models\ClientDiscount;
 use App\Models\Nomenclature;
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Collection as ModelCollection;
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +21,11 @@ class OrderService
                 Arr::pluck($data['orderItems'], 'nomenclature_id')
             )->saleType()->get();
 
-            $totals = $this->calculateTotals($data, $nomenclatures);
+            $clientDiscounts = ClientDiscount::whereClientId($data['client_id'])
+                ->whereIn('nomenclature_id', $nomenclatures->pluck('id'))
+                ->pluck('discount', 'nomenclature_id');
+
+            $totals = $this->calculateTotals($data, $nomenclatures, $clientDiscounts);
 
             $order = Order::create(array_merge(
                 [
@@ -36,6 +42,7 @@ class OrderService
                 $item['price'] = $nomenclature->price;
                 $item['price_for_sale'] = $nomenclature->price_for_sale;
                 $item['unit'] = $nomenclature->unit;
+                $item['discount'] = Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
 
                 $order->orderItems()->create($item);
             }
@@ -44,7 +51,7 @@ class OrderService
         });
     }
 
-    public function calculateTotals(array $data, Collection $nomenclatures)
+    public function calculateTotals(array $data, ModelCollection $nomenclatures, Collection $clientDiscounts)
     {
         $amount = 0;
         $profit = 0;
@@ -52,13 +59,14 @@ class OrderService
         foreach ($data['orderItems'] as $item) {
             $nomenclature = $nomenclatures->where('id', $item['nomenclature_id'])->first();
 
+            $priceForSale = $nomenclature->price_for_sale - Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
+
             if (!$nomenclature) {
                 continue;
             }
 
-            $amount += $nomenclature->price_for_sale * (int)$item['quantity'];
-            $profit += !$nomenclature->price ? 0 : ($nomenclature->price_for_sale - $nomenclature->price) * (int)$item['quantity'];
-
+            $amount += $priceForSale * (int)$item['quantity'];
+            $profit += !$nomenclature->price ? 0 : ($priceForSale - $nomenclature->price) * (int)$item['quantity'];
         }
 
         return compact('amount', 'profit');

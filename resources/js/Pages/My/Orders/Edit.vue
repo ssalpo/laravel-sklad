@@ -87,12 +87,15 @@ import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import map from "lodash/map";
 import compact from "lodash/compact";
 import keyBy from "lodash/keyBy";
+import get from "lodash/get";
+import find from "lodash/find";
 
 export default {
     props: ['order', 'clients', 'nomenclatures', 'errors'],
     components: {Head, Link},
     data() {
         return {
+            selectedClient: null,
             form: useForm({
                 client_id: this.order?.client_id,
                 orderItems: this.order?.orderItems || [{nomenclature_id: null, quantity: null}]
@@ -106,7 +109,20 @@ export default {
 
                 let nomenclature = this.groupedNomenclatures[e.nomenclature_id];
 
-                return a + (nomenclature.price_for_sale * parseInt(e.quantity) || 0)
+                let discount = 0;
+
+                if (this.selectedClient?.id) {
+                    console.log(this.selectedClient.discounts);
+
+                    discount = get(this.selectedClient.discounts, e.nomenclature_id, 0);
+
+                    console.log(discount);
+
+                }
+
+                let priceForSale = nomenclature.price_for_sale - discount;
+
+                return a + (priceForSale * parseInt(e.quantity) || 0);
             }, 0)
         },
         groupedNomenclatures() {
@@ -138,6 +154,9 @@ export default {
         }
     },
     watch: {
+        ['form.client_id'](id) {
+            this.selectedClient = find(this.clients, ['id', id])
+        },
         ['form.order_items']: {
             deep: true,
             handler() {

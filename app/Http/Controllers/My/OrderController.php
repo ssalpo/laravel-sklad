@@ -75,9 +75,11 @@ class OrderController extends Controller
                 'discounts' => $m->discounts->pluck('discount', 'nomenclature_id')
             ]);
 
+        $selectedClientId = request('clientId');
+
         $nomenclatures = Nomenclature::saleType()->get(['id', 'name', 'price_for_sale']);
 
-        return inertia('My/Orders/Edit', compact('clients', 'nomenclatures'));
+        return inertia('My/Orders/Edit', compact('clients', 'nomenclatures', 'selectedClientId'));
     }
 
     public function store(OrderRequest $request)

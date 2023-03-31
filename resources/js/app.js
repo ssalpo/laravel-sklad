@@ -6,7 +6,6 @@ import { createInertiaApp} from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { InertiaProgress } from '@inertiajs/progress'
 import {numberFormat} from "./functions";
-
 import DefaultLayout from './Layouts/DefaultLayout.vue';
 
 InertiaProgress.init()

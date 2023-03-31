@@ -13,6 +13,7 @@ use App\Http\Controllers\StorehouseController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\My\OrderController as MyOrderController;
+use App\Http\Controllers\My\ClientController as MyClientController;
 
 Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(static function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -49,6 +50,8 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'applicant'])
     ->prefix('my')
     ->group(static function () {
         Route::resource('orders', MyOrderController::class);
+
+        Route::resource('clients', MyClientController::class);
     });
 
 // Auth

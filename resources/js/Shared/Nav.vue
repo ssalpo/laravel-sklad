@@ -16,6 +16,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <Link :href="route('my.clients.create')" class="nav-link">
+                            <i class="fa fa-users"></i> Добавить клиента
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
                         <Link :href="route('my.orders.create')" class="nav-link text-success">
                             <i class="fa fa-plus-circle"></i> Новая заявка
                         </Link>
@@ -85,6 +91,11 @@
                 <li class="nav-item d-block d-sm-none" v-if="!$page.props.shared.isAdmin">
                     <Link :href="route('my.orders.create')" class="btn btn-link text-success">
                         <i class="fa fa-plus-circle"></i>
+                    </Link>
+                </li>
+                <li class="nav-item d-block d-sm-none" v-if="!$page.props.shared.isAdmin">
+                    <Link :href="route('my.clients.create')" class="btn btn-link text-dark">
+                        <i class="fa fa-users"></i>
                     </Link>
                 </li>
                 <li class="nav-item">

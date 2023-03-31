@@ -50,7 +50,9 @@
                                     </select>
                                 </div>
                                 <div class="col-4 col-sm-4">
-                                    <input type="number" :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}" class="form-control form-control-sm"
+                                    <input type="number"
+                                           :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}"
+                                           class="form-control form-control-sm"
                                            v-model.trim="orderItem.quantity">
                                 </div>
                                 <div class="col-2">
@@ -59,7 +61,8 @@
                                     </button>
                                 </div>
 
-                                <div class="col" v-if="errors['orderItems.' + index + '.nomenclature_id'] || errors['orderItems.' + index + '.quantity']">
+                                <div class="col"
+                                     v-if="errors['orderItems.' + index + '.nomenclature_id'] || errors['orderItems.' + index + '.quantity']">
                                     <div class="error invalid-feedback" style="display: block !important;">
                                         Заполните корректно поля
                                     </div>
@@ -100,7 +103,7 @@
                                 <span v-else>{{ order?.id ? 'Сохранить' : 'Добавить' }}</span>
                             </button>
 
-                            <Link :href="route('orders.index')" :class="{disabled: form.processing}"
+                            <Link :href="route('my.orders.index')" :class="{disabled: form.processing}"
                                   class="btn btn-default ml-2">Отменить
                             </Link>
                         </div>
@@ -117,16 +120,15 @@ import compact from "lodash/compact";
 import keyBy from "lodash/keyBy";
 import get from "lodash/get";
 import find from "lodash/find";
-import isEmpty from "lodash/isEmpty";
 
 export default {
-    props: ['order', 'clients', 'nomenclatures', 'errors'],
+    props: ['order', 'clients', 'selectedClientId', 'nomenclatures', 'errors'],
     components: {Head, Link},
     data() {
         return {
             selectedClient: null,
             form: useForm({
-                client_id: this.order?.client_id,
+                client_id: this.order?.client_id || this.selectedClientId,
                 orderItems: this.order?.orderItems || [{nomenclature_id: null, quantity: null}]
             }),
         }
@@ -141,12 +143,7 @@ export default {
                 let discount = 0;
 
                 if (this.selectedClient?.id) {
-                    console.log(this.selectedClient.discounts);
-
                     discount = get(this.selectedClient.discounts, e.nomenclature_id, 0);
-
-                    console.log(discount);
-
                 }
 
                 let priceForSale = nomenclature.price_for_sale - discount;

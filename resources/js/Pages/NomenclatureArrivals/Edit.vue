@@ -56,17 +56,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-asterisk">Цена продажи</label>
-                                <input type="text" class="form-control"
-                                       :class="{'is-invalid': errors.price_for_sale}"
-                                       v-model.number="form.price_for_sale">
-
-                                <div v-if="errors.price_for_sale" class="error invalid-feedback">
-                                    {{ errors.price_for_sale }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
                                 <label>Комментарий</label>
                                 <input type="text" class="form-control"
                                        :class="{'is-invalid': errors.comment}"
@@ -128,7 +117,6 @@ export default {
                 nomenclature_id: this.nomenclatureArrival?.nomenclature_id,
                 quantity: this.nomenclatureArrival?.quantity,
                 unit: this.nomenclatureArrival?.unit,
-                price_for_sale: this.nomenclatureArrival?.price_for_sale,
                 comment: this.nomenclatureArrival?.comment,
                 arrival_at: this.nomenclatureArrival?.arrival_at || this.currentDate,
             }),

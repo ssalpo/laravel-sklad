@@ -28,7 +28,6 @@
                                 <th style="width: 10px">#</th>
                                 <th>Номенклатура</th>
                                 <th>Кол-во</th>
-                                <th>Цена продажи</th>
                                 <th>Комментарий</th>
                                 <th>Дата прихода</th>
                                 <th width="40"></th>
@@ -39,7 +38,6 @@
                                 <td :data-id="nomenclatureArrival.id">{{ ((nomenclatureArrivals.current_page - 1) * nomenclatureArrivals.per_page) + index + 1 }}</td>
                                 <td>{{nomenclatureArrival.nomenclature}}</td>
                                 <td>{{nomenclatureArrival.quantity}} {{nomenclatureArrival.unit}}</td>
-                                <td>{{numberFormat(nomenclatureArrival.price_for_sale)}} сом.</td>
                                 <td>{{nomenclatureArrival.comment}}</td>
                                 <td>{{nomenclatureArrival.arrival_at}}</td>
                                 <td class="text-center">

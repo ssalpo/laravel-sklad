@@ -47,7 +47,8 @@
                                 <th style="width: 10px">#</th>
                                 <th>Номенклатура</th>
                                 <th>Кол-во</th>
-                                <th>Сумма</th>
+                                <th>Цена за единицу</th>
+                                <th>Сумма продажи</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -55,6 +56,7 @@
                                 <td>{{index + 1}}</td>
                                 <td>{{orderItem.nomenclature}}</td>
                                 <td>{{orderItem.quantity}} {{$page.props.shared.unitLabels[orderItem.unit]}}</td>
+                                <td>{{numberFormat(orderItem.price_for_sale)}} сом.</td>
                                 <td>{{numberFormat(orderItem.price_for_sale * orderItem.quantity)}} сом.</td>
                             </tr>
                             </tbody>

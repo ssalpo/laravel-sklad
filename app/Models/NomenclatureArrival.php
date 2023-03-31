@@ -13,13 +13,11 @@ class NomenclatureArrival extends Model
         'nomenclature_id',
         'quantity',
         'unit',
-        'price_for_sale',
         'comment',
         'arrival_at'
     ];
 
     protected $casts = [
-        'price_for_sale' => 'double',
         'arrival_at' => 'datetime'
     ];
 

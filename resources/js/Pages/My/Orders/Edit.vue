@@ -16,6 +16,7 @@
                 <form @submit.prevent="submit">
                     <div class="card-body">
                         <div class="mx-auto col col-md-6">
+
                             <div class="form-group">
                                 <label class="form-asterisk">Клиент</label>
                                 <select class="form-control"
@@ -31,9 +32,16 @@
                                 </div>
                             </div>
 
+                            <div class="row">
+                                <div class="col">
+                                    <label class="form-asterisk">Товары</label>
+                                </div>
+                            </div>
+
                             <div class="row mb-1" v-for="(orderItem, index) in form.orderItems">
                                 <div class="col-6 col-sm-6">
                                     <select class="form-control form-control-sm"
+                                            :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
                                             v-model.trim="orderItem.nomenclature_id">
                                         <option :value="nomenclature.id"
                                                 :disabled="selectedNomenclatures.includes(nomenclature.id)"
@@ -42,13 +50,28 @@
                                     </select>
                                 </div>
                                 <div class="col-4 col-sm-4">
-                                    <input type="number" class="form-control form-control-sm"
+                                    <input type="number" :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}" class="form-control form-control-sm"
                                            v-model.trim="orderItem.quantity">
                                 </div>
                                 <div class="col-2">
                                     <button type="button" class="btn btn-sm btn-danger" @click="removeOrderItem(index)">
                                         <i class="fa fa-trash"></i>
                                     </button>
+                                </div>
+
+                                <div class="col" v-if="errors['orderItems.' + index + '.nomenclature_id'] || errors['orderItems.' + index + '.quantity']">
+                                    <div class="error invalid-feedback" style="display: block !important;">
+                                        Заполните корректно поля
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row"
+                                 v-if="errors['orderItems']">
+                                <div class="col">
+                                    <div class="error invalid-feedback" style="display: block !important;">
+                                        Необходимо добавить товар
+                                    </div>
                                 </div>
                             </div>
 
@@ -94,6 +117,7 @@ import compact from "lodash/compact";
 import keyBy from "lodash/keyBy";
 import get from "lodash/get";
 import find from "lodash/find";
+import isEmpty from "lodash/isEmpty";
 
 export default {
     props: ['order', 'clients', 'nomenclatures', 'errors'],
@@ -161,11 +185,6 @@ export default {
     watch: {
         ['form.client_id'](id) {
             this.selectedClient = find(this.clients, ['id', id])
-        },
-        ['form.order_items']: {
-            deep: true,
-            handler() {
-            }
         }
     }
 }

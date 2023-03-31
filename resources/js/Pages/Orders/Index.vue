@@ -21,19 +21,23 @@
                                 <th>Заявщик</th>
                                 <th>Клиент</th>
                                 <th>Сумма</th>
-                                <th>Статус</th>
+                                <th width="130">Статус</th>
                                 <th>Прибыль</th>
                                 <th></th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="order in orders.data">
-                                <td>{{order.id}}</td>
-                                <td><Link :href="route('orders.show', order.id)">{{order.user}}</Link></td>
-                                <td>{{order.client}}</td>
-                                <td>{{numberFormat(order.amount)}} сом.</td>
-                                <td>{{$page.props.shared.orderStatusLabels[order.status]}}</td>
-                                <td>{{numberFormat(order.profit)}} сом.</td>
+                                <td>{{ order.id }}</td>
+                                <td>
+                                    <Link :href="route('orders.show', order.id)">{{ order.user }}</Link>
+                                </td>
+                                <td>{{ order.client }}</td>
+                                <td>{{ numberFormat(order.amount) }} сом.</td>
+                                <td>
+                                    <order-status-toggle :order-status="order.status" :order-id="order.id" />
+                                </td>
+                                <td>{{ numberFormat(order.profit) }} сом.</td>
                                 <td>
                                     <Link :href="route('orders.invoice', order.id)">Накладная</Link>
                                 </td>
@@ -54,9 +58,10 @@
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "../../Shared/Pagination.vue";
+import OrderStatusToggle from "../../Shared/OrderStatusToggle.vue";
 
 export default {
-    components: {Pagination, Head, Link},
-    props: ['orders'],
+    components: {OrderStatusToggle, Pagination, Head, Link},
+    props: ['orders']
 }
 </script>

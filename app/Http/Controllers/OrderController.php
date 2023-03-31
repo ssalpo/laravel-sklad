@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\OrderToggleStatusRequest;
 use App\Models\Order;
 use App\Models\OrderItem;
-use App\Services\OrderService;
+use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
@@ -77,5 +78,14 @@ class OrderController extends Controller
             ],
             'orderItems' => $orderItems
         ]);
+    }
+
+    public function toggleStatus(Order $order, Request $request)
+    {
+        if (in_array($request->status, array_keys(Order::STATUS_LABELS))) {
+            $order->update($request->only('status'));
+        }
+
+        return back();
     }
 }

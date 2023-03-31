@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\NomenclatureArrival;
-use App\UnitConvertor;
+use App\Services\UnitConvertor;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 

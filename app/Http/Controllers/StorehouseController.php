@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\NomenclatureArrival;
+use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -14,7 +15,8 @@ class StorehouseController extends Controller
         $orderItems = OrderItem::select(
             'nomenclature_id',
             DB::raw('SUM(quantity) as quantity')
-        )->groupBy('nomenclature_id')->get();
+        )->join('orders', fn($q) => $q->on('orders.id', '=', 'order_items.order_id')->where('status', Order::STATUS_SEND))
+            ->groupBy('nomenclature_id')->get();
 
         $nomenclatureBalances = NomenclatureArrival::select(
             'nomenclature_id',

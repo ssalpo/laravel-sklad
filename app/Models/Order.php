@@ -38,6 +38,11 @@ class Order extends Model
         $q->whereStatus(self::STATUS_NEW);
     }
 
+    public function scopeStatusSend($q)
+    {
+        $q->whereStatus(self::STATUS_SEND);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

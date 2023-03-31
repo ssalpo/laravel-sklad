@@ -13,7 +13,7 @@ class MixtureCompositionItemController extends Controller
     {
         $nomenclatures = Nomenclature::compositeType()->whereNotIn(
             'id', MixtureCompositionItem::whereMixtureCompositionId($mixtureCompositionId)->pluck('nomenclature_id')
-        )->get(['id', 'name']);
+        )->get(['id', 'name', 'unit']);
 
         return inertia('MixtureCompositionItems/Edit', compact('mixtureCompositionId', 'nomenclatures'));
     }
@@ -32,7 +32,7 @@ class MixtureCompositionItemController extends Controller
             ->whereNotIn(
                 'id', MixtureCompositionItem::whereMixtureCompositionId($mixtureCompositionId)->whereNot('id', $mixtureCompositionItemId)->pluck('nomenclature_id')
             )
-            ->get(['id', 'name']);
+            ->get(['id', 'name', 'unit']);
 
         return inertia('MixtureCompositionItems/Edit', compact(
             'mixtureCompositionId',

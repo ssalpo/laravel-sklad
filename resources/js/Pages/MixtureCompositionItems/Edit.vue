@@ -46,6 +46,7 @@
                                 <label class="form-asterisk">Единица измерения количества</label>
 
                                 <select class="form-control"
+                                        disabled
                                         :class="{'is-invalid': errors.unit}"
                                         v-model.trim="form.unit">
                                     <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
@@ -104,6 +105,8 @@
 </template>
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
+import get from "lodash/get";
+import find from "lodash/find";
 
 export default {
     props: ['mixtureCompositionId', 'mixtureCompositionItem', 'units', 'nomenclatures', 'errors'],
@@ -130,6 +133,11 @@ export default {
                 'mixture_composition': this.mixtureCompositionId,
                 'mixture_composition_item': this.mixtureCompositionItem.id
             }))
+        }
+    },
+    watch: {
+        ['form.nomenclature_id'](value) {
+            this.form.unit = get(find(this.nomenclatures, {'id': value}), 'unit');
         }
     }
 }

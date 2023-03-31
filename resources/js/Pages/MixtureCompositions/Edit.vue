@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <label class="form-asterisk">Масса продукта</label>
-                            <input type="text" class="form-control"
+                            <input type="number" class="form-control"
                                    :class="{'is-invalid': errors.weight}"
                                    v-model.number="form.weight">
                             <div v-if="errors.weight" class="error invalid-feedback">
@@ -55,7 +55,7 @@
 
                         <div class="form-group">
                             <label class="form-asterisk">Кол-во воды</label>
-                            <input type="text" class="form-control"
+                            <input type="number" class="form-control"
                                    :class="{'is-invalid': errors.water}"
                                    v-model.number="form.water">
                             <div v-if="errors.water" class="error invalid-feedback">
@@ -79,6 +79,7 @@
                         <div class="form-group">
                             <label class="form-asterisk">Сумма оплаты работника</label>
                             <input type="text" class="form-control"
+                                   v-money="{precision: 3}"
                                    :class="{'is-invalid': errors.worker_price}"
                                    v-model.number="form.worker_price">
                             <div v-if="errors.worker_price" class="error invalid-feedback">

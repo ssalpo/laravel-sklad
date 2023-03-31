@@ -40,7 +40,7 @@
                                 </select>
                             </div>
                             <div class="col-4 col-sm-4">
-                                <input type="text" class="form-control form-control-sm"
+                                <input type="number" class="form-control form-control-sm"
                                        v-model.trim="orderItem.quantity">
                             </div>
                             <div class="col-2">

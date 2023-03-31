@@ -33,7 +33,7 @@
 
                         <div class="form-group">
                             <label class="form-asterisk">Количество</label>
-                            <input type="text" class="form-control"
+                            <input type="number" class="form-control"
                                    :class="{'is-invalid': errors.quantity}"
                                    v-model.number="form.quantity">
                             <div v-if="errors.quantity" class="error invalid-feedback">
@@ -58,6 +58,7 @@
                         <div class="form-group">
                             <label class="form-asterisk">Сумма</label>
                             <input type="text" class="form-control"
+                                   v-money="{}"
                                    :class="{'is-invalid': errors.price}"
                                    v-model.number="form.price">
                             <div v-if="errors.price" class="error invalid-feedback">

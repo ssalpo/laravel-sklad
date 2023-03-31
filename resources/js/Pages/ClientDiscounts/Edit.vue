@@ -34,6 +34,7 @@
                         <div class="form-group">
                             <label class="form-asterisk">Сумма скидки</label>
                             <input type="text" class="form-control"
+                                   v-money="{}"
                                    :class="{'is-invalid': errors.discount}"
                                    v-model.trim="form.discount">
 

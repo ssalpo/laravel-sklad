@@ -32,7 +32,7 @@
 
                         <div class="form-group">
                             <label class="form-asterisk">Количество поступления</label>
-                            <input type="text" class="form-control"
+                            <input type="number" class="form-control"
                                    :class="{'is-invalid': errors.quantity}"
                                    v-model.number="form.quantity">
 
@@ -57,6 +57,7 @@
                         <div class="form-group">
                             <label class="form-asterisk">Цена продажи</label>
                             <input type="text" class="form-control"
+                                   v-money="{}"
                                    :class="{'is-invalid': errors.price_for_sale}"
                                    v-model.number="form.price_for_sale">
 

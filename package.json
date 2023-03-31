@@ -19,6 +19,7 @@
         "@vueup/vue-quill": "^1.1.0",
         "maska": "^2.1.7",
         "sass": "^1.58.3",
+        "v-money": "^0.8.1",
         "vue": "^3.2.36",
         "vue-lazyload": "^3.0.0-rc.2"
     },

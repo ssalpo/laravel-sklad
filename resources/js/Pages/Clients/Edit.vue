@@ -28,6 +28,7 @@
                         <div class="form-group">
                             <label>Телефон</label>
                             <input type="text" class="form-control"
+                                   v-maska data-maska="+############"
                                    :class="{'is-invalid': errors.phone}"
                                    v-model.trim="form.phone">
 
@@ -55,10 +56,12 @@
 </template>
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
+import { vMaska } from "maska";
 
 export default {
     props: ['client', 'errors'],
     components: {Head, Link},
+    directives: { maska: vMaska },
     data() {
         return {
             form: useForm({

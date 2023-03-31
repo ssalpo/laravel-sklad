@@ -16,38 +16,6 @@
                 <form @submit.prevent="submit">
                     <div class="card-body">
                         <div class="mx-auto col col-md-6">
-                            <div class="form-group">
-                                <label class="form-asterisk">Наименование</label>
-                                <input type="text" class="form-control"
-                                       :class="{'is-invalid': errors.name}"
-                                       v-model.trim="form.name">
-
-                                <div v-if="errors.name" class="error invalid-feedback">
-                                    {{ errors.name }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-asterisk">Цена покупки</label>
-                                <input type="text" class="form-control"
-                                       :class="{'is-invalid': errors.price}"
-                                       v-model.number="form.price">
-
-                                <div v-if="errors.price" class="error invalid-feedback">
-                                    {{ errors.price }}
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-asterisk">Цена продажи</label>
-                                <input type="text" class="form-control"
-                                       :class="{'is-invalid': errors.price_for_sale}"
-                                       v-model.trim="form.price_for_sale">
-
-                                <div v-if="errors.price_for_sale" class="error invalid-feedback">
-                                    {{ errors.price_for_sale }}
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <label class="form-asterisk">Тип номенклатуры</label>
@@ -59,6 +27,39 @@
 
                                 <div v-if="errors.type" class="error invalid-feedback">
                                     {{ errors.type }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-asterisk">Наименование</label>
+                                <input type="text" class="form-control"
+                                       :class="{'is-invalid': errors.name}"
+                                       v-model.trim="form.name">
+
+                                <div v-if="errors.name" class="error invalid-feedback">
+                                    {{ errors.name }}
+                                </div>
+                            </div>
+
+                            <div class="form-group" v-if="showForSaleType">
+                                <label class="form-asterisk">Цена покупки</label>
+                                <input type="text" class="form-control"
+                                       :class="{'is-invalid': errors.price}"
+                                       v-model.number="form.price">
+
+                                <div v-if="errors.price" class="error invalid-feedback">
+                                    {{ errors.price }}
+                                </div>
+                            </div>
+
+                            <div class="form-group" v-if="showForSaleType">
+                                <label class="form-asterisk">Цена продажи</label>
+                                <input type="text" class="form-control"
+                                       :class="{'is-invalid': errors.price_for_sale}"
+                                       v-model.trim="form.price_for_sale">
+
+                                <div v-if="errors.price_for_sale" class="error invalid-feedback">
+                                    {{ errors.price_for_sale }}
                                 </div>
                             </div>
 
@@ -106,11 +107,16 @@ export default {
             form: useForm({
                 name: this.nomenclature?.name,
                 category_id: this.nomenclature?.category_id,
-                price: this.nomenclature?.price,
-                price_for_sale: this.nomenclature?.price_for_sale,
+                price: this.nomenclature?.price || 0,
+                price_for_sale: this.nomenclature?.price_for_sale || 0,
                 type: this.nomenclature?.type,
                 unit: this.nomenclature?.unit,
             }),
+        }
+    },
+    computed: {
+        showForSaleType(){
+            return !this.form.type || this.form.type === 1;
         }
     },
     methods: {

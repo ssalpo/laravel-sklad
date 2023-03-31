@@ -29,7 +29,6 @@ class NomenclatureArrivalRequest extends FormRequest
             'nomenclature_id' => 'required|exists:nomenclatures,id',
             'quantity' => 'required|numeric',
             'unit' => 'required|in:' . implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
-            'price_for_sale' => 'required|regex:/^\d+(\.\d{1,3})?$/',
             'comment' => 'nullable|string',
             'arrival_at' => 'nullable|date_format:Y-m-d H:i'
         ];

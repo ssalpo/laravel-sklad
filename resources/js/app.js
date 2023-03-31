@@ -6,7 +6,6 @@ import { createInertiaApp} from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { InertiaProgress } from '@inertiajs/progress'
 import {numberFormat} from "./functions";
-import money from 'v-money';
 
 import DefaultLayout from './Layouts/DefaultLayout.vue';
 
@@ -27,7 +26,6 @@ createInertiaApp({
             .mixin({ methods: {route, numberFormat}})
             .use(plugin)
             .use(VueLazyload)
-            .use(money, {precision: 2, decimal: '.', thousands: ''})
             .mount(el)
 
         document.addEventListener('inertia:start', (event) => {

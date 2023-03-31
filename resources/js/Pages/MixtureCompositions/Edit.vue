@@ -80,7 +80,6 @@
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма оплаты работника</label>
                                 <input type="text" class="form-control"
-                                       v-money="{precision: 3}"
                                        :class="{'is-invalid': errors.worker_price}"
                                        v-model.number="form.worker_price">
                                 <div v-if="errors.worker_price" class="error invalid-feedback">

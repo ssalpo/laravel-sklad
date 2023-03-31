@@ -1804,7 +1804,6 @@ __metadata:
     maska: ^2.1.7
     postcss: ^8.1.14
     sass: ^1.58.3
-    v-money: ^0.8.1
     vite: ^4.0.0
     vue: ^3.2.36
     vue-lazyload: ^3.0.0-rc.2
@@ -2020,13 +2019,6 @@ __metadata:
   version: 1.0.2
   resolution: "util-deprecate@npm:1.0.2"
   checksum: 474acf1146cb2701fe3b074892217553dfcf9a031280919ba1b8d651a068c9b15d863b7303cb15bd00a862b498e6cf4ad7b4a08fb134edd5a6f7641681cb54a2
-  languageName: node
-  linkType: hard
-
-"v-money@npm:^0.8.1":
-  version: 0.8.1
-  resolution: "v-money@npm:0.8.1"
-  checksum: 0359789f7863780a9489a4996e77ab2ff85777a384c96956a3f28286cc6982e53846913ce22d618a46bc0243b07c2b5fea85935b2a2560556346d2c24c7a861c
   languageName: node
   linkType: hard
 

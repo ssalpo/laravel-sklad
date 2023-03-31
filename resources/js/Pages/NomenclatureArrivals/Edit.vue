@@ -58,7 +58,6 @@
                             <div class="form-group">
                                 <label class="form-asterisk">Цена продажи</label>
                                 <input type="text" class="form-control"
-                                       v-money="{}"
                                        :class="{'is-invalid': errors.price_for_sale}"
                                        v-model.number="form.price_for_sale">
 

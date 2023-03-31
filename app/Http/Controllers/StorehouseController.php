@@ -15,7 +15,7 @@ class StorehouseController extends Controller
         $orderItems = OrderItem::select(
             'nomenclature_id',
             DB::raw('SUM(quantity) as quantity')
-        )->join('orders', fn($q) => $q->on('orders.id', '=', 'order_items.order_id')->where('status', Order::STATUS_SEND))
+        )->join('orders', fn($q) => $q->on('orders.id', '=', 'order_items.order_id')->where('orders.status', Order::STATUS_SEND))
             ->groupBy('nomenclature_id')->get();
 
         $nomenclatureBalances = NomenclatureArrival::select(
@@ -24,7 +24,9 @@ class StorehouseController extends Controller
             DB::raw('n.unit as unit'),
             DB::raw('SUM(quantity) as quantity')
         )->join('nomenclatures as n', 'n.id', '=', 'nomenclature_arrivals.nomenclature_id')
-            ->groupBy('nomenclature_id')->get()->transform(function ($m) use ($orderItems) {
+            ->groupBy('nomenclature_id')
+            ->get()
+            ->transform(function ($m) use ($orderItems) {
                 $orderItem = $orderItems->where('nomenclature_id', $m->nomenclature_id)->first();
 
                 return [

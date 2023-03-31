@@ -71,7 +71,7 @@
                                 <input class="custom-control-input" id="endResult" v-model="form.end_result" type="checkbox" />
 
                                 <label for="endResult" class="custom-control-label">
-                                    Добавить в результат расчета в конце?
+                                    Добавить в конечный расчет?
                                 </label>
                             </div>
 

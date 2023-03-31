@@ -31,20 +31,20 @@
                     </li>
 
                     <li class="nav-item">
-                        <Link :href="route('storehouses.index')" class="nav-link">
-                            <i class="fa fa-warehouse"></i>  Склад
-                        </Link>
-                    </li>
-
-                    <li class="nav-item">
                         <Link :href="route('orders.index')" class="nav-link">
                             <i class="fa fa-clipboard-list"></i> Заявки
                         </Link>
                     </li>
 
                     <li class="nav-item">
+                        <Link :href="route('storehouses.index')" class="nav-link">
+                            <i class="fa fa-warehouse"></i>  Остатки
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
                         <Link :href="route('nomenclature-arrivals.index')" class="nav-link">
-                            Приход
+                            <i class="fa fa-building"></i> Приход
                         </Link>
                     </li>
 
@@ -54,13 +54,13 @@
 
                             <li class="nav-item">
                                 <Link :href="route('clients.index')" class="dropdown-item">
-                                    <i class="fa fa-users"></i> Клиенты
+                                    Клиенты
                                 </Link>
                             </li>
 
                             <li>
                                 <Link :href="route('nomenclatures.index')" class="dropdown-item">
-                                    <i class="fa fa-list-alt"></i> Номенклатура
+                                    Номенклатура
                                 </Link>
                             </li>
 
@@ -72,7 +72,7 @@
 
                             <li>
                                 <Link :href="route('users.index')" class="dropdown-item">
-                                    <i class="fa fa-user-circle"></i> Пользователи
+                                    Пользователи
                                 </Link>
                             </li>
                         </ul>

@@ -50,28 +50,28 @@
 
                     <li class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Справочник</a>
-                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow" style="left: 0px; right: inherit;">
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
 
                             <li class="nav-item">
-                                <Link :href="route('clients.index')" class="nav-link">
+                                <Link :href="route('clients.index')" class="dropdown-item">
                                     <i class="fa fa-users"></i> Клиенты
                                 </Link>
                             </li>
 
                             <li>
-                                <Link :href="route('nomenclatures.index')" class="nav-link">
+                                <Link :href="route('nomenclatures.index')" class="dropdown-item">
                                     <i class="fa fa-list-alt"></i> Номенклатура
                                 </Link>
                             </li>
 
                             <li class="nav-item">
-                                <Link :href="route('mixture-compositions.index')" class="nav-link">
+                                <Link :href="route('mixture-compositions.index')" class="dropdown-item">
                                     Состав продуктов
                                 </Link>
                             </li>
 
                             <li>
-                                <Link :href="route('users.index')" class="nav-link">
+                                <Link :href="route('users.index')" class="dropdown-item">
                                     <i class="fa fa-user-circle"></i> Пользователи
                                 </Link>
                             </li>
@@ -82,7 +82,7 @@
 
             <!-- Right navbar links -->
             <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-                <li class="nav-item d-block d-sm-none">
+                <li class="nav-item d-block d-sm-none" v-if="!$page.props.shared.isAdmin">
                     <Link :href="route('my.orders.create')" class="btn btn-link text-success">
                         <i class="fa fa-plus-circle"></i>
                     </Link>

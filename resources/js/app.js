@@ -28,6 +28,10 @@ createInertiaApp({
             .use(VueLazyload)
             .mount(el)
 
+        document.addEventListener('inertia:start', (event) => {
+            $('.navbar-collapse').collapse('hide');
+        })
+
         // Hide preloader after app setup
         document.getElementById('preloader-custom').style.display = 'none'
     },

@@ -48,7 +48,7 @@
                     <h5 class="mb-3 mt-4">Прибыль по товарам за сегодня</h5>
 
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered  text-nowrap">
                             <thead>
                             <tr>
                                 <th width="50%">Номенклатура</th>
@@ -66,7 +66,7 @@
 
                     <h5 class="mb-3 mt-4">Прибыль по товарам за месяц</h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered  text-nowrap">
                             <thead>
                             <tr>
                                 <th width="50%">Номенклатура</th>

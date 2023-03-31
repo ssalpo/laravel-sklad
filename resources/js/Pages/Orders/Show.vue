@@ -41,7 +41,7 @@
                     <h5 class="mb-3">Товары</h5>
 
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered  text-nowrap">
                             <thead>
                             <tr>
                                 <th style="width: 10px">#</th>

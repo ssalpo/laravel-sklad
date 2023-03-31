@@ -15,7 +15,7 @@
                 <div class="card-body">
                     <h5 class="mb-3">Остатки по товарам</h5>
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-bordered  text-nowrap">
                             <thead>
                             <tr>
                                 <th width="50%">Номенклатура</th>

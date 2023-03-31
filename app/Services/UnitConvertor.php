@@ -52,14 +52,13 @@ class UnitConvertor
         return 0;
     }
 
-    public static function toKg(int $value, int $currentUnit, int $precision = 3)
+    public static function toKg(float $value, int $currentUnit, int $precision = 3)
     {
+        if ($currentUnit === self::UNIT_L) {
+            return $value;
+        }
+
         if (in_array($currentUnit, self::MASS_UNITS)) {
-
-            if ($currentUnit === self::UNIT_KG) {
-                return $value;
-            }
-
             $base = $value * self::FORMULAS[$currentUnit];
 
             return round($base / self::FORMULAS[self::UNIT_KG], $precision, PHP_ROUND_HALF_UP);

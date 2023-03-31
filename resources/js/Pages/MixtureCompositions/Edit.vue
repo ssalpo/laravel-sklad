@@ -33,7 +33,7 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Масса продукта</label>
-                                <input type="number" class="form-control"
+                                <input type="text" class="form-control"
                                        :class="{'is-invalid': errors.weight}"
                                        v-model.number="form.weight">
                                 <div v-if="errors.weight" class="error invalid-feedback">

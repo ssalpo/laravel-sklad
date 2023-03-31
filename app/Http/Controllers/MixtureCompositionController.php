@@ -50,7 +50,7 @@ class MixtureCompositionController extends Controller
 
         $weight = UnitConvertor::toKg($mixtureComposition->weight, $mixtureComposition->weight_unit);
 
-        $endResultPrice = $mixtureComposition->mixtureCompositionItems->where('end_result', true)->sum('price');
+        $endResultPrice = $mixtureComposition->mixtureCompositionItems->where('end_result', true)->sum('price') + $mixtureComposition->worker_price;
 
         $totalSum = round(($mixtureComposition->mixtureCompositionItems->where('end_result', false)->sum('price') / $mixtureComposition->water) * $weight, 3, PHP_ROUND_HALF_UP);
 

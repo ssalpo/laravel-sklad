@@ -35,7 +35,7 @@
                                 <td>{{ order.client }}</td>
                                 <td>{{ numberFormat(order.amount) }} сом.</td>
                                 <td>
-                                    <order-status-toggle :order-status="order.status" :order-id="order.id" />
+                                    <order-status-toggle style="width: 105px" :order-status="order.status" :order-id="order.id" />
                                 </td>
                                 <td>{{ numberFormat(order.profit) }} сом.</td>
                                 <td>

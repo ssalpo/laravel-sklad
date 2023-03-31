@@ -15,17 +15,18 @@
                 <!-- form start -->
                 <form @submit.prevent="submit">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-asterisk">Наименование</label>
-                            <input type="text" class="form-control"
-                                   :class="{'is-invalid': errors.name}"
-                                   v-model.trim="form.name">
+                        <div class="mx-auto col col-md-6">
+                            <div class="form-group">
+                                <label class="form-asterisk">Наименование</label>
+                                <input type="text" class="form-control"
+                                       :class="{'is-invalid': errors.name}"
+                                       v-model.trim="form.name">
 
-                            <div v-if="errors.name" class="error invalid-feedback">
-                                {{ errors.name }}
+                                <div v-if="errors.name" class="error invalid-feedback">
+                                    {{ errors.name }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group">
+                            <div class="form-group">
                             <label>Телефон</label>
                             <input type="text" class="form-control"
                                    v-maska data-maska="+############"
@@ -36,18 +37,21 @@
                                 {{ errors.phone }}
                             </div>
                         </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" :disabled="form.processing" class="btn btn-primary">
-                            <span v-if="form.processing">
-                                <i class="fas fa-spinner fa-spin"></i> Сохранение...
-                            </span>
-                            <span v-else>{{ client?.id ? 'Сохранить' : 'Добавить' }}</span>
-                        </button>
+                        <div class="mx-auto col col-md-6 text-right">
+                            <button type="submit" :disabled="form.processing" class="btn btn-primary">
+                                <span v-if="form.processing">
+                                    <i class="fas fa-spinner fa-spin"></i> Сохранение...
+                                </span>
+                                <span v-else>{{ client?.id ? 'Сохранить' : 'Добавить' }}</span>
+                            </button>
 
-                        <Link :href="route('clients.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                            <Link :href="route('clients.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                        </div>
                     </div>
                 </form>
             </div>

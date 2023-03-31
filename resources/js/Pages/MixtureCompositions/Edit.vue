@@ -15,89 +15,93 @@
                 <!-- form start -->
                 <form @submit.prevent="submit">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-asterisk">Номенклатура</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.nomenclature_id}"
-                                    v-model.trim="form.nomenclature_id">
-                                <option :value="nomenclature.id"
-                                        v-for="nomenclature in nomenclatures">{{ nomenclature.name }}
-                                </option>
-                            </select>
+                        <div class="mx-auto col col-md-6">
+                            <div class="form-group">
+                                <label class="form-asterisk">Номенклатура</label>
+                                <select class="form-control"
+                                        :class="{'is-invalid': errors.nomenclature_id}"
+                                        v-model.trim="form.nomenclature_id">
+                                    <option :value="nomenclature.id"
+                                            v-for="nomenclature in nomenclatures">{{ nomenclature.name }}
+                                    </option>
+                                </select>
 
-                            <div v-if="errors.nomenclature_id" class="error invalid-feedback">
-                                {{ errors.nomenclature_id }}
+                                <div v-if="errors.nomenclature_id" class="error invalid-feedback">
+                                    {{ errors.nomenclature_id }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-asterisk">Масса продукта</label>
-                            <input type="number" class="form-control"
-                                   :class="{'is-invalid': errors.weight}"
-                                   v-model.number="form.weight">
-                            <div v-if="errors.weight" class="error invalid-feedback">
-                                {{ errors.weight }}
+                            <div class="form-group">
+                                <label class="form-asterisk">Масса продукта</label>
+                                <input type="number" class="form-control"
+                                       :class="{'is-invalid': errors.weight}"
+                                       v-model.number="form.weight">
+                                <div v-if="errors.weight" class="error invalid-feedback">
+                                    {{ errors.weight }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-asterisk">Единица измерения для массы продукта</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.weight_unit}"
-                                    v-model.trim="form.weight_unit">
-                                <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
-                            </select>
+                            <div class="form-group">
+                                <label class="form-asterisk">Единица измерения для массы продукта</label>
+                                <select class="form-control"
+                                        :class="{'is-invalid': errors.weight_unit}"
+                                        v-model.trim="form.weight_unit">
+                                    <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
+                                </select>
 
-                            <div v-if="errors.weight_unit" class="error invalid-feedback">
-                                {{ errors.weight_unit }}
+                                <div v-if="errors.weight_unit" class="error invalid-feedback">
+                                    {{ errors.weight_unit }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-asterisk">Кол-во воды</label>
-                            <input type="number" class="form-control"
-                                   :class="{'is-invalid': errors.water}"
-                                   v-model.number="form.water">
-                            <div v-if="errors.water" class="error invalid-feedback">
-                                {{ errors.water }}
+                            <div class="form-group">
+                                <label class="form-asterisk">Кол-во воды</label>
+                                <input type="number" class="form-control"
+                                       :class="{'is-invalid': errors.water}"
+                                       v-model.number="form.water">
+                                <div v-if="errors.water" class="error invalid-feedback">
+                                    {{ errors.water }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-asterisk">Единица измерения для массы воды</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.water_unit}"
-                                    v-model.trim="form.water_unit">
-                                <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
-                            </select>
+                            <div class="form-group">
+                                <label class="form-asterisk">Единица измерения для массы воды</label>
+                                <select class="form-control"
+                                        :class="{'is-invalid': errors.water_unit}"
+                                        v-model.trim="form.water_unit">
+                                    <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
+                                </select>
 
-                            <div v-if="errors.water_unit" class="error invalid-feedback">
-                                {{ errors.water_unit }}
+                                <div v-if="errors.water_unit" class="error invalid-feedback">
+                                    {{ errors.water_unit }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-asterisk">Сумма оплаты работника</label>
-                            <input type="text" class="form-control"
-                                   v-money="{precision: 3}"
-                                   :class="{'is-invalid': errors.worker_price}"
-                                   v-model.number="form.worker_price">
-                            <div v-if="errors.worker_price" class="error invalid-feedback">
-                                {{ errors.worker_price }}
+                            <div class="form-group">
+                                <label class="form-asterisk">Сумма оплаты работника</label>
+                                <input type="text" class="form-control"
+                                       v-money="{precision: 3}"
+                                       :class="{'is-invalid': errors.worker_price}"
+                                       v-model.number="form.worker_price">
+                                <div v-if="errors.worker_price" class="error invalid-feedback">
+                                    {{ errors.worker_price }}
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" :disabled="form.processing" class="btn btn-primary">
-                            <span v-if="form.processing">
-                                <i class="fas fa-spinner fa-spin"></i> Сохранение...
-                            </span>
-                            <span v-else>{{ mixtureComposition?.id ? 'Сохранить' : 'Добавить' }}</span>
-                        </button>
+                        <div class="mx-auto col col-md-6">
+                            <button type="submit" :disabled="form.processing" class="btn btn-primary">
+                                <span v-if="form.processing">
+                                    <i class="fas fa-spinner fa-spin"></i> Сохранение...
+                                </span>
+                                <span v-else>{{ mixtureComposition?.id ? 'Сохранить' : 'Добавить' }}</span>
+                            </button>
 
-                        <Link :href="route('mixture-compositions.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                            <Link :href="route('mixture-compositions.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                        </div>
                     </div>
                 </form>
             </div>

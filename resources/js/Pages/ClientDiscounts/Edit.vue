@@ -15,45 +15,49 @@
                 <!-- form start -->
                 <form @submit.prevent="submit">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-asterisk">Номенклатура</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.nomenclature_id}"
-                                    v-model.trim="form.nomenclature_id">
-                                <option :value="nomenclature.id"
-                                        :selected="!form.nomenclature_id && index === 0"
-                                        v-for="(nomenclature, index) in nomenclatures">{{ nomenclature.name }}
-                                </option>
-                            </select>
+                        <div class="mx-auto col col-md-6">
+                            <div class="form-group">
+                                <label class="form-asterisk">Номенклатура</label>
+                                <select class="form-control"
+                                        :class="{'is-invalid': errors.nomenclature_id}"
+                                        v-model.trim="form.nomenclature_id">
+                                    <option :value="nomenclature.id"
+                                            :selected="!form.nomenclature_id && index === 0"
+                                            v-for="(nomenclature, index) in nomenclatures">{{ nomenclature.name }}
+                                    </option>
+                                </select>
 
-                            <div v-if="errors.nomenclature_id" class="error invalid-feedback">
-                                {{ errors.nomenclature_id }}
+                                <div v-if="errors.nomenclature_id" class="error invalid-feedback">
+                                    {{ errors.nomenclature_id }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-asterisk">Сумма скидки</label>
-                            <input type="text" class="form-control"
-                                   v-money="{}"
-                                   :class="{'is-invalid': errors.discount}"
-                                   v-model.trim="form.discount">
+                            <div class="form-group">
+                                <label class="form-asterisk">Сумма скидки</label>
+                                <input type="text" class="form-control"
+                                       v-money="{}"
+                                       :class="{'is-invalid': errors.discount}"
+                                       v-model.trim="form.discount">
 
-                            <div v-if="errors.discount" class="error invalid-feedback">
-                                {{ errors.discount }}
+                                <div v-if="errors.discount" class="error invalid-feedback">
+                                    {{ errors.discount }}
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" :disabled="form.processing" class="btn btn-primary">
-                            <span v-if="form.processing">
-                                <i class="fas fa-spinner fa-spin"></i> Сохранение...
-                            </span>
-                            <span v-else>{{ clientDiscount?.id ? 'Сохранить' : 'Добавить' }}</span>
-                        </button>
+                        <div class="mx-auto col col-md-6 text-right">
+                            <button type="submit" :disabled="form.processing" class="btn btn-primary">
+                                <span v-if="form.processing">
+                                    <i class="fas fa-spinner fa-spin"></i> Сохранение...
+                                </span>
+                                <span v-else>{{ clientDiscount?.id ? 'Сохранить' : 'Добавить' }}</span>
+                            </button>
 
-                        <Link :href="route('client-discounts.index', client.id)" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                            <Link :href="route('client-discounts.index', client.id)" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                        </div>
                     </div>
                 </form>
             </div>

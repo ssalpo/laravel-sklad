@@ -15,50 +15,54 @@
                 <!-- form start -->
                 <form @submit.prevent="submit">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-asterisk">Имя</label>
-                            <input type="text" class="form-control"
-                                   :class="{'is-invalid': errors.name}"
-                                   v-model.trim="form.name">
+                        <div class="mx-auto col col-md-6">
+                            <div class="form-group">
+                                <label class="form-asterisk">Имя</label>
+                                <input type="text" class="form-control"
+                                       :class="{'is-invalid': errors.name}"
+                                       v-model.trim="form.name">
 
-                            <div v-if="errors.name" class="error invalid-feedback">
-                                {{ errors.name }}
+                                <div v-if="errors.name" class="error invalid-feedback">
+                                    {{ errors.name }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label class="form-asterisk">Логин для входа</label>
-                            <input type="text" class="form-control"
-                                   :class="{'is-invalid': errors.username}"
-                                   v-model.trim="form.username">
+                            <div class="form-group">
+                                <label class="form-asterisk">Логин для входа</label>
+                                <input type="text" class="form-control"
+                                       :class="{'is-invalid': errors.username}"
+                                       v-model.trim="form.username">
 
-                            <div v-if="errors.username" class="error invalid-feedback">
-                                {{ errors.username }}
+                                <div v-if="errors.username" class="error invalid-feedback">
+                                    {{ errors.username }}
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="form-group">
-                            <label :class="{'form-asterisk': !user?.id}">Пароль</label>
-                            <input type="password" class="form-control"
-                                   :class="{'is-invalid': errors.password}"
-                                   v-model.trim="form.password">
+                            <div class="form-group">
+                                <label :class="{'form-asterisk': !user?.id}">Пароль</label>
+                                <input type="password" class="form-control"
+                                       :class="{'is-invalid': errors.password}"
+                                       v-model.trim="form.password">
 
-                            <div v-if="errors.password" class="error invalid-feedback">
-                                {{ errors.password }}
+                                <div v-if="errors.password" class="error invalid-feedback">
+                                    {{ errors.password }}
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" :disabled="form.processing" class="btn btn-primary">
-                            <span v-if="form.processing">
-                                <i class="fas fa-spinner fa-spin"></i> Сохранение...
-                            </span>
-                            <span v-else>{{ user?.id ? 'Сохранить' : 'Добавить' }}</span>
-                        </button>
+                        <div class="mx-auto col col-md-6">
+                            <button type="submit" :disabled="form.processing" class="btn btn-primary">
+                                <span v-if="form.processing">
+                                    <i class="fas fa-spinner fa-spin"></i> Сохранение...
+                                </span>
+                                <span v-else>{{ user?.id ? 'Сохранить' : 'Добавить' }}</span>
+                            </button>
 
-                        <Link :href="route('users.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                            <Link :href="route('users.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                        </div>
                     </div>
                 </form>
             </div>

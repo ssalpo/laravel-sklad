@@ -12,70 +12,75 @@
     <div class="content">
         <div class="container">
             <div class="card card-primary">
-                <!-- form start -->
+
                 <form @submit.prevent="submit">
                     <div class="card-body">
-                        <div class="form-group">
-                            <label class="form-asterisk">Клиент</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.client_id}"
-                                    v-model.trim="form.client_id">
-                                <option :value="client.id"
-                                        v-for="client in clients">{{ client.name }}
-                                </option>
-                            </select>
-
-                            <div v-if="errors.client_id" class="error invalid-feedback">
-                                {{ errors.client_id }}
-                            </div>
-                        </div>
-
-                        <div class="row mb-1" v-for="(orderItem, index) in form.orderItems">
-                            <div class="col-6 col-sm-6">
-                                <select class="form-control form-control-sm" v-model.trim="orderItem.nomenclature_id">
-                                    <option :value="nomenclature.id"
-                                            :disabled="selectedNomenclatures.includes(nomenclature.id)"
-                                            v-for="nomenclature in nomenclatures">{{ nomenclature.name }}
+                        <div class="mx-auto col col-md-6">
+                            <div class="form-group">
+                                <label class="form-asterisk">Клиент</label>
+                                <select class="form-control"
+                                        :class="{'is-invalid': errors.client_id}"
+                                        v-model.trim="form.client_id">
+                                    <option :value="client.id"
+                                            v-for="client in clients">{{ client.name }}
                                     </option>
                                 </select>
-                            </div>
-                            <div class="col-4 col-sm-4">
-                                <input type="number" class="form-control form-control-sm"
-                                       v-model.trim="orderItem.quantity">
-                            </div>
-                            <div class="col-2">
-                                <button type="button" class="btn btn-sm btn-danger" @click="removeOrderItem(index)">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </div>
-                        </div>
 
-                        <div class="row mt-3">
-                            <div class="col-12 col-sm-6">
-                                <button v-if="this.canAddNomenclature" type="button" class="btn btn-sm btn-link"
-                                        @click="addOrderItem">
-                                    <i class="fa fa-plus-circle"></i>
-                                    Добавить товар
-                                </button>
+                                <div v-if="errors.client_id" class="error invalid-feedback">
+                                    {{ errors.client_id }}
+                                </div>
                             </div>
-                            <div class="col-12 col-sm-6 mt-3 mt-sm-0" v-if="this.form.orderItems.length > 0">
-                                Итого: {{ totalSum }} сом.
+
+                            <div class="row mb-1" v-for="(orderItem, index) in form.orderItems">
+                                <div class="col-6 col-sm-6">
+                                    <select class="form-control form-control-sm"
+                                            v-model.trim="orderItem.nomenclature_id">
+                                        <option :value="nomenclature.id"
+                                                :disabled="selectedNomenclatures.includes(nomenclature.id)"
+                                                v-for="nomenclature in nomenclatures">{{ nomenclature.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-4 col-sm-4">
+                                    <input type="number" class="form-control form-control-sm"
+                                           v-model.trim="orderItem.quantity">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-sm btn-danger" @click="removeOrderItem(index)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="row mt-3">
+                                <div class="col-12 col-sm-6">
+                                    <button v-if="this.canAddNomenclature" type="button" class="btn btn-sm btn-link"
+                                            @click="addOrderItem">
+                                        <i class="fa fa-plus-circle"></i>
+                                        Добавить товар
+                                    </button>
+                                </div>
+                                <div class="col-12 col-sm-6 mt-3 mt-sm-0" v-if="this.form.orderItems.length > 0">
+                                    Итого: {{ totalSum }} сом.
+                                </div>
                             </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
 
                     <div class="card-footer">
-                        <button type="submit" :disabled="form.processing" class="btn btn-primary">
+                        <div class="mx-auto col col-md-6 text-right">
+                            <button type="submit" :disabled="form.processing" class="btn btn-primary">
                             <span v-if="form.processing">
                                 <i class="fas fa-spinner fa-spin"></i> Сохранение...
                             </span>
-                            <span v-else>{{ order?.id ? 'Сохранить' : 'Добавить' }}</span>
-                        </button>
+                                <span v-else>{{ order?.id ? 'Сохранить' : 'Добавить' }}</span>
+                            </button>
 
-                        <Link :href="route('orders.index')" :class="{disabled: form.processing}"
-                              class="btn btn-default ml-2">Отменить
-                        </Link>
+                            <Link :href="route('orders.index')" :class="{disabled: form.processing}"
+                                  class="btn btn-default ml-2">Отменить
+                            </Link>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -115,7 +115,7 @@ import { vMaska } from "maska";
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
-    props: ['nomenclatureArrival', 'nomenclatures', 'errors'],
+    props: ['nomenclatureArrival', 'nomenclatures', 'currentDate', 'errors'],
     components: {Head, Link},
     directives: { maska: vMaska },
     data() {
@@ -126,7 +126,7 @@ export default {
                 unit: this.nomenclatureArrival?.unit,
                 price_for_sale: this.nomenclatureArrival?.price_for_sale,
                 comment: this.nomenclatureArrival?.comment,
-                arrival_at: this.nomenclatureArrival?.arrival_at,
+                arrival_at: this.nomenclatureArrival?.arrival_at || this.currentDate,
             }),
         }
     },

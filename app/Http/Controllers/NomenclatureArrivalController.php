@@ -41,7 +41,7 @@ class NomenclatureArrivalController extends Controller
                 'unit' => $model->unit,
             ]);
 
-        $currentDate = date('yyyy-MM-ddThh:mm');
+        $currentDate = date('d.m.Y H:i');
 
         return inertia('NomenclatureArrivals/Edit', compact('nomenclatures', 'currentDate'));
     }
@@ -63,7 +63,10 @@ class NomenclatureArrivalController extends Controller
                 'unit' => $model->unit,
             ]);
 
+        $currentDate = date('d.m.Y H:i');
+
         return inertia('NomenclatureArrivals/Edit', [
+            'currentDate' => $currentDate,
             'nomenclatures' => $nomenclatures,
             'nomenclatureArrival' => [
                 'id' => $nomenclatureArrival->id,

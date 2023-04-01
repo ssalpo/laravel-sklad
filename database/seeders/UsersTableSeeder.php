@@ -16,7 +16,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
+        $users = app()->isLocal() ? [
             [
                 'name' => 'User 1',
                 'username' => 'user1',
@@ -39,6 +39,11 @@ class UsersTableSeeder extends Seeder
                 'username' => 'user4',
                 'password' => 'secret'
             ],
+        ]: [
+            'name' => 'Admin',
+            'username' => 'admin',
+            'is_admin' => true,
+            'password' => 'oripov9494'
         ];
 
         foreach ($users as $userData) {

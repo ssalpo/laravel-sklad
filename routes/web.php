@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientDebtController;
 use App\Http\Controllers\ClientDiscountController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MixtureCompositionController;
 use App\Http\Controllers\MixtureCompositionItemController;
+use App\Http\Controllers\My\OrderDebtController;
 use App\Http\Controllers\NomenclatureArrivalController;
 use App\Http\Controllers\NomenclatureController;
 use App\Http\Controllers\OrderController;
@@ -29,6 +31,11 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(stati
     Route::resource('clients', ClientController::class);
     Route::resource('clients/{client}/client-discounts', ClientDiscountController::class);
 
+    // Client Debts
+    Route::get('client-debts', [ClientDebtController::class, 'index'])->name('client-debts.index');
+    Route::get('clients/{client}/debts', [ClientDebtController::class, 'show'])->name('client-debts.show');
+    Route::post('clients/{client}/debts/{client_debt}/mark-as-paid', [ClientDebtController::class, 'markAsPaid'])->name('client-debts.mark-as-paid');
+
     // Nomenclatures
     Route::resource('nomenclatures', NomenclatureController::class);
 
@@ -51,6 +58,8 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'applicant'])
     ->prefix('my')
     ->group(static function () {
         Route::resource('orders', MyOrderController::class);
+        Route::get('/orders/{order}/debts', [OrderDebtController::class, 'create'])->name('order-debts.create');
+        Route::post('/orders/{order}/debts', [OrderDebtController::class, 'store'])->name('order-debts.store');
 
         Route::resource('clients', MyClientController::class);
     });

@@ -21,15 +21,21 @@
                                 <th>Клиент</th>
                                 <th>Сумма</th>
                                 <th>Статус</th>
+                                <th>Долги</th>
                                 <th width="100">Действия</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="order in orders.data">
                                 <td>{{order.id}}</td>
-                                <td><Link :href="route('my.orders.show', order.id)">{{order.client}}</Link></td>
+                                <td><Link :href="route('my.orders.show', order.id)">{{order.client_name}}</Link></td>
                                 <td>{{order.amount}} сом.</td>
                                 <td>{{$page.props.shared.orderStatusLabels[order.status]}}</td>
+                                <td>
+                                    <Link :href="route('my.order-debts.create', order.id)">
+                                        Добавить долг
+                                    </Link>
+                                </td>
                                 <td class="text-center">
                                     <Link v-if="order.status === 1" method="delete" as="button"
                                           type="button"

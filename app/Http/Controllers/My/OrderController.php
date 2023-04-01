@@ -28,7 +28,8 @@ class OrderController extends Controller
             ->paginate()
             ->through(fn($model) => [
                 'id' => $model->id,
-                'client' => $model->client->name,
+                'client_id' => $model->client->id,
+                'client_name' => $model->client->name,
                 'amount' => $model->amount,
                 'status' => $model->status,
             ]);

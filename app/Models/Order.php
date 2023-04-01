@@ -57,4 +57,9 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function debts()
+    {
+        return $this->hasMany(ClientDebt::class);
+    }
 }

@@ -37,6 +37,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <Link :href="route('client-debts.index')" class="nav-link">
+                            <i class="fa fa-money-bill"></i> Долги
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
                         <Link :href="route('orders.index')" class="nav-link">
                             <i class="fa fa-clipboard-list"></i> Заявки
                         </Link>

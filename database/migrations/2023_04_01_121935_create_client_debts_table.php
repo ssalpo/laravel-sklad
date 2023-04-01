@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('client_debts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained();
-            $table->foreignId('created_by')->constrained();
+            $table->foreignId('created_by')->constrained('users');
             $table->foreignId('order_id')->constrained();
             $table->double('amount')->default(0);
             $table->text('comment')->nullable();

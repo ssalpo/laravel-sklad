@@ -17,20 +17,20 @@ class NomenclaturesTableSeeder extends Seeder
     public function run()
     {
         $nomenclatures = [
-            [
-                'name' => 'Товар 1',
-                'type' => 1,
-                'price' => 10,
-                'price_for_sale' => 13,
-                'unit' => UnitConvertor::UNIT_PCS,
-            ],
-            [
-                'name' => 'Товар 2',
-                'type' => 1,
-                'price' => 10,
-                'price_for_sale' => 14,
-                'unit' => UnitConvertor::UNIT_PCS,
-            ],
+//            [
+//                'name' => 'Товар 1',
+//                'type' => 1,
+//                'price' => 10,
+//                'price_for_sale' => 13,
+//                'unit' => UnitConvertor::UNIT_PCS,
+//            ],
+//            [
+//                'name' => 'Товар 2',
+//                'type' => 1,
+//                'price' => 10,
+//                'price_for_sale' => 14,
+//                'unit' => UnitConvertor::UNIT_PCS,
+//            ],
             [
                 'name' => 'АОС',
                 'type' => 2,

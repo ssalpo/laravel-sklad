@@ -16,30 +16,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        $users = app()->isLocal() ? [
-            [
-                'name' => 'User 1',
-                'username' => 'user1',
-                'is_admin' => true,
-                'password' => 'secret'
-            ],
-            [
-                'name' => 'User 2',
-                'username' => 'user2',
-                'is_admin' => true,
-                'password' => 'secret'
-            ],
-            [
-                'name' => 'User 3',
-                'username' => 'user3',
-                'password' => 'secret'
-            ],
-            [
-                'name' => 'User 4',
-                'username' => 'user4',
-                'password' => 'secret'
-            ],
-        ]: [
+        $users = [
             'name' => 'Admin',
             'username' => 'admin',
             'is_admin' => true,

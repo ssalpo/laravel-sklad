@@ -17,10 +17,12 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $users = [
-            'name' => 'Admin',
-            'username' => 'admin',
-            'is_admin' => true,
-            'password' => 'oripov9494'
+            [
+                'name' => 'Admin',
+                'username' => 'admin',
+                'is_admin' => true,
+                'password' => 'oripov9494'
+            ]
         ];
 
         foreach ($users as $userData) {

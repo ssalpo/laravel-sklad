@@ -84,7 +84,7 @@
 
                             <li>
                                 <Link :href="route('users.index')" class="dropdown-item">
-                                    Пользователи
+                                    Сотрудники
                                 </Link>
                             </li>
                         </ul>

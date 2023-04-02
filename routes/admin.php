@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ClientDebtController;
-use App\Http\Controllers\ClientDiscountController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\MixtureCompositionController;
-use App\Http\Controllers\MixtureCompositionItemController;
-use App\Http\Controllers\NomenclatureArrivalController;
-use App\Http\Controllers\NomenclatureController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\StorehouseController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\ClientController;
+use App\Http\Controllers\Admin\ClientDebtController;
+use App\Http\Controllers\Admin\ClientDiscountController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\MixtureCompositionController;
+use App\Http\Controllers\Admin\MixtureCompositionItemController;
+use App\Http\Controllers\Admin\NomenclatureArrivalController;
+use App\Http\Controllers\Admin\NomenclatureController;
+use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\StorehouseController;
+use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');

@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientDiscountRequest;
 use App\Models\Client;
 use App\Models\ClientDiscount;
 use App\Models\Nomenclature;
-use Illuminate\Http\Request;
+
 
 class ClientDiscountController extends Controller
 {

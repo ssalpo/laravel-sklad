@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\MixtureCompositionItemRequest;
 use App\Models\MixtureCompositionItem;
 use App\Models\Nomenclature;
-use Illuminate\Http\Request;
 
 class MixtureCompositionItemController extends Controller
 {

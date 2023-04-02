@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\NomenclatureArrivalRequest;
-use App\Http\Requests\NomenclatureRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureArrival;
 use App\Services\UnitConvertor;
-use Illuminate\Http\Request;
 
 class NomenclatureArrivalController extends Controller
 {

@@ -31,6 +31,7 @@ class NomenclatureArrivalController extends Controller
                 'price_for_sale' => $model->price_for_sale,
                 'comment' => $model->comment,
                 'arrival_at' => $model->arrival_at->format('d.m.Y H:i'),
+                'created_at' => $model->created_at->format('d.m.Y H:i'),
                 'can_edit' => $model->can_edit
             ]);
 
@@ -83,7 +84,8 @@ class NomenclatureArrivalController extends Controller
                 'price' => $nomenclatureArrival->price,
                 'price_for_sale' => $nomenclatureArrival->price_for_sale,
                 'comment' => $nomenclatureArrival->comment,
-                'arrival_at' => $nomenclatureArrival->arrival_at?->format('d.m.Y H:i')
+                'arrival_at' => $nomenclatureArrival->arrival_at?->format('d.m.Y H:i'),
+                'can_edit' => $nomenclatureArrival->can_edit
             ]
         ]);
     }

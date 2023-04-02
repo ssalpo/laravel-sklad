@@ -30,6 +30,7 @@
                                 <th>Кол-во</th>
                                 <th>Комментарий</th>
                                 <th>Дата прихода</th>
+                                <th>Дата создания</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
@@ -40,6 +41,7 @@
                                 <td>{{nomenclatureArrival.quantity}} {{nomenclatureArrival.unit}}</td>
                                 <td>{{nomenclatureArrival.comment}}</td>
                                 <td>{{nomenclatureArrival.arrival_at}}</td>
+                                <td>{{nomenclatureArrival.created_at}}</td>
                                 <td class="text-center">
                                     <Link v-if="nomenclatureArrival.can_edit" :href="route('nomenclature-arrivals.edit', nomenclatureArrival.id)">
                                         <i class="fa fa-pencil-alt"></i>

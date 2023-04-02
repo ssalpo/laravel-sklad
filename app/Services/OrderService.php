@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\DB;
 
 class OrderService
 {
+    private bool $relatedToMe;
+
     public function store(array $data): Model
     {
         return DB::transaction(function () use ($data) {
@@ -72,5 +74,20 @@ class OrderService
         }
 
         return compact('amount', 'profit');
+    }
+
+    public function destroy(int $orderId)
+    {
+        return Order::when($this->relatedToMe, static fn($q) => $q->my())
+            ->statusNew()
+            ->findOrFail($orderId)
+            ->delete();
+    }
+
+    public function setRelatedToMe(bool $relatedToMe): self
+    {
+        $this->relatedToMe = $relatedToMe;
+
+        return $this;
     }
 }

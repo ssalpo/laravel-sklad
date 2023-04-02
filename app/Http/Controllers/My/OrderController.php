@@ -95,10 +95,9 @@ class OrderController extends Controller
 
     public function destroy(int $id)
     {
-        Order::my()
-            ->statusNew()
-            ->findOrFail($id)
-            ->delete();
+        $this->orderService
+            ->setRelatedToMe(true)
+            ->destroy($id);
 
         return to_route('my.orders.index');
     }

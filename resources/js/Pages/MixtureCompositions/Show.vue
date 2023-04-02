@@ -78,6 +78,11 @@
                                     </Link>
                                 </td>
                             </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td>Итого: ${{mixtureComposition.itemsTotalAmount}}</td>
+                                <td></td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

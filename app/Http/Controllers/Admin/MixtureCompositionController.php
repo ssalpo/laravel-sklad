@@ -52,7 +52,9 @@ class MixtureCompositionController extends Controller
 
         $endResultPrice = $mixtureComposition->mixtureCompositionItems->where('end_result', true)->sum('price') + $mixtureComposition->worker_price;
 
-        $totalSum = round(($mixtureComposition->mixtureCompositionItems->where('end_result', false)->sum('price') / $mixtureComposition->water) * $weight, 3, PHP_ROUND_HALF_UP);
+        $mixtureCompositionItemsTotalAmount = $mixtureComposition->mixtureCompositionItems->where('end_result', false)->sum('price');
+
+        $totalSum = round(($mixtureCompositionItemsTotalAmount / $mixtureComposition->water) * $weight, 3, PHP_ROUND_HALF_UP);
 
         $totalSum += $endResultPrice;
 
@@ -66,6 +68,7 @@ class MixtureCompositionController extends Controller
                 'weightUnit' => UnitConvertor::UNIT_LABELS[$mixtureComposition->weight_unit],
                 'water' => $mixtureComposition->water,
                 'waterUnit' => UnitConvertor::UNIT_LABELS[$mixtureComposition->water_unit],
+                'itemsTotalAmount' => $mixtureComposition->mixtureCompositionItems->sum('price'),
                 'mixtureCompositionItems' => $mixtureComposition->mixtureCompositionItems->transform(fn($model) => [
                     'id' => $model->id,
                     'nomenclature' => $model->nomenclature->name,

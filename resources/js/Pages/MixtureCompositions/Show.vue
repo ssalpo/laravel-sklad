@@ -37,12 +37,12 @@
                         </table>
                     </div>
 
-                    <div class="row mb-2 mb-md-0">
+                    <div class="row pb-2 mb-md-0">
                         <div class="col-sm">
                             <h5>Составные элементы</h5>
                         </div>
                         <div class="col-sm text-sm-left text-md-right">
-                            <Link :href="route('mixture-composition-items.create', mixtureComposition.id)">добавить</Link>
+                            <Link class="btn btn-sm btn-outline-primary" :href="route('mixture-composition-items.create', mixtureComposition.id)">добавить</Link>
                         </div>
                     </div>
 
@@ -86,7 +86,7 @@
                         </table>
                     </div>
 
-                    <div class="row mb-2 mb-md-0" v-if="mixtureCompositionItemsEndResults.length">
+                    <div class="row mt-3" v-if="mixtureCompositionItemsEndResults.length">
                         <div class="col-sm">
                             <h5>Составные элементы включающиеся в конечную стоимость</h5>
                         </div>
@@ -146,10 +146,6 @@ export default {
     props: ['totalSum', 'mixtureComposition'],
     computed: {
         mixtureCompositionItemsNotEndResults() {
-            console.log(this.mixtureComposition.mixtureCompositionItems.filter(
-                (item) => item.end_result === false
-            ));
-
             return this.mixtureComposition.mixtureCompositionItems.filter(
                 (item) => item.end_result === false
             )

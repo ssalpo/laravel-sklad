@@ -46,10 +46,11 @@
                                 <label class="form-asterisk">Единица измерения количества</label>
 
                                 <select class="form-control"
-                                        disabled
                                         :class="{'is-invalid': errors.unit}"
                                         v-model.trim="form.unit">
-                                    <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
+                                    <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">
+                                        {{ label }}
+                                    </option>
                                 </select>
 
                                 <div v-if="errors.unit" class="error invalid-feedback">
@@ -68,18 +69,19 @@
                             </div>
 
                             <div class="form-group">
-                            <div class="custom-control custom-checkbox">
-                                <input class="custom-control-input" id="endResult" v-model="form.end_result" type="checkbox" />
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="endResult" v-model="form.end_result"
+                                           type="checkbox"/>
 
-                                <label for="endResult" class="custom-control-label">
-                                    Добавить в конечный расчет?
-                                </label>
-                            </div>
+                                    <label for="endResult" class="custom-control-label">
+                                        Добавить в конечный расчет?
+                                    </label>
+                                </div>
 
-                            <div v-if="errors.end_result" class="invalid-feedback-simple">
-                                {{ errors.end_result }}
+                                <div v-if="errors.end_result" class="invalid-feedback-simple">
+                                    {{ errors.end_result }}
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                     <!-- /.card-body -->

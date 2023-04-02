@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NomenclatureArrivalRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureArrival;
+use App\Services\NomenclatureArrivalService;
 use App\Services\UnitConvertor;
+use Illuminate\Support\Carbon;
 
 class NomenclatureArrivalController extends Controller
 {
+    public function __construct(
+        public NomenclatureArrivalService $nomenclatureArrivalService
+    )
+    {
+    }
 
     public function index()
     {
@@ -24,6 +31,7 @@ class NomenclatureArrivalController extends Controller
                 'price_for_sale' => $model->price_for_sale,
                 'comment' => $model->comment,
                 'arrival_at' => $model->arrival_at->format('d.m.Y H:i'),
+                'can_edit' => $model->can_edit
             ]);
 
         return inertia('NomenclatureArrivals/Index', compact('nomenclatureArrivals'));
@@ -47,7 +55,7 @@ class NomenclatureArrivalController extends Controller
 
     public function store(NomenclatureArrivalRequest $request)
     {
-        NomenclatureArrival::create($request->validated());
+        $this->nomenclatureArrivalService->store($request->validated());
 
         return to_route('nomenclature-arrivals.index');
     }
@@ -80,9 +88,9 @@ class NomenclatureArrivalController extends Controller
         ]);
     }
 
-    public function update(NomenclatureArrivalRequest $request, NomenclatureArrival $nomenclatureArrival)
+    public function update(NomenclatureArrivalRequest $request, int $nomenclatureArrival)
     {
-        $nomenclatureArrival->update($request->validated());
+        $this->nomenclatureArrivalService->update($nomenclatureArrival, $request->validated());
 
         return to_route('nomenclature-arrivals.index');
     }

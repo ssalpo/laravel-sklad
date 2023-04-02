@@ -41,7 +41,7 @@
                                 <td>{{nomenclatureArrival.comment}}</td>
                                 <td>{{nomenclatureArrival.arrival_at}}</td>
                                 <td class="text-center">
-                                    <Link :href="route('nomenclature-arrivals.edit', nomenclatureArrival.id)">
+                                    <Link v-if="nomenclatureArrival.can_edit" :href="route('nomenclature-arrivals.edit', nomenclatureArrival.id)">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
                                 </td>

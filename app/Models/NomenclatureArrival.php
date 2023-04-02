@@ -21,8 +21,15 @@ class NomenclatureArrival extends Model
         'arrival_at' => 'datetime'
     ];
 
+    protected $appends = ['can_edit'];
+
     public function nomenclature()
     {
         return $this->belongsTo(Nomenclature::class);
+    }
+
+    public function getCanEditAttribute()
+    {
+        return now()->diffInDays($this->arrival_at) <= 0;
     }
 }

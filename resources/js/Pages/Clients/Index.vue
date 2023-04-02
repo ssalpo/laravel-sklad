@@ -28,6 +28,7 @@
                                 <th style="width: 10px">#</th>
                                 <th>Наименование</th>
                                 <th>Телефон</th>
+                                <th>Дата создания</th>
                                 <th></th>
                                 <th width="40"></th>
                             </tr>
@@ -37,6 +38,7 @@
                                 <td :data-id="client.id">{{ ((clients.current_page - 1) * clients.per_page) + index + 1 }}</td>
                                 <td>{{client.name}}</td>
                                 <td>{{client.phone}}</td>
+                                <td>{{client.created_at}}</td>
                                 <td>
                                     <Link :href="route('client-discounts.index', client.id)">Скидки</Link>
                                 </td>

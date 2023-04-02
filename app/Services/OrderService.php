@@ -11,9 +11,16 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
-class OrderService
+class OrderService extends BaseService
 {
-    private bool $relatedToMe;
+    protected bool $relatedToMe = false;
+
+    public function setRelatedToMe(bool $relatedToMe): static
+    {
+        $this->relatedToMe = $relatedToMe;
+
+        return $this;
+    }
 
     public function store(array $data): Model
     {
@@ -82,12 +89,5 @@ class OrderService
             ->statusNew()
             ->findOrFail($orderId)
             ->delete();
-    }
-
-    public function setRelatedToMe(bool $relatedToMe): self
-    {
-        $this->relatedToMe = $relatedToMe;
-
-        return $this;
     }
 }

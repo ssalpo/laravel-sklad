@@ -15,7 +15,12 @@ class ClientDebt extends Model
         'order_id',
         'amount',
         'comment',
-        'created_by'
+        'created_by',
+        'is_paid',
+    ];
+
+    protected $casts = [
+        'is_paid' => 'boolean'
     ];
 
     public function scopeFilter($q, array $filterData = [])
@@ -48,5 +53,10 @@ class ClientDebt extends Model
     public function payments()
     {
         return $this->hasMany(ClientDebtPayment::class);
+    }
+
+    public function markAsPaid()
+    {
+        return $this->update(['is_paid' => true]);
     }
 }

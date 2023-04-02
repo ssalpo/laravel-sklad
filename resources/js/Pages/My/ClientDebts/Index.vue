@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered  text-nowrap">
+                        <table class="table table-bordered text-nowrap">
                             <thead>
                             <tr>
                                 <th>Клиент</th>
@@ -29,24 +29,24 @@
                             </thead>
                             <tbody>
                             <tr v-for="debt in debts">
-                                <td>{{ debt.client }}</td>
+                                <td>{{ debt.client.name }}</td>
                                 <td>
                                     <Link :href="route('orders.show', debt.order_id)">Заявка №{{ debt.order_id }}</Link>
                                 </td>
                                 <td>{{ numberFormat(debt.amount) }} сом.</td>
                                 <td>{{ numberFormat(debt.amount - debt.payments_sum_amount) }} сом.</td>
-                                <td :class="[debt.amount === debt.payments_sum_amount ? 'text-success' : 'text-danger']">
-                                    {{ debt.amount === debt.payments_sum_amount ? 'Оплачено' : 'Не оплачено' }}
+                                <td :class="[debt.is_paid ? 'text-success' : 'text-danger']">
+                                    {{ debt.is_paid ? 'Оплачено' : 'Не оплачено' }}
                                 </td>
                                 <td>{{ debt.created_at }}</td>
                                 <td>{{ debt.comment }}</td>
-                                <td>
-                                    <div v-if="debt.amount !== debt.payments_sum_amount">
+                                <td width="120">
+                                    <div v-if="!debt.is_paid">
                                         <button v-if="currentPayIndex !== debt.id" @click="currentPayIndex = debt.id"
                                                 class="btn btn-sm btn-success">Погасить долг
                                         </button>
                                         <client-debtn-payment-add
-                                            :submit-url="route('my.client-debt-payment.store', debt.id)"
+                                            :submit-url="route('my.client-debt-payment.store', {client: debt.client.id, client_debt: debt.id})"
                                             :max-amount="debt.amount - debt.payments_sum_amount"
                                             @cancel="currentPayIndex = null"
                                             @success="currentPayIndex = null"

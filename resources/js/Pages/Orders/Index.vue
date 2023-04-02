@@ -23,6 +23,7 @@
                                 <th>Сумма</th>
                                 <th width="130">Статус</th>
                                 <th>Прибыль</th>
+                                <th>Дата создания</th>
                                 <th></th>
                             </tr>
                             </thead>
@@ -38,8 +39,10 @@
                                     <order-status-toggle style="width: 105px" :order-status="order.status" :order-id="order.id" />
                                 </td>
                                 <td>{{ numberFormat(order.profit) }} сом.</td>
+                                <td>{{order.created_at}}</td>
                                 <td width="150">
-                                    <Link :href="route('orders.invoice', order.id)" class="btn btn-sm btn-link btn-outline-primary mr-1">Накладная</Link>
+                                    <Link :href="route('orders.invoice', order.id)" class="btn btn-sm btn-outline-primary mr-1">Накладная</Link>
+                                    <Link :href="route('client.debts.create', {order: order.id})" class="btn btn-sm btn-outline-primary mr-1">Добавить долг</Link>
                                 </td>
                             </tr>
                             </tbody>

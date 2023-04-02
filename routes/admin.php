@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientDebtController;
-use App\Http\Controllers\Admin\ClientDiscountController;
+use App\Http\Controllers\Admin\ClientDebtPaymentController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\MixtureCompositionController;
 use App\Http\Controllers\Admin\MixtureCompositionItemController;
@@ -24,11 +24,11 @@ Route::post('orders/{order}/toggle-status', [OrderController::class, 'toggleStat
 
 // Clients
 Route::resource('clients', ClientController::class);
-Route::resource('clients/{client}/client-discounts', ClientDiscountController::class);
 
 // Client Debts
-Route::get('client-debts', [ClientDebtController::class, 'index'])->name('client-debts.index');
-Route::get('clients/{client}/debts', [ClientDebtController::class, 'show'])->name('client-debts.show');
+Route::get('all-client-debts', [ClientDebtController::class, 'allClientDebts'])->name('all-client-debts');
+Route::resource('/clients/{client}/debts', ClientDebtController::class, ['as' => 'client']);
+Route::resource('/clients/{client}/debts/{debt}/payments', ClientDebtPaymentController::class, ['as' => 'client.debts']);
 
 // Nomenclatures
 Route::resource('nomenclatures', NomenclatureController::class);

@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Долг по заказу №{{order.id}}</title>
+        <title>{{debt?.id ? 'Обновление данных' : 'Новая долг'}}</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Долг по заказу №{{order.id}}</h1>
+            <h1 class="m-0">{{ debt?.id ? 'Обновление данных' : 'Новая долг' }}</h1>
         </div>
     </div>
 
@@ -15,6 +15,24 @@
                 <!-- form start -->
                 <form @submit.prevent="submit">
                     <div class="card-body">
+
+                        <div v-if="!debt?.id" class="mx-auto col col-md-6">
+                            <div class="form-group">
+                                <label class="form-asterisk">Заявка</label>
+                                <select class="form-control"
+                                        :class="{'is-invalid': errors.order_id}"
+                                        v-model.trim="form.order_id">
+                                    <option :value="order.id"
+                                            v-for="(order, index) in orders"> Заявка №{{ order.id }}
+                                    </option>
+                                </select>
+
+                                <div v-if="errors.order_id" class="error invalid-feedback">
+                                    {{ errors.order_id }}
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="mx-auto col col-md-6">
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма</label>
@@ -51,7 +69,7 @@
                                 <span v-else>{{ debt?.id ? 'Сохранить' : 'Добавить' }}</span>
                             </button>
 
-                            <Link :href="route('my.orders.index')" :class="{disabled: form.processing}"
+                            <Link :href="route('client.debts.index', client.id)" :class="{disabled: form.processing}"
                                   class="btn btn-default ml-2">Отменить
                             </Link>
                         </div>
@@ -66,12 +84,13 @@ import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import {vMaska} from "maska";
 
 export default {
-    props: ['order', 'debt', 'errors'],
+    props: ['orders', 'debt', 'client', 'selectedOrder', 'errors'],
     components: {Head, Link},
     directives: {maska: vMaska},
     data() {
         return {
             form: useForm({
+                order_id: this.debt?.order_id || this.selectedOrder,
                 amount: this.debt?.amount,
                 comment: this.debt?.comment
             }),
@@ -79,7 +98,12 @@ export default {
     },
     methods: {
         submit() {
-            this.form.post(route('my.order-debts.store', this.order.id));
+            if (!this.debt?.id) {
+                this.form.post(route('client.debts.store'));
+                return;
+            }
+
+            this.form.put(route('client.debts.update', {client: this.client.id, debt: this.debt.id}))
         }
     }
 }

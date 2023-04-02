@@ -12,10 +12,11 @@ class ClientController extends Controller
     {
         $clients = Client::orderBy('created_at', 'DESC')
             ->paginate()
-            ->through(fn($model) => [
-                'id' => $model->id,
-                'name' => $model->name,
-                'phone' => $model->phone
+            ->through(fn($m) => [
+                'id' => $m->id,
+                'name' => $m->name,
+                'phone' => $m->phone,
+                'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
         return inertia('Clients/Index', compact('clients'));

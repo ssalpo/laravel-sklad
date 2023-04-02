@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('order_id')->constrained();
             $table->double('amount')->default(0);
             $table->text('comment')->nullable();
+            $table->boolean('is_paid')->default(false);
             $table->timestamps();
         });
     }

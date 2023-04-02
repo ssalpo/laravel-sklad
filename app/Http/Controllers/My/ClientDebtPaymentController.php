@@ -15,9 +15,11 @@ class ClientDebtPaymentController extends Controller
     {
     }
 
-    public function store(int $clientDebt, ClientDebtPaymentRequest $request)
+    public function store(int $clientId, int $clientDebt, ClientDebtPaymentRequest $request)
     {
-        $this->clientDebtPaymentService->store($clientDebt, $request->validated());
+        $this->clientDebtPaymentService
+            ->setRelatedToCurrentUser()
+            ->store($clientDebt, $request->validated() + ['client_id' => $clientId]);
 
         return back();
     }

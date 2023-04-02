@@ -43,6 +43,11 @@ class Order extends Model
         $q->whereStatus(self::STATUS_SEND);
     }
 
+    public function scopeRelatedToMe($q, $check)
+    {
+        $q->when($check, static fn($q) => $q->my());
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

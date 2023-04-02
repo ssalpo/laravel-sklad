@@ -21,6 +21,7 @@ class OrderController extends Controller
                 'amount' => $m->amount,
                 'profit' => $m->profit,
                 'status' => $m->status,
+                'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
         return inertia('Orders/Index', compact('orders'));

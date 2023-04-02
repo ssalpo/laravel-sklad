@@ -32,7 +32,9 @@ class OrderDebtController extends Controller
 
     public function store(int $order, OrderDebtRequest $request)
     {
-        $this->clientDebtService->store($order, $request->validated());
+        $this->clientDebtService
+            ->setRelatedToMe(true)
+            ->store($order, $request->validated());
 
         return to_route('my.orders.index');
     }

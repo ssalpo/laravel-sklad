@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Долги клиента: {{client.name}}</title>
+        <title>Долги клиентов</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">Долги клиента: {{client.name}}</h1>
+            <h1 class="m-0">Долги клиентов</h1>
         </div>
     </div>
 
@@ -17,23 +17,18 @@
                         <table class="table table-bordered  text-nowrap">
                             <thead>
                             <tr>
-                                <th>Номер заявки</th>
-                                <th>Сумма долга</th>
-                                <th>Комментарий</th>
-                                <th>Статус оплаты</th>
-                                <th width="40">Действия</th>
+                                <th style="width: 10px">#</th>
+                                <th>Имя</th>
+                                <th>Общий долг</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="debt in debts">
+                            <tr v-for="(debt, index) in debts">
+                                <td>{{index + 1}}</td>
                                 <td>
-                                    <Link :href="route('orders.show', debt.order_id)">Заявка №{{debt.order_id}}</Link>
+                                    <Link :href="route('client.debts.index', debt.client_id)">{{debt.client_name}}</Link>
                                 </td>
-                                <td>{{numberFormat(debt.amount)}} сом.</td>
-                                <td>{{debt.comment}}</td>
-                                <td>
-
-                                </td>
+                                <td>{{numberFormat(debt.totalAmount)}} сом.</td>
                             </tr>
                             </tbody>
                         </table>
@@ -49,6 +44,6 @@ import {Head, Link} from "@inertiajs/inertia-vue3";
 
 export default {
     components: {Head, Link},
-    props: ['client', 'debts'],
+    props: ['debts'],
 }
 </script>

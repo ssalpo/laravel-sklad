@@ -8,10 +8,10 @@
                    placeholder="сумма"/>
         </div>
         <div class="col-12 mt-1 btn-group">
-            <button @click="submit" class="btn btn-sm btn-success">
+            <button @click="submit" class="btn btn-xs btn-success">
                 <i class="fa fa-plus-circle"></i>
             </button>
-            <button @click="$emit('cancel')" class="btn btn-sm btn-danger">
+            <button @click="$emit('cancel')" class="btn btn-xs btn-danger">
                 <span class="fa fa-times"></span>
             </button>
         </div>

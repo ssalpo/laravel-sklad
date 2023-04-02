@@ -11,6 +11,43 @@
 
     <div class="content">
         <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ numberFormat(totalDebts) }} с.</h3>
+                            <p>Общая сумма долга</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-chart-bar"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="small-box bg-info">
+                        <div class="inner">
+                            <h3>{{ numberFormat(totalPayments) }} с.</h3>
+                            <p>Общая сумма долга</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-chart-bar"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="small-box bg-success">
+                        <div class="inner">
+                            <h3>{{ numberFormat(totalDebts - totalPayments) }} с.</h3>
+                            <p>Остаток для погашения</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-chart-line"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <div class="card-tools">
@@ -27,9 +64,10 @@
                             <thead>
                             <tr>
                                 <th>Номер заявки</th>
-                                <th>Сумма долга</th>
+                                <th>Сумма погашений</th>
+                                <th>Остаток</th>
                                 <th>Комментарий</th>
-                                <th>Статус оплаты</th>
+                                <th>Статус</th>
                                 <th width="40" colspan="3">Действия</th>
                             </tr>
                             </thead>
@@ -38,7 +76,8 @@
                                 <td>
                                     <Link :href="route('orders.show', debt.order_id)">Заявка №{{debt.order_id}}</Link>
                                 </td>
-                                <td>{{numberFormat(debt.amount)}} сом.</td>
+                                <td>{{numberFormat(debt.payments_sum_amount)}} сом.</td>
+                                <td>{{numberFormat(debt.amount - debt.payments_sum_amount)}} сом.</td>
                                 <td>{{debt.comment}}</td>
                                 <td :class="[debt.is_paid ? 'text-success' : 'text-danger']">{{debt.is_paid ? 'Оплачено' : 'Не оплачено'}}</td>
                                 <td width="75">
@@ -90,7 +129,7 @@ import ClientDebtnPaymentAdd from "../../Shared/ClientDebtnPaymentAdd.vue";
 
 export default {
     components: {ClientDebtnPaymentAdd, Head, Link},
-    props: ['client', 'debts'],
+    props: ['client', 'debts', 'totalDebts', 'totalPayments'],
     data: () => ({
         currentPayIndex: null
     })

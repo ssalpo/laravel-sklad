@@ -25,12 +25,18 @@ class ClientDebtController extends Controller
             DB::raw('clients.name AS client_name'),
             DB::raw('SUM(client_debts.amount) AS totalAmount'),
         )->join('clients', 'clients.id', '=', 'client_debts.client_id')
+            ->when(request('client'), fn($q, $v) => $q->where('client_debts.client_id', $v))
             ->where('client_debts.is_paid', false)
             ->groupBy('client_debts.client_id')
-            ->get()
-            ->toArray();
+            ->get();
 
-        return inertia('ClientDebts/All', compact('debts'));
+        $totalDebts = ClientDebt::where('is_paid', false)->sum('amount');
+
+        $clients = Client::all(['id', 'name']);
+
+        $selectedFilter = request()->all();
+
+        return inertia('ClientDebts/All', compact('debts', 'totalDebts', 'clients', 'selectedFilter'));
     }
 
     public function index(Client $client)
@@ -39,15 +45,20 @@ class ClientDebtController extends Controller
             ->withSum('payments', 'amount')
             ->get()
             ->transform(fn($m) => [
-            'id' => $m->id,
-            'order_id' => $m->order_id,
-            'amount' => $m->amount,
-            'comment' => $m->comment,
-            'payments_sum_amount' => $m->payments_sum_amount,
-            'is_paid' => $m->is_paid,
-        ]);
+                'id' => $m->id,
+                'order_id' => $m->order_id,
+                'amount' => $m->amount,
+                'comment' => $m->comment,
+                'payments_sum_amount' => $m->payments_sum_amount,
+                'is_paid' => $m->is_paid,
+            ]);
+
+        $totalDebts = $debts->sum('amount');
+        $totalPayments = $debts->sum('payments_sum_amount');
 
         return inertia('ClientDebts/Index', [
+            'totalDebts' => $totalDebts,
+            'totalPayments' => $totalPayments,
             'client' => [
                 'id' => $client->id,
                 'name' => $client->name,

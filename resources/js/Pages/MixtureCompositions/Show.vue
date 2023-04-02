@@ -46,7 +46,6 @@
                         </div>
                     </div>
 
-
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
@@ -59,7 +58,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(mixtureCompositionItem, index) in mixtureComposition.mixtureCompositionItems">
+                            <tr v-for="(mixtureCompositionItem, index) in mixtureCompositionItemsNotEndResults">
                                 <td :data-id="mixtureCompositionItem.id">{{ index + 1 }}</td>
                                 <td>{{mixtureCompositionItem.nomenclature}}</td>
                                 <td>{{mixtureCompositionItem.quantity}} {{mixtureCompositionItem.unit}}</td>
@@ -80,7 +79,53 @@
                             </tr>
                             <tr>
                                 <td colspan="3"></td>
-                                <td>Итого: ${{mixtureComposition.itemsTotalAmount}}</td>
+                                <td>Итого: ${{numberFormat(notEndResultTotalAmount, 3)}}</td>
+                                <td></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="row mb-2 mb-md-0" v-if="mixtureCompositionItemsEndResults.length">
+                        <div class="col-sm">
+                            <h5>Составные элементы включающиеся в конечную стоимость</h5>
+                        </div>
+                    </div>
+
+                    <div class="table-responsive" v-if="mixtureCompositionItemsEndResults.length">
+                        <table class="table table-bordered  text-nowrap">
+                            <thead>
+                            <tr>
+                                <th style="width: 10px">#</th>
+                                <th>Номенклатура</th>
+                                <th>Количество</th>
+                                <th>Сумма</th>
+                                <th width="100"></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="(mixtureCompositionItem, index) in mixtureCompositionItemsEndResults">
+                                <td :data-id="mixtureCompositionItem.id">{{ index + 1 }}</td>
+                                <td>{{mixtureCompositionItem.nomenclature}}</td>
+                                <td>{{mixtureCompositionItem.quantity}} {{mixtureCompositionItem.unit}}</td>
+                                <td>${{numberFormat(mixtureCompositionItem.price, 3)}}</td>
+                                <td class="text-center">
+                                    <Link class="btn btn-sm btn-link" :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
+                                        <i class="fa fa-pencil-alt"></i>
+                                    </Link>
+                                    <Link method="delete" as="button"
+                                          type="button"
+                                          preserve-sscroll
+                                          preserve-state
+                                          :href="route('mixture-composition-items.destroy', { 'mixture_composition': this.mixtureComposition.id, 'mixture_composition_item': mixtureCompositionItem.id })"
+                                          class="btn btn-sm btn-link">
+                                        <i class="fa fa-trash-alt text-danger"></i>
+                                    </Link>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="3"></td>
+                                <td>Итого: ${{numberFormat(endResultTotalAmount, 3)}}</td>
                                 <td></td>
                             </tr>
                             </tbody>
@@ -98,6 +143,28 @@ import Pagination from "../../Shared/Pagination.vue";
 
 export default {
     components: {Pagination, Head, Link},
-    props: ['totalSum', 'mixtureComposition']
+    props: ['totalSum', 'mixtureComposition'],
+    computed: {
+        mixtureCompositionItemsNotEndResults() {
+            console.log(this.mixtureComposition.mixtureCompositionItems.filter(
+                (item) => item.end_result === false
+            ));
+
+            return this.mixtureComposition.mixtureCompositionItems.filter(
+                (item) => item.end_result === false
+            )
+        },
+        mixtureCompositionItemsEndResults() {
+            return this.mixtureComposition.mixtureCompositionItems.filter(
+                (item) => item.end_result === true
+            )
+        },
+        notEndResultTotalAmount() {
+            return this.mixtureCompositionItemsNotEndResults.reduce((accumulator, current) => accumulator + current.price, 0);
+        },
+        endResultTotalAmount() {
+            return this.mixtureCompositionItemsEndResults.reduce((accumulator, current) => accumulator + current.price, 0);
+        }
+    }
 }
 </script>

@@ -68,12 +68,12 @@ class MixtureCompositionController extends Controller
                 'weightUnit' => UnitConvertor::UNIT_LABELS[$mixtureComposition->weight_unit],
                 'water' => $mixtureComposition->water,
                 'waterUnit' => UnitConvertor::UNIT_LABELS[$mixtureComposition->water_unit],
-                'itemsTotalAmount' => $mixtureComposition->mixtureCompositionItems->sum('price'),
                 'mixtureCompositionItems' => $mixtureComposition->mixtureCompositionItems->transform(fn($model) => [
                     'id' => $model->id,
                     'nomenclature' => $model->nomenclature->name,
                     'price' => $model->price,
                     'quantity' => $model->quantity,
+                    'end_result' => $model->end_result,
                     'unit' => UnitConvertor::UNIT_LABELS[$model->unit]
                 ])
             ]

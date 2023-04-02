@@ -22,7 +22,10 @@
                                 <select class="form-control"
                                         :class="{'is-invalid': errors.type}"
                                         v-model.number="form.type">
-                                    <option :value="index" v-for="(nomenclatureType, index) in $page.props.shared.nomenclatureTypes">{{nomenclatureType}}</option>
+                                    <option :value="index"
+                                            v-for="(nomenclatureType, index) in $page.props.shared.nomenclatureTypes">
+                                        {{ nomenclatureType }}
+                                    </option>
                                 </select>
 
                                 <div v-if="errors.type" class="error invalid-feedback">
@@ -42,7 +45,7 @@
                             </div>
 
                             <div class="form-group" v-if="showForSaleType">
-                                <label class="form-asterisk">Цена покупки</label>
+                                <label class="form-asterisk">Себестоимость</label>
                                 <input type="text" class="form-control"
                                        :class="{'is-invalid': errors.price}"
                                        v-model.number="form.price">
@@ -53,28 +56,30 @@
                             </div>
 
                             <div class="form-group" v-if="showForSaleType">
-                                <label class="form-asterisk">Цена продажи</label>
+                                <label class="form-asterisk">Наценка</label>
                                 <input type="text" class="form-control"
-                                       :class="{'is-invalid': errors.price_for_sale}"
-                                       v-model.trim="form.price_for_sale">
+                                       :class="{'is-invalid': errors.markup}"
+                                       v-model.trim="form.markup">
 
-                                <div v-if="errors.price_for_sale" class="error invalid-feedback">
-                                    {{ errors.price_for_sale }}
+                                <div v-if="errors.markup" class="error invalid-feedback">
+                                    {{ errors.markup }}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                            <label class="form-asterisk">Единица измерения</label>
-                            <select class="form-control"
-                                    :class="{'is-invalid': errors.unit}"
-                                    v-model.trim="form.unit">
-                                <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
-                            </select>
+                                <label class="form-asterisk">Единица измерения</label>
+                                <select class="form-control"
+                                        :class="{'is-invalid': errors.unit}"
+                                        v-model.trim="form.unit">
+                                    <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">
+                                        {{ label }}
+                                    </option>
+                                </select>
 
-                            <div v-if="errors.unit" class="error invalid-feedback">
-                                {{ errors.unit }}
+                                <div v-if="errors.unit" class="error invalid-feedback">
+                                    {{ errors.unit }}
+                                </div>
                             </div>
-                        </div>
                         </div>
                     </div>
                     <!-- /.card-body -->
@@ -88,7 +93,9 @@
                                 <span v-else>{{ nomenclature?.id ? 'Сохранить' : 'Добавить' }}</span>
                             </button>
 
-                            <Link :href="route('nomenclatures.index')" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                            <Link :href="route('nomenclatures.index')" :class="{disabled: form.processing}"
+                                  class="btn btn-default ml-2">Отменить
+                            </Link>
                         </div>
                     </div>
                 </form>
@@ -108,6 +115,7 @@ export default {
                 name: this.nomenclature?.name,
                 category_id: this.nomenclature?.category_id,
                 price: this.nomenclature?.price || 0,
+                markup: this.nomenclature?.markup || 0,
                 price_for_sale: this.nomenclature?.price_for_sale || 0,
                 type: this.nomenclature?.type,
                 unit: this.nomenclature?.unit,
@@ -115,7 +123,7 @@ export default {
         }
     },
     computed: {
-        showForSaleType(){
+        showForSaleType() {
             return !this.form.type || this.form.type === 1;
         }
     },

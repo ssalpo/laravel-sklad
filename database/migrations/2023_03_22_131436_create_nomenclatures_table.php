@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->decimal('price')->default(0);
             $table->decimal('price_for_sale')->default(0);
+            $table->decimal('markup')->default(0)->comment('Наценка');
             $table->tinyInteger('type');
             $table->tinyInteger('unit');
             $table->timestamps();

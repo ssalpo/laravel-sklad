@@ -14,12 +14,14 @@ class Nomenclature extends Model
         'type',
         'price',
         'price_for_sale',
+        'markup',
         'unit',
     ];
 
     protected $casts = [
         'price' => 'double',
         'price_for_sale' => 'double',
+        'markup' => 'double',
     ];
 
     public const TYPE_SALE = 1; // продажа

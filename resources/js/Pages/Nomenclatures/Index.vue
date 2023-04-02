@@ -27,10 +27,11 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>Наименование</th>
-                                <th>Цена покупки</th>
+                                <th>Себестоимость</th>
+                                <th>Наценка</th>
                                 <th>Цена продажи</th>
                                 <th>Тип номенклатуры</th>
-                                <th title="Единица измерения">Ед. изм.</th>
+                                <th title="Единица измерения" class="text-center">Ед. изм.</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
@@ -39,9 +40,10 @@
                                 <td :data-id="nomenclature.id">{{ ((nomenclatures.current_page - 1) * nomenclatures.per_page) + index + 1 }}</td>
                                 <td>{{nomenclature.name}}</td>
                                 <td>{{numberFormat(nomenclature.price)}} сом.</td>
+                                <td>{{numberFormat(nomenclature.markup)}} сом.</td>
                                 <td>{{numberFormat(nomenclature.price_for_sale)}} сом.</td>
                                 <td>{{$page.props.shared.nomenclatureTypes[nomenclature.type]}}</td>
-                                <td>{{nomenclature.unit}}</td>
+                                <td class="text-center">{{nomenclature.unit}}</td>
                                 <td class="text-center">
                                     <Link :href="route('nomenclatures.edit', nomenclature.id)">
                                         <i class="fa fa-pencil-alt"></i>

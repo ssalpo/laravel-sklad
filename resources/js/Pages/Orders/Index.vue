@@ -33,7 +33,7 @@
                                 <td>
                                     <Link :href="route('orders.show', order.id)">{{ order.user }}</Link>
                                 </td>
-                                <td>{{ order.client }}</td>
+                                <td>{{ order.client.name }}</td>
                                 <td>{{ numberFormat(order.amount) }} сом.</td>
                                 <td>
                                     <order-status-toggle style="width: 105px" :order-status="order.status" :order-id="order.id" />
@@ -42,7 +42,7 @@
                                 <td>{{order.created_at}}</td>
                                 <td width="150">
                                     <Link :href="route('orders.invoice', order.id)" class="btn btn-sm btn-outline-primary mr-1">Накладная</Link>
-                                    <Link :href="route('client.debts.create', {order: order.id})" class="btn btn-sm btn-outline-primary mr-1">Добавить долг</Link>
+                                    <Link :href="route('client.debts.create', {client: order.client.id, order: order.id})" class="btn btn-sm btn-outline-primary mr-1">Добавить долг</Link>
                                 </td>
                             </tr>
                             </tbody>

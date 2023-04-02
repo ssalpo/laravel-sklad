@@ -17,7 +17,10 @@ class OrderController extends Controller
             ->through(fn($m) => [
                 'id' => $m->id,
                 'user' => $m->user->name,
-                'client' => $m->client->name,
+                'client' => [
+                    'id' => $m->client->id,
+                    'name' => $m->client->name,
+                ],
                 'amount' => $m->amount,
                 'profit' => $m->profit,
                 'status' => $m->status,

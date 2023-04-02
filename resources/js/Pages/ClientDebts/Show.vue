@@ -30,17 +30,9 @@
                                     <Link :href="route('orders.show', debt.order_id)">Заявка №{{debt.order_id}}</Link>
                                 </td>
                                 <td>{{numberFormat(debt.amount)}} сом.</td>
-                                <td>{{debt.is_paid ? 'Оплачено' : 'Не оплачено'}}</td>
                                 <td>{{debt.comment}}</td>
                                 <td>
-                                    <Link v-if="!debt.is_paid" method="post" as="button"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('client-debts.mark-as-paid', {client: client.id, client_debt: debt.id})"
-                                          class="btn btn-sm btn-primary">
-                                        Оплатить
-                                    </Link>
+
                                 </td>
                             </tr>
                             </tbody>

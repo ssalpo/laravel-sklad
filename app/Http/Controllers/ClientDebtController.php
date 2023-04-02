@@ -30,8 +30,7 @@ class ClientDebtController extends Controller
             'id' => $m->id,
             'order_id' => $m->order_id,
             'amount' => $m->amount,
-            'comment' => $m->comment,
-            'is_paid' => $m->is_paid,
+            'comment' => $m->comment
         ]);
 
         return inertia('ClientDebts/Show', [
@@ -41,12 +40,5 @@ class ClientDebtController extends Controller
             ],
             'debts' => $debts
         ]);
-    }
-
-    public function markAsPaid(Client $client, ClientDebt $clientDebt)
-    {
-        $clientDebt->update(['is_paid' => true]);
-
-        return to_route('client-debts.show', $client->id);
     }
 }

@@ -34,6 +34,7 @@ class OrderController extends Controller
                 'debts_sum_amount' => $m->debts_sum_amount,
                 'amount' => $m->amount,
                 'status' => $m->status,
+                'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
         return inertia('My/Orders/Index', compact('orders'));

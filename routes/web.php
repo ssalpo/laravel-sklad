@@ -36,7 +36,6 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(stati
     // Client Debts
     Route::get('client-debts', [ClientDebtController::class, 'index'])->name('client-debts.index');
     Route::get('clients/{client}/debts', [ClientDebtController::class, 'show'])->name('client-debts.show');
-    Route::post('clients/{client}/debts/{client_debt}/mark-as-paid', [ClientDebtController::class, 'markAsPaid'])->name('client-debts.mark-as-paid');
 
     // Nomenclatures
     Route::resource('nomenclatures', NomenclatureController::class);

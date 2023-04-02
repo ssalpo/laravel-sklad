@@ -22,7 +22,7 @@ class ClientDebtController extends Controller
                 'order_id' => $m->order_id,
                 'amount' => $m->amount,
                 'comment' => $m->comment,
-                'is_paid' => $m->is_paid,
+                'created_at' => $m->created_at?->format('d-m-Y H:i'),
             ]);
 
         return inertia('My/ClientDebts/Index', compact('debts'));

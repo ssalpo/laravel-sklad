@@ -15,14 +15,7 @@ class ClientDebt extends Model
         'order_id',
         'amount',
         'comment',
-        'is_paid',
-        'paid_at',
         'created_by'
-    ];
-
-    protected $casts = [
-        'is_paid' => 'boolean',
-        'paid_at' => 'datetime'
     ];
 
     public function scopeFilter($q, array $filterData = [])

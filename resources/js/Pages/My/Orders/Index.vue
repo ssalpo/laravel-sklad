@@ -23,6 +23,7 @@
                                 <th>Статус</th>
                                 <th>Сумма долга</th>
                                 <th>Долги</th>
+                                <th>Дата создания</th>
                                 <th width="100">Действия</th>
                             </tr>
                             </thead>
@@ -41,6 +42,7 @@
                                         Добавить долг
                                     </Link>
                                 </td>
+                                <td>{{order.created_at}}</td>
                                 <td class="text-center">
                                     <Link v-if="order.status === 1" method="delete" as="button"
                                           type="button"

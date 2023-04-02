@@ -22,6 +22,7 @@
                                 <th>Сумма долга</th>
                                 <th>Остаток долга</th>
                                 <th>Статус оплаты</th>
+                                <th>Дата создания</th>
                                 <th>Комментарий</th>
                                 <th width="40">Действия</th>
                             </tr>
@@ -37,6 +38,7 @@
                                 <td :class="[debt.amount === debt.payments_sum_amount ? 'text-success' : 'text-danger']">
                                     {{ debt.amount === debt.payments_sum_amount ? 'Оплачено' : 'Не оплачено' }}
                                 </td>
+                                <td>{{ debt.created_at }}</td>
                                 <td>{{ debt.comment }}</td>
                                 <td>
                                     <div v-if="debt.amount !== debt.payments_sum_amount">

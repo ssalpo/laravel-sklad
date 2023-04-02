@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>Склад</title>
+        <title>Остатки</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h5 class="m-0">Склад</h5>
+            <h5 class="m-0">Остатки</h5>
         </div>
     </div>
 
@@ -25,7 +25,7 @@
                             <tbody>
                             <tr v-for="nomenclature in nomenclatureBalances">
                                 <td>{{nomenclature.name}}</td>
-                                <td>{{nomenclature.quantity}} {{$page.props.shared.unitLabels[nomenclature.unit]}}</td>
+                                <td>{{nomenclature.quantity - (nomenclatureWithdraws[nomenclature.id] || 0)}} {{$page.props.shared.unitLabels[nomenclature.unit]}}</td>
                             </tr>
                             </tbody>
                         </table>
@@ -35,13 +35,12 @@
         </div>
     </div>
 
-
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
 
 export default {
     components: {Head, Link},
-    props: ['nomenclatureBalances']
+    props: ['nomenclatureBalances', 'nomenclatureWithdraws']
 }
 </script>

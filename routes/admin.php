@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\MixtureCompositionController;
 use App\Http\Controllers\Admin\MixtureCompositionItemController;
 use App\Http\Controllers\Admin\NomenclatureArrivalController;
 use App\Http\Controllers\Admin\NomenclatureController;
+use App\Http\Controllers\Admin\NomenclatureOperationController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\StorehouseController;
 use App\Http\Controllers\Admin\UserController;
@@ -32,6 +33,10 @@ Route::resource('/clients/{client}/debts/{debt}/payments', ClientDebtPaymentCont
 
 // Nomenclatures
 Route::resource('nomenclatures', NomenclatureController::class);
+
+// Nomenclatures Operations
+Route::get('nomenclatures-operations/withdraw', [NomenclatureOperationController::class, 'withdrawIndex'])->name('nomenclature-operations.index-withdraw');
+Route::resource('nomenclature-operations', NomenclatureOperationController::class);
 
 // Nomenclature arrivals
 Route::resource('nomenclature-arrivals', NomenclatureArrivalController::class);

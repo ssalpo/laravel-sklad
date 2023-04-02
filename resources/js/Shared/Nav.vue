@@ -55,22 +55,36 @@
                     </li>
 
                     <li class="nav-item">
-                        <Link :href="route('nomenclature-arrivals.index')" class="nav-link">
-                            <i class="fa fa-building"></i> Приход
-                        </Link>
-                    </li>
-
-                    <li class="nav-item">
                         <Link :href="route('all-client-debts')" class="nav-link">
                             <i class="fa fa-money-bill"></i> Долги
                         </Link>
                     </li>
 
                     <li class="nav-item dropdown">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                            Склад
+                        </a>
+
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li>
+                                <Link :href="route('nomenclature-arrivals.index')" class="dropdown-item">
+                                    Приход
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link :href="route('nomenclature-operations.index-withdraw')" class="dropdown-item">
+                                    Списание
+                                </Link>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">Справочник</a>
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
 
-                            <li class="nav-item">
+                            <li>
                                 <Link :href="route('clients.index')" class="dropdown-item">
                                     Клиенты
                                 </Link>

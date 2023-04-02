@@ -38,8 +38,8 @@
                                     <order-status-toggle style="width: 105px" :order-status="order.status" :order-id="order.id" />
                                 </td>
                                 <td>{{ numberFormat(order.profit) }} сом.</td>
-                                <td>
-                                    <Link :href="route('orders.invoice', order.id)">Накладная</Link>
+                                <td width="150">
+                                    <Link :href="route('orders.invoice', order.id)" class="btn btn-sm btn-link btn-outline-primary mr-1">Накладная</Link>
                                 </td>
                             </tr>
                             </tbody>

@@ -16,6 +16,8 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\My\OrderController as MyOrderController;
 use App\Http\Controllers\My\ClientController as MyClientController;
+use App\Http\Controllers\My\ClientDebtController as MyClientDebtController;
+use App\Http\Controllers\My\ClientDebtPaymentController as MyClientDebtPaymentController;
 
 Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(static function () {
     Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
@@ -62,6 +64,8 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'applicant'])
         Route::post('/orders/{order}/debts', [OrderDebtController::class, 'store'])->name('order-debts.store');
 
         Route::resource('clients', MyClientController::class);
+        Route::get('client-debts', [MyClientDebtController::class, 'index'])->name('client-debts.index');
+        Route::post('client-debts/{client_debt}/client-debt-payments', [MyClientDebtPaymentController::class, 'store'])->name('client-debt-payment.store');
     });
 
 // Auth

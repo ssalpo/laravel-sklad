@@ -14,13 +14,13 @@ class OrderController extends Controller
         $orders = Order::with(['user', 'client'])
             ->orderBy('created_at', 'DESC')
             ->paginate()
-            ->through(fn($model) => [
-                'id' => $model->id,
-                'user' => $model->user->name,
-                'client' => $model->client->name,
-                'amount' => $model->amount,
-                'profit' => $model->profit,
-                'status' => $model->status,
+            ->through(fn($m) => [
+                'id' => $m->id,
+                'user' => $m->user->name,
+                'client' => $m->client->name,
+                'amount' => $m->amount,
+                'profit' => $m->profit,
+                'status' => $m->status,
             ]);
 
         return inertia('Orders/Index', compact('orders'));

@@ -20,7 +20,6 @@
                                 <th style="width: 10px">#</th>
                                 <th>Имя</th>
                                 <th>Общий долг</th>
-                                <th width="40"></th>
                             </tr>
                             </thead>
                             <tbody>

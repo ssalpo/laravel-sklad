@@ -23,15 +23,17 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with(['user', 'client'])
+            ->withSum('debts', 'amount')
             ->my()
             ->orderBy('created_at', 'DESC')
             ->paginate()
-            ->through(fn($model) => [
-                'id' => $model->id,
-                'client_id' => $model->client->id,
-                'client_name' => $model->client->name,
-                'amount' => $model->amount,
-                'status' => $model->status,
+            ->through(fn($m) => [
+                'id' => $m->id,
+                'client_id' => $m->client->id,
+                'client_name' => $m->client->name,
+                'debts_sum_amount' => $m->debts_sum_amount,
+                'amount' => $m->amount,
+                'status' => $m->status,
             ]);
 
         return inertia('My/Orders/Index', compact('orders'));

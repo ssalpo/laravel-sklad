@@ -29,7 +29,7 @@
                         </div>
                         <div class="mx-auto col col-md-6">
                             <div class="form-group">
-                                <label class="form-asterisk">Комментарий</label>
+                                <label>Комментарий</label>
                                 <input type="text" class="form-control"
                                        :class="{'is-invalid': errors.comment}"
                                        v-model.trim="form.comment">

@@ -16,6 +16,12 @@
                     </li>
 
                     <li class="nav-item">
+                        <Link :href="route('my.client-debts.index')" class="nav-link">
+                            <i class="fa fa-money-bill"></i> Долги
+                        </Link>
+                    </li>
+
+                    <li class="nav-item">
                         <Link :href="route('my.clients.create')" class="nav-link">
                             <i class="fa fa-users"></i> Добавить клиента
                         </Link>
@@ -102,6 +108,11 @@
                 <li class="nav-item d-block d-sm-none" v-if="!$page.props.shared.isAdmin">
                     <Link :href="route('my.clients.create')" class="btn btn-link text-dark">
                         <i class="fa fa-users"></i>
+                    </Link>
+                </li>
+                <li class="nav-item d-block d-sm-none" v-if="!$page.props.shared.isAdmin">
+                    <Link :href="route('my.client-debts.index')" class="nav-link">
+                        <i class="fa fa-money-bill"></i>
                     </Link>
                 </li>
                 <li class="nav-item">

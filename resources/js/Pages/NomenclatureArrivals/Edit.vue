@@ -32,8 +32,25 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="form-asterisk">Расчет по количеству коробок</label>
+                                <div class="row">
+                                    <div class="col">
+                                        <input type="number" class="form-control"
+                                               placeholder="К-во коробок"
+                                               v-model.number="box.quantity">
+                                    </div>
+                                    <div class="col">
+                                        <input type="number" class="form-control"
+                                               placeholder="К-во в одной коробке"
+                                               v-model.number="box.quantityInSingleBox">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="form-asterisk">Количество поступления</label>
-                                <input type="number" class="form-control"
+                                <input :disabled="box.quantity || box.quantityInSingleBox" type="number"
+                                       class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
                                        v-model.number="form.quantity">
 
@@ -47,7 +64,9 @@
                                 <select disabled class="form-control"
                                         :class="{'is-invalid': errors.unit}"
                                         v-model.trim="form.unit">
-                                    <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">{{ label }}</option>
+                                    <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">
+                                        {{ label }}
+                                    </option>
                                 </select>
 
                                 <div v-if="errors.unit" class="error invalid-feedback">
@@ -72,7 +91,7 @@
                                        v-maska data-maska="##.##.#### ##:##"
                                        placeholder="ДД.ММ.ГГГГ ЧЧ:ММ"
                                        :class="{'is-invalid': errors.arrival_at}"
-                                       v-model="form.arrival_at" />
+                                       v-model="form.arrival_at"/>
 
                                 <div v-if="errors.arrival_at" class="error invalid-feedback">
                                     {{ errors.arrival_at }}
@@ -104,15 +123,19 @@
 <script>
 import find from "lodash/find";
 import get from "lodash/get";
-import { vMaska } from "maska";
+import {vMaska} from "maska";
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 
 export default {
     props: ['nomenclatureArrival', 'nomenclatures', 'currentDate', 'errors'],
     components: {Head, Link},
-    directives: { maska: vMaska },
+    directives: {maska: vMaska},
     data() {
         return {
+            box: {
+                quantity: 0,
+                quantityInSingleBox: 0
+            },
             form: useForm({
                 nomenclature_id: this.nomenclatureArrival?.nomenclature_id,
                 quantity: this.nomenclatureArrival?.quantity,
@@ -135,6 +158,12 @@ export default {
     watch: {
         ['form.nomenclature_id'](value) {
             this.form.unit = get(find(this.nomenclatures, {'id': value}), 'unit');
+        },
+        box: {
+            deep: true,
+            handler() {
+                this.form.quantity = this.box.quantity * this.box.quantityInSingleBox
+            }
         }
     }
 }

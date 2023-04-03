@@ -40,8 +40,13 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
-        if($request->session()->has('errors')) {
-            Toast::error('Проверьте корректность введенных данных.');
+        if ($request->session()->has('errors')) {
+            $toast = [
+                'message' => 'Проверьте корректность введенных данных.',
+                'type' => 'error'
+            ];
+        } else {
+            $toast = $request->session()->get('toast');
         }
 
         return array_merge(parent::share($request), [
@@ -55,7 +60,7 @@ class HandleInertiaRequests extends Middleware
                 'unitLabels' => UnitConvertor::UNIT_LABELS,
                 'orderStatusLabels' => Order::STATUS_LABELS,
             ],
-            'toast' => $request->session()->get('toast')
+            'toast' => $toast
         ]);
     }
 }

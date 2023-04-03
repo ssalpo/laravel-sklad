@@ -7,6 +7,7 @@ use App\Http\Requests\MixtureCompositionRequest;
 use App\Models\MixtureComposition;
 use App\Models\Nomenclature;
 use App\Services\MixtureCompositionService;
+use App\Services\Toast;
 use App\Services\UnitConvertor;
 
 class MixtureCompositionController extends Controller
@@ -47,6 +48,8 @@ class MixtureCompositionController extends Controller
     public function store(MixtureCompositionRequest $request)
     {
         MixtureComposition::create($request->validated());
+
+        Toast::success('Новый состав успешно добавлен!');
 
         return to_route('mixture-compositions.index');
     }
@@ -97,6 +100,8 @@ class MixtureCompositionController extends Controller
     public function update(MixtureComposition $mixtureComposition, MixtureCompositionRequest $request)
     {
         $mixtureComposition->update($request->validated());
+
+        Toast::success('Новый состав успешно добавлен!');
 
         return to_route('mixture-compositions.index');
     }

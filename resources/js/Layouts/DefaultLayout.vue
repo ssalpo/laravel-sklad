@@ -17,12 +17,15 @@
         <!-- /.control-sidebar -->
 
     </div>
+
+    <toasts />
 </template>
 
 <script>
 import Nav from "../Shared/Nav.vue";
+import Toasts from "../Shared/Toasts.vue";
 
 export default {
-    components: {Nav}
+    components: {Toasts, Nav}
 }
 </script>

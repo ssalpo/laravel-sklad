@@ -50,9 +50,7 @@ class HandleInertiaRequests extends Middleware
                 'unitLabels' => UnitConvertor::UNIT_LABELS,
                 'orderStatusLabels' => Order::STATUS_LABELS,
             ],
-            'flash' => [
-                'isCreated' => fn() => $request->session()->get('isCreated')
-            ],
+            'toast' => $request->session()->get('toast')
         ]);
     }
 }

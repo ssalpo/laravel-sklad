@@ -1807,7 +1807,7 @@ __metadata:
     vite: ^4.0.0
     vue: ^3.2.36
     vue-lazyload: ^3.0.0-rc.2
-    vue-multiselect: ^2.1.7
+    vue-toastification: next
   languageName: unknown
   linkType: soft
 
@@ -2080,10 +2080,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vue-multiselect@npm:^2.1.7":
-  version: 2.1.7
-  resolution: "vue-multiselect@npm:2.1.7"
-  checksum: b9fed7f54c50d25ba2a4000847780538f1e4331c2b3b866bbda79f779bae0b11e158c81f8cfb9f88bc9116ff2cf37f11afedec9e02d1a5bbd08d3755f8935c1e
+"vue-toastification@npm:next":
+  version: 2.0.0-rc.5
+  resolution: "vue-toastification@npm:2.0.0-rc.5"
+  peerDependencies:
+    vue: ^3.0.2
+  checksum: 358ac0eb8f40b1bbadc84c5a686d80c9fd7d6c37a3cec0c3a422f1157f4aa8a882e585404fe4efb7ac4ae52d627c65a30750b31425d7df1d6643f0c80ffcd668
   languageName: node
   linkType: hard
 

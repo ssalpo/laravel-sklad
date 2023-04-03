@@ -8,6 +8,7 @@ import { InertiaProgress } from '@inertiajs/progress'
 import {numberFormat} from "./functions";
 import DefaultLayout from './Layouts/DefaultLayout.vue';
 import axios from 'axios';
+import Toast from "vue-toastification";
 
 window.axios = axios;
 
@@ -30,6 +31,23 @@ createInertiaApp({
             .mixin({ methods: {route, numberFormat}})
             .use(plugin)
             .use(VueLazyload)
+            .use(Toast, {
+                transition: "Vue-Toastification__bounce",
+                maxToasts: 20,
+                newestOnTop: true,
+                position: "top-right",
+                timeout: 2000,
+                closeOnClick: true,
+                pauseOnFocusLoss: true,
+                pauseOnHover: true,
+                draggable: true,
+                draggablePercent: 0.6,
+                showCloseButtonOnHover: false,
+                hideProgressBar: false,
+                closeButton: "button",
+                icon: true,
+                rtl: false
+            })
             .mount(el)
 
         document.addEventListener('inertia:start', (event) => {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\My;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Services\ClientService;
+use App\Services\Toast;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -23,6 +24,8 @@ class ClientController extends Controller
     public function store(ClientRequest $clientRequest)
     {
         $client = $this->clientService->store($clientRequest->validated());
+
+        Toast::success('Новый клиент добавлен!');
 
         return to_route('my.orders.create', ['clientId' => $client->id]);
     }

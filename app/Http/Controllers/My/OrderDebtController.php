@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\ClientDebt;
 use App\Models\Order;
 use App\Services\ClientDebtService;
+use App\Services\Toast;
 use Illuminate\Http\Request;
 
 class OrderDebtController extends Controller
@@ -34,7 +35,9 @@ class OrderDebtController extends Controller
     {
         $this->clientDebtService
             ->setRelatedToMe(true)
-            ->store($order, $request->validated());
+            ->store($request->validated() + ['order_id' => $order]);
+
+        Toast::success(sprintf('Новый долг по заявке №%s успешно добавлен!', $order));
 
         return to_route('my.orders.index');
     }

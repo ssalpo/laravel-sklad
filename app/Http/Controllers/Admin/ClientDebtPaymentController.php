@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientDebtPaymentRequest;
 use App\Models\ClientDebt;
 use App\Services\ClientDebtPaymentService;
+use App\Services\Toast;
 
 class ClientDebtPaymentController extends Controller
 {
@@ -38,6 +39,8 @@ class ClientDebtPaymentController extends Controller
     public function store(int $clientId, int $clientDebt, ClientDebtPaymentRequest $request)
     {
         $this->clientDebtPaymentService->store($clientDebt, $request->validated() + ['client_id' => $clientId]);
+
+        Toast::success('Погашение долга проведено.');
 
         return back();
     }

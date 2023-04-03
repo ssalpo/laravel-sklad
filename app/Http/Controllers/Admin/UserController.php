@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
+use App\Services\Toast;
 
 class UserController extends Controller
 {
@@ -17,6 +18,7 @@ class UserController extends Controller
                 'name' => $user->name,
                 'username' => $user->username,
                 'is_active' => $user->is_active,
+                'is_admin' => $user->is_admin,
                 'created_at' => $user->created_at->format('d.m.Y')
             ]);
 
@@ -31,6 +33,8 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         User::create($request->validated());
+
+        Toast::success('Новый сотрудник успешно создан!');
 
         return redirect()->route('users.index');
     }
@@ -52,11 +56,38 @@ class UserController extends Controller
     {
         $user->update($request->validated());
 
+        Toast::success('Данные сотрудника успешно изменены!');
+
         return redirect()->route('users.index');
     }
 
     public function toggleActivity(User $user)
     {
-        $user->update(['is_active' => !$user->is_active]);
+        $status = !$user->is_active;
+
+        $user->update(['is_active' => $status]);
+
+        if($status) {
+            Toast::success('Сотрудник активен.');
+        }
+
+        if(!$status) {
+            Toast::error('Сотрудник отключен.');
+        }
+
+        return back();
+    }
+
+    public function toggleAdminStatus(User $user)
+    {
+        $status = !$user->is_admin;
+
+        $user->update(['is_admin' => $status]);
+
+        if($status) {
+            Toast::error('Теперь сотрудник может авторизироваться как администратор');
+        }
+
+        return back();
     }
 }

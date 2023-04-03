@@ -8,6 +8,7 @@ use App\Models\Client;
 use App\Models\ClientDebt;
 use App\Models\Order;
 use App\Services\ClientDebtService;
+use App\Services\Toast;
 use Illuminate\Support\Facades\DB;
 
 class ClientDebtController extends Controller
@@ -90,6 +91,8 @@ class ClientDebtController extends Controller
     {
         $this->clientDebtService->store($request->validated() + ['client_id' => $clientId]);
 
+        Toast::success('Долг клиента по заявке успешно добавлено.');
+
         return to_route('client.debts.index', $clientId);
     }
 
@@ -115,12 +118,16 @@ class ClientDebtController extends Controller
     {
         $this->clientDebtService->update($id, $request->validated() + ['client_id' => $clientId]);
 
+        Toast::success('Данные успешно обновлены.');
+
         return to_route('client.debts.index', $clientId);
     }
 
     public function destroy(int $clientId, int $id)
     {
         $this->clientDebtService->destroy($clientId, $id);
+
+        Toast::success('Долг клиента удалено.');
 
         return to_route('client.debts.index', $clientId);
     }

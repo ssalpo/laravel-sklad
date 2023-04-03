@@ -30,6 +30,7 @@
                                 <th>Логин</th>
                                 <th>Дата создания</th>
                                 <th>Активность</th>
+                                <th>Админ</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
@@ -41,6 +42,9 @@
                                 <td>{{ user.created_at }}</td>
                                 <td>
                                     <input type="checkbox" :checked="user.is_active" @change="toggleActivity(user.id)">
+                                </td>
+                                <td>
+                                    <input type="checkbox" :checked="user.is_admin" @change="toggleAdminStatus(user.id)">
                                 </td>
                                 <td class="text-center">
                                     <Link :href="route('users.edit', user.id)">
@@ -72,6 +76,9 @@ export default {
     methods: {
         toggleActivity(id) {
             this.$inertia.post(route('users.toggle_activity', id));
+        },
+        toggleAdminStatus(id) {
+            this.$inertia.post(route('users.toggle-admin-status', id));
         }
     }
 }

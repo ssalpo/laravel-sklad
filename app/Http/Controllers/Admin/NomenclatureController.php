@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NomenclatureRequest;
 use App\Models\Nomenclature;
 use App\Services\NomenclatureService;
+use App\Services\Toast;
 use App\Services\UnitConvertor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -52,6 +53,8 @@ class NomenclatureController extends Controller
     {
         $this->nomenclatureService->store($request->validated());
 
+        Toast::success('Новая номенклатура успешно добавлена.');
+
         return to_route('nomenclatures.index');
     }
 
@@ -69,11 +72,15 @@ class NomenclatureController extends Controller
     {
         $this->nomenclatureService->update($nomenclature, $request->validated());
 
+        Toast::success('Данные номенклатуры успешно обновлены.');
+
         return to_route('nomenclatures.index');
     }
 
     public function changeMarkups()
     {
         $this->nomenclatureService->changeMarkups();
+
+        Toast::info('Себестоимость всех товаров изменены.');
     }
 }

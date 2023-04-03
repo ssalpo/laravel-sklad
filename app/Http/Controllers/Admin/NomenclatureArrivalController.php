@@ -7,6 +7,7 @@ use App\Http\Requests\NomenclatureArrivalRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureArrival;
 use App\Services\NomenclatureArrivalService;
+use App\Services\Toast;
 use App\Services\UnitConvertor;
 use Illuminate\Support\Carbon;
 
@@ -58,6 +59,8 @@ class NomenclatureArrivalController extends Controller
     {
         $this->nomenclatureArrivalService->store($request->validated());
 
+        Toast::success('Новый приход успешно создан.');
+
         return to_route('nomenclature-arrivals.index');
     }
 
@@ -93,6 +96,8 @@ class NomenclatureArrivalController extends Controller
     public function update(NomenclatureArrivalRequest $request, int $nomenclatureArrival)
     {
         $this->nomenclatureArrivalService->update($nomenclatureArrival, $request->validated());
+
+        Toast::success('Данные по приходу успешно создан.');
 
         return to_route('nomenclature-arrivals.index');
     }

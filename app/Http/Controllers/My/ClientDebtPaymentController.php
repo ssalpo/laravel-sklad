@@ -5,6 +5,7 @@ namespace App\Http\Controllers\My;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientDebtPaymentRequest;
 use App\Services\ClientDebtPaymentService;
+use App\Services\Toast;
 use Illuminate\Http\Request;
 
 class ClientDebtPaymentController extends Controller
@@ -20,6 +21,8 @@ class ClientDebtPaymentController extends Controller
         $this->clientDebtPaymentService
             ->setRelatedToCurrentUser()
             ->store($clientDebt, $request->validated() + ['client_id' => $clientId]);
+
+        Toast::success('Погашение добавлено!');
 
         return back();
     }

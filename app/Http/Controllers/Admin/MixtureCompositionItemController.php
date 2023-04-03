@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MixtureCompositionItemRequest;
 use App\Models\MixtureCompositionItem;
 use App\Models\Nomenclature;
+use App\Services\Toast;
 
 class MixtureCompositionItemController extends Controller
 {
@@ -21,6 +22,8 @@ class MixtureCompositionItemController extends Controller
     public function store(int $mixtureCompositionId, MixtureCompositionItemRequest $request)
     {
         MixtureCompositionItem::create($request->validated());
+
+        Toast::success('Новый состав успешно создан.');
 
         return to_route('mixture-compositions.show', $mixtureCompositionId);
     }
@@ -48,6 +51,8 @@ class MixtureCompositionItemController extends Controller
 
         $mixtureCompositionItem->update($request->validated());
 
+        Toast::success('Данные состава успешно изменены.');
+
         return to_route('mixture-compositions.show', $mixtureCompositionId);
     }
 
@@ -55,6 +60,8 @@ class MixtureCompositionItemController extends Controller
     {
         MixtureCompositionItem::where('mixture_composition_id', $mixtureCompositionId)
             ->findOrFail($mixtureCompositionItemId)->delete();
+
+        Toast::success('Состав успешно удален.');
 
         return to_route('mixture-compositions.show', $mixtureCompositionId);
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\Toast;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -88,6 +89,8 @@ class OrderController extends Controller
     {
         if (in_array($request->status, array_keys(Order::STATUS_LABELS))) {
             $order->update($request->only('status'));
+
+            Toast::success(sprintf('Статус заказа изменен на "%s"', Order::STATUS_LABELS[$request->status]));
         }
 
         return back();

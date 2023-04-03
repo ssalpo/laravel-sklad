@@ -7,6 +7,7 @@ use App\Http\Requests\NomenclatureOperationRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureOperation;
 use App\Services\NomenclatureOperationService;
+use App\Services\Toast;
 use App\Services\UnitConvertor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -63,6 +64,8 @@ class NomenclatureOperationController extends Controller
     {
         $this->nomenclatureOperationService->store($request->validated());
 
+        Toast::success('Успешно добавлено.');
+
         return to_route(self::TYPE_ROUTES[$request->type]);
     }
 
@@ -81,12 +84,16 @@ class NomenclatureOperationController extends Controller
     {
         $this->nomenclatureOperationService->update($nomenclatureOperationId, $request->validated());
 
+        Toast::success('Успешно обновлено.');
+
         return to_route(self::TYPE_ROUTES[$request->type]);
     }
 
     public function destroy(int $nomenclatureOperationId)
     {
         $this->nomenclatureOperationService->delete($nomenclatureOperationId);
+
+        Toast::success('Успешно удалено.');
 
         return back();
     }

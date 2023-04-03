@@ -9,6 +9,7 @@ use App\Models\Nomenclature;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\OrderService;
+use App\Services\Toast;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -90,6 +91,8 @@ class OrderController extends Controller
     {
         $order = $this->orderService->store($request->validated());
 
+        Toast::success('Заявка успешно создана!');
+
         return to_route('orders.show', $order->id);
     }
 
@@ -98,6 +101,8 @@ class OrderController extends Controller
         $this->orderService
             ->setRelatedToMe(true)
             ->destroy($id);
+
+        Toast::success('Заявка успешно удалена!');
 
         return to_route('my.orders.index');
     }

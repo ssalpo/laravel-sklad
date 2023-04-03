@@ -7,6 +7,7 @@ use App\Http\Requests\ClientDiscountRequest;
 use App\Models\Client;
 use App\Models\ClientDiscount;
 use App\Models\Nomenclature;
+use App\Services\Toast;
 
 
 class ClientDiscountController extends Controller
@@ -38,6 +39,8 @@ class ClientDiscountController extends Controller
     {
         ClientDiscount::create($request->validated());
 
+        Toast::success('Скидка для клиента добавлена.');
+
         return to_route('client-discounts.index', $client->id);
     }
 
@@ -67,6 +70,8 @@ class ClientDiscountController extends Controller
     {
         ClientDiscount::whereClientId($client->id)->findOrFail($discountId)
             ->update($request->validated());
+
+        Toast::success('Скидка успешно обновлена.');
 
         return to_route('client-discounts.index', $client->id);
     }

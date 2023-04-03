@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
+use App\Services\Toast;
 
 class ClientController extends Controller
 {
@@ -31,6 +32,8 @@ class ClientController extends Controller
     {
         Client::create($request->validated());
 
+        Toast::success('Новый клиент успешно добавлен.');
+
         return to_route('clients.index');
     }
 
@@ -42,6 +45,8 @@ class ClientController extends Controller
     public function update(ClientRequest $request, Client $client)
     {
         $client->update($request->validated());
+
+        Toast::success('Данные клиента успешно изменены.');
 
         return to_route('clients.index');
     }

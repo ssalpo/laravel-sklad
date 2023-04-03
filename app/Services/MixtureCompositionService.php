@@ -8,7 +8,7 @@ class MixtureCompositionService
 {
     public function calculateTotalSum(Model $mixtureComposition)
     {
-        $weight = UnitConvertor::toKg($mixtureComposition->weight, $mixtureComposition->weight_unit);
+        $weight = $mixtureComposition->weight; // UnitConvertor::toKg($mixtureComposition->weight, $mixtureComposition->weight_unit);
 
         $endResultPrice = $mixtureComposition->mixtureCompositionItems->where('end_result', true)->sum('price') + $mixtureComposition->worker_price;
 

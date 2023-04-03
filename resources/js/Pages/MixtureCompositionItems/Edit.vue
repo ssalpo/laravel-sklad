@@ -46,6 +46,7 @@
                                 <label class="form-asterisk">Единица измерения количества</label>
 
                                 <select class="form-control"
+                                        disabled
                                         :class="{'is-invalid': errors.unit}"
                                         v-model.trim="form.unit">
                                     <option :value="index" v-for="(label, index) in $page.props.shared.unitLabels">

@@ -7,6 +7,11 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { InertiaProgress } from '@inertiajs/progress'
 import {numberFormat} from "./functions";
 import DefaultLayout from './Layouts/DefaultLayout.vue';
+import axios from 'axios';
+
+window.axios = axios;
+
+window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 InertiaProgress.init()
 

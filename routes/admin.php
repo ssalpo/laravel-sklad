@@ -32,6 +32,7 @@ Route::resource('/clients/{client}/debts', ClientDebtController::class, ['as' =>
 Route::resource('/clients/{client}/debts/{debt}/payments', ClientDebtPaymentController::class, ['as' => 'client.debts']);
 
 // Nomenclatures
+Route::post('nomenclatures/change-markups', [NomenclatureController::class, 'changeMarkups'])->name('nomenclatures.change-markups');
 Route::resource('nomenclatures', NomenclatureController::class);
 
 // Nomenclatures Operations

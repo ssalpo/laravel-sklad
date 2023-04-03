@@ -1807,6 +1807,7 @@ __metadata:
     vite: ^4.0.0
     vue: ^3.2.36
     vue-lazyload: ^3.0.0-rc.2
+    vue-multiselect: ^2.1.7
   languageName: unknown
   linkType: soft
 
@@ -2076,6 +2077,13 @@ __metadata:
   version: 3.0.0-rc.2
   resolution: "vue-lazyload@npm:3.0.0-rc.2"
   checksum: 5f51e98e95935b38a875d7e1c678a16568ec99bde62f31616271ac60ed409075cd48262391827a410854a67498db7522f46b56da1619f1ea72e164c8163e5bef
+  languageName: node
+  linkType: hard
+
+"vue-multiselect@npm:^2.1.7":
+  version: 2.1.7
+  resolution: "vue-multiselect@npm:2.1.7"
+  checksum: b9fed7f54c50d25ba2a4000847780538f1e4331c2b3b866bbda79f779bae0b11e158c81f8cfb9f88bc9116ff2cf37f11afedec9e02d1a5bbd08d3755f8935c1e
   languageName: node
   linkType: hard
 

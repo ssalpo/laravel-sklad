@@ -6,10 +6,17 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MixtureCompositionRequest;
 use App\Models\MixtureComposition;
 use App\Models\Nomenclature;
+use App\Services\MixtureCompositionService;
 use App\Services\UnitConvertor;
 
 class MixtureCompositionController extends Controller
 {
+    public function __construct(
+        public MixtureCompositionService $mixtureCompositionService
+    )
+    {
+    }
+
     public function index()
     {
         $mixtureCompositions = MixtureComposition::with(['nomenclature'])
@@ -30,7 +37,9 @@ class MixtureCompositionController extends Controller
 
     public function create()
     {
-        $nomenclatures = Nomenclature::saleType()->get(['id', 'name']);
+        $nomenclatures = Nomenclature::saleType()
+            ->whereNotIn('id', MixtureComposition::pluck('nomenclature_id'))
+            ->get(['id', 'name']);
 
         return inertia('MixtureCompositions/Edit', compact('nomenclatures'));
     }
@@ -48,15 +57,7 @@ class MixtureCompositionController extends Controller
             ->with('mixtureCompositionItems.nomenclature')
             ->findOrFail($mixtureCompositionId);
 
-        $weight = UnitConvertor::toKg($mixtureComposition->weight, $mixtureComposition->weight_unit);
-
-        $endResultPrice = $mixtureComposition->mixtureCompositionItems->where('end_result', true)->sum('price') + $mixtureComposition->worker_price;
-
-        $mixtureCompositionItemsTotalAmount = $mixtureComposition->mixtureCompositionItems->where('end_result', false)->sum('price');
-
-        $totalSum = round(($mixtureCompositionItemsTotalAmount / $mixtureComposition->water) * $weight, 3, PHP_ROUND_HALF_UP);
-
-        $totalSum += $endResultPrice;
+        $totalSum = $this->mixtureCompositionService->calculateTotalSum($mixtureComposition);
 
         return inertia('MixtureCompositions/Show', [
             'totalSum' => $totalSum,
@@ -82,7 +83,13 @@ class MixtureCompositionController extends Controller
 
     public function edit(MixtureComposition $mixtureComposition)
     {
-        $nomenclatures = Nomenclature::saleType()->get(['id', 'name']);
+        $nomenclatures = Nomenclature::saleType()
+            ->whereNotIn(
+                'id',
+                MixtureComposition::whereNot('nomenclature_id', $mixtureComposition->nomenclature_id)
+                    ->pluck('nomenclature_id')
+            )
+            ->get(['id', 'name']);
 
         return inertia('MixtureCompositions/Edit', compact('mixtureComposition', 'nomenclatures'));
     }

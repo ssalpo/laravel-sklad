@@ -16,12 +16,14 @@ class Nomenclature extends Model
         'price_for_sale',
         'markup',
         'unit',
+        'dollar_exchange_rate'
     ];
 
     protected $casts = [
         'price' => 'double',
         'price_for_sale' => 'double',
         'markup' => 'double',
+        'dollar_exchange_rate' => 'double',
     ];
 
     public const TYPE_SALE = 1; // продажа
@@ -53,5 +55,10 @@ class Nomenclature extends Model
     public function scopeCompositeType($q)
     {
         $q->whereType(self::TYPE_COMPOSITE);
+    }
+
+    public function mixtureComposition()
+    {
+        return $this->hasOne(MixtureComposition::class);
     }
 }

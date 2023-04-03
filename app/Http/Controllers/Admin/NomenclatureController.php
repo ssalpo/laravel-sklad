@@ -8,6 +8,7 @@ use App\Models\Nomenclature;
 use App\Services\NomenclatureService;
 use App\Services\UnitConvertor;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Response;
 
 class NomenclatureController extends Controller
@@ -20,13 +21,16 @@ class NomenclatureController extends Controller
 
     public function index(): Response
     {
-        $nomenclatures = Nomenclature::orderBy('created_at', 'DESC')->paginate()
+        $nomenclatures = Nomenclature::orderBy('type', 'ASC')
+            ->orderBy('created_at', 'DESC')
+            ->paginate(100)
             ->through(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,
                 'price' => $model->price,
                 'markup' => $model->markup,
                 'price_for_sale' => $model->price_for_sale,
+                'dollar_exchange_rate' => $model->dollar_exchange_rate,
                 'type' => $model->type,
                 'unit' => UnitConvertor::UNIT_LABELS[$model->unit],
             ]);
@@ -66,5 +70,10 @@ class NomenclatureController extends Controller
         $this->nomenclatureService->update($nomenclature, $request->validated());
 
         return to_route('nomenclatures.index');
+    }
+
+    public function changeMarkups()
+    {
+        $this->nomenclatureService->changeMarkups();
     }
 }

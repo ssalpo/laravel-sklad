@@ -13,6 +13,10 @@
         <div class="container">
             <div class="card">
                 <div class="card-header">
+                    <button class="btn btn-sm btn-outline-info" :disabled="isMarkupChanging" @click="changeMarkup">
+                        <span class="fa fa-exchange-alt"></span> <span class="d-none d-sm-inline-block">Обновить себестоимость</span>
+                    </button>
+
                     <div class="card-tools">
                         <Link :href="route('nomenclatures.create')" class="btn btn-success btn-sm px-3">
                             Новая номенклатура
@@ -30,6 +34,7 @@
                                 <th>Себестоимость</th>
                                 <th>Наценка</th>
                                 <th>Цена продажи</th>
+                                <th>Курс $</th>
                                 <th>Тип номенклатуры</th>
                                 <th title="Единица измерения" class="text-center">Ед. изм.</th>
                                 <th width="40"></th>
@@ -37,13 +42,16 @@
                             </thead>
                             <tbody>
                             <tr v-for="(nomenclature, index) in nomenclatures.data">
-                                <td :data-id="nomenclature.id">{{ ((nomenclatures.current_page - 1) * nomenclatures.per_page) + index + 1 }}</td>
-                                <td>{{nomenclature.name}}</td>
-                                <td>{{numberFormat(nomenclature.price)}} сом.</td>
-                                <td>{{numberFormat(nomenclature.markup)}} сом.</td>
-                                <td>{{numberFormat(nomenclature.price_for_sale)}} сом.</td>
-                                <td>{{$page.props.shared.nomenclatureTypes[nomenclature.type]}}</td>
-                                <td class="text-center">{{nomenclature.unit}}</td>
+                                <td :data-id="nomenclature.id">
+                                    {{ ((nomenclatures.current_page - 1) * nomenclatures.per_page) + index + 1 }}
+                                </td>
+                                <td>{{ nomenclature.name }}</td>
+                                <td>{{ numberFormat(nomenclature.price) }} сом.</td>
+                                <td>{{ numberFormat(nomenclature.markup) }} сом.</td>
+                                <td>{{ numberFormat(nomenclature.price_for_sale) }} сом.</td>
+                                <td>{{ numberFormat(nomenclature.dollar_exchange_rate) }}</td>
+                                <td>{{ $page.props.shared.nomenclatureTypes[nomenclature.type] }}</td>
+                                <td class="text-center">{{ nomenclature.unit }}</td>
                                 <td class="text-center">
                                     <Link :href="route('nomenclatures.edit', nomenclature.id)">
                                         <i class="fa fa-pencil-alt"></i>
@@ -70,5 +78,19 @@ import Pagination from "../../Shared/Pagination.vue";
 export default {
     components: {Pagination, Head, Link},
     props: ['nomenclatures'],
+    data: () => ({
+        isMarkupChanging: false,
+    }),
+    methods: {
+        changeMarkup() {
+            this.isMarkupChanging = true;
+
+            axios.post(route('nomenclatures.change-markups'))
+                .then(() => {
+                    this.$inertia.visit(route('nomenclatures.index'))
+                })
+                .finally(() => this.isMarkupChanging = false)
+        }
+    }
 }
 </script>

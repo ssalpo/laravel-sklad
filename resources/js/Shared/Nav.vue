@@ -38,25 +38,25 @@
 
                     <li class="nav-item">
                         <Link :href="route('dashboard.index')" class="nav-link">
-                            <i class="fa fa-chart-pie"></i> Аналитика
+                            <i class="fa fa-chart-pie d-md-none d-lg-inline-block"></i> Аналитика
                         </Link>
                     </li>
 
                     <li class="nav-item">
                         <Link :href="route('orders.index')" class="nav-link">
-                            <i class="fa fa-clipboard-list"></i> Заявки
+                            <i class="fa fa-clipboard-list d-md-none d-lg-inline-block"></i> Заявки
                         </Link>
                     </li>
 
                     <li class="nav-item">
                         <Link :href="route('storehouses.index')" class="nav-link">
-                            <i class="fa fa-warehouse"></i>  Остатки
+                            <i class="fa fa-warehouse d-md-none d-lg-inline-block"></i>  Остатки
                         </Link>
                     </li>
 
                     <li class="nav-item">
                         <Link :href="route('all-client-debts')" class="nav-link">
-                            <i class="fa fa-money-bill"></i> Долги
+                            <i class="fa fa-money-bill d-md-none d-lg-inline-block"></i> Долги
                         </Link>
                     </li>
 

@@ -66,6 +66,17 @@
                                 </div>
                             </div>
 
+                            <div class="form-group" v-if="showForSaleType">
+                                <label>Курс доллара для расчета себестоимости</label>
+                                <input type="text" class="form-control"
+                                       :class="{'is-invalid': errors.dollar_exchange_rate}"
+                                       v-model.number="form.dollar_exchange_rate">
+
+                                <div v-if="errors.dollar_exchange_rate" class="error invalid-feedback">
+                                    {{ errors.dollar_exchange_rate }}
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label class="form-asterisk">Единица измерения</label>
                                 <select class="form-control"
@@ -116,6 +127,7 @@ export default {
                 category_id: this.nomenclature?.category_id,
                 price: this.nomenclature?.price || 0,
                 markup: this.nomenclature?.markup || 0,
+                dollar_exchange_rate: this.nomenclature?.dollar_exchange_rate || 0,
                 price_for_sale: this.nomenclature?.price_for_sale || 0,
                 type: this.nomenclature?.type,
                 unit: this.nomenclature?.unit,

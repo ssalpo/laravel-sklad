@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use App\Models\Nomenclature;
 use App\Models\Order;
+use App\Services\Toast;
 use App\Services\UnitConvertor;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -39,6 +40,10 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        if($request->session()->has('errors')) {
+            Toast::error('Проверьте корректность введенных данных.');
+        }
+
         return array_merge(parent::share($request), [
             'shared' => [
                 'isAuth' => auth()->check(),

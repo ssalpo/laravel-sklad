@@ -21,8 +21,8 @@ Route::get('storehouses', [StorehouseController::class, 'index'])->name('storeho
 
 // Orders
 Route::resource('orders', OrderController::class);
-Route::get('orders/{order}/invoice', [OrderController::class, 'invoice'])->name('orders.invoice');
 Route::post('orders/{order}/toggle-status', [OrderController::class, 'toggleStatus'])->name('orders.toggle-status');
+Route::get('order-invoices', [OrderController::class, 'invoices'])->name('order-invoices');
 
 // Clients
 Route::resource('clients', ClientController::class);

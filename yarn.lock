@@ -1806,6 +1806,7 @@ __metadata:
     sass: ^1.58.3
     vite: ^4.0.0
     vue: ^3.2.36
+    vue-cookies: ^1.8.3
     vue-lazyload: ^3.0.0-rc.2
     vue-toastification: next
   languageName: unknown
@@ -2070,6 +2071,13 @@ __metadata:
   bin:
     vite: bin/vite.js
   checksum: eb86c8cdfe8dcb6644005486b31cb60bc596f2aa683cb194abb5c0afca7c2a5dfdb02bbc7f83f419ad170227ac9c3b898f4406a6d1433105fb61d79d78e47d52
+  languageName: node
+  linkType: hard
+
+"vue-cookies@npm:^1.8.3":
+  version: 1.8.3
+  resolution: "vue-cookies@npm:1.8.3"
+  checksum: 9a3883beeaf3e871ae5f105c1c79536812c495c0169412e418f6de69d04fb0ee5ecab0267d56fd4b6e1db62a0107b4dcfb31cced77a17cc6148352eda97c08a9
   languageName: node
   linkType: hard
 

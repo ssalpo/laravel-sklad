@@ -1,7 +1,6 @@
 // import './bootstrap';
 
 import { createApp, h } from 'vue';
-import VueLazyload from 'vue-lazyload'
 import { createInertiaApp} from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { InertiaProgress } from '@inertiajs/progress'
@@ -9,6 +8,7 @@ import {numberFormat} from "./functions";
 import DefaultLayout from './Layouts/DefaultLayout.vue';
 import axios from 'axios';
 import Toast from "vue-toastification";
+import VueCookies from 'vue-cookies';
 
 window.axios = axios;
 
@@ -30,7 +30,7 @@ createInertiaApp({
         const app = createApp({ render: () => h(App, props) })
             .mixin({ methods: {route, numberFormat}})
             .use(plugin)
-            .use(VueLazyload)
+            .use(VueCookies, { expires: '1d'})
             .use(Toast, {
                 transition: "Vue-Toastification__bounce",
                 maxToasts: 20,

@@ -36,13 +36,18 @@
                                 <td>{{ order.client.name }}</td>
                                 <td>{{ numberFormat(order.amount) }} сом.</td>
                                 <td>
-                                    <order-status-toggle style="width: 105px" :order-status="order.status" :order-id="order.id" />
+                                    <order-status-toggle style="width: 120px" :order-status="order.status"
+                                                         :order-id="order.id"/>
                                 </td>
                                 <td>{{ numberFormat(order.profit) }} сом.</td>
-                                <td>{{order.created_at}}</td>
+                                <td>{{ order.created_at }}</td>
                                 <td width="150">
-                                    <Link :href="route('orders.invoice', order.id)" class="btn btn-sm btn-outline-primary mr-1">Накладная</Link>
-                                    <Link :href="route('client.debts.create', {client: order.client.id, order: order.id})" class="btn btn-sm btn-outline-primary mr-1">Добавить долг</Link>
+                                    <button :class="[!this.invoices.includes(order.id) ? 'btn-outline-primary' : 'btn-outline-success']" class="btn btn-sm mr-1" @click="toggleInvoice(order.id)">Накладная</button>
+
+                                    <Link
+                                        :href="route('client.debts.create', {client: order.client.id, order: order.id})"
+                                        class="btn btn-sm btn-outline-primary mr-1">Добавить долг
+                                    </Link>
                                 </td>
                             </tr>
                             </tbody>
@@ -57,6 +62,19 @@
             </div>
         </div>
     </div>
+
+    <Teleport to="body" v-if="this.invoices.length">
+        <div class="content-wrapper d-flex align-items-center" style="height: 60px; width: 100%; position: fixed; bottom: 0; background: #dee2e6">
+            <div class="container d-flex align-items-center justify-content-end">
+                <span>Выбранных заявок: {{this.invoices.length}}</span>
+
+                <Link @click="clearInvoices" :href="route('order-invoices', {ids: this.invoices.join(',')})" class="ml-3 btn btn-sm btn-outline-success">Печать</Link>
+                <button class="ml-3 btn btn-sm btn-outline-danger" @click="clearInvoices">
+                    <i class="fa fa-times"></i>
+                </button>
+            </div>
+        </div>
+    </Teleport>
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
@@ -65,6 +83,33 @@ import OrderStatusToggle from "../../Shared/OrderStatusToggle.vue";
 
 export default {
     components: {OrderStatusToggle, Pagination, Head, Link},
-    props: ['orders']
+    props: ['orders'],
+    data() {
+        return {
+            invoices: []
+        }
+    },
+    created() {
+        if (this.$cookies.isKey('invoices')) {
+            this.invoices = this.$cookies.get('invoices');
+        }
+    },
+    methods: {
+        toggleInvoice(id) {
+            let index = this.invoices.indexOf(id);
+
+            if(index > -1) {
+                this.invoices.splice(index, 1)
+            } else {
+                this.invoices.push(id)
+            }
+
+            this.$cookies.set('invoices', JSON.stringify(this.invoices));
+        },
+        clearInvoices() {
+            this.invoices = [];
+            this.$cookies.remove('invoices');
+        }
+    }
 }
 </script>

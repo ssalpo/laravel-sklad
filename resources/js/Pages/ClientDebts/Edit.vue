@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>{{debt?.id ? 'Обновление данных' : 'Новая долг'}}</title>
+        <title>{{debt?.id ? 'Обновление данных' : 'Новый долг'}}</title>
     </Head>
 
     <div class="content-header">
         <div class="container">
-            <h1 class="m-0">{{ debt?.id ? 'Обновление данных' : 'Новая долг' }}</h1>
+            <h1 class="m-0">{{ debt?.id ? 'Обновление данных' : 'Новый долг' }}</h1>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
                                 <span v-else>{{ debt?.id ? 'Сохранить' : 'Добавить' }}</span>
                             </button>
 
-                            <Link :href="route('client.debts.index', client.id)" :class="{disabled: form.processing}"
+                            <Link :href="route('orders.index')" :class="{disabled: form.processing}"
                                   class="btn btn-default ml-2">Отменить
                             </Link>
                         </div>

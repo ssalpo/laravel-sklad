@@ -14,7 +14,7 @@ class OrderController extends Controller
     {
         $orders = Order::with(['user', 'client'])
             ->orderBy('created_at', 'DESC')
-            ->paginate()
+            ->paginate(1)
             ->through(fn($m) => [
                 'id' => $m->id,
                 'user' => $m->user->name,
@@ -58,31 +58,29 @@ class OrderController extends Controller
         ]);
     }
 
-    public function invoice(Order $order)
+    public function invoices()
     {
-        $order->load(['user', 'client']);
+        $orderIds = explode(',', request('ids'));
 
-        $orderItems = OrderItem::with(['nomenclature'])
-            ->whereOrderId($order->id)
+        $orders = Order::with(['user', 'client', 'orderItems.nomenclature'])
+            ->whereIn('id', $orderIds)
             ->get()
-            ->transform(fn($model) => [
-                'id' => $model->id,
-                'nomenclature' => $model->nomenclature->name,
-                'price_for_sale' => $model->price_for_sale,
-                'quantity' => $model->quantity,
-                'unit' => $model->unit,
+            ->transform(fn($m) => [
+                'id' => $m->id,
+                'user' => $m->user->name,
+                'client' => $m->client->name,
+                'amount' => $m->amount,
+                'status' => $m->status,
+                'orderItems' => $m->orderItems->transform(fn($oI) => [
+                    'id' => $oI->id,
+                    'nomenclature' => $oI->nomenclature->name,
+                    'price_for_sale' => $oI->price_for_sale,
+                    'quantity' => $oI->quantity,
+                    'unit' => $oI->unit,
+                ])
             ]);
 
-        return inertia('Orders/Invoice', [
-            'order' => [
-                'id' => $order->id,
-                'user' => $order->user->name,
-                'client' => $order->client->name,
-                'amount' => $order->amount,
-                'status' => $order->status,
-            ],
-            'orderItems' => $orderItems
-        ]);
+        return inertia('Orders/Invoices', compact('orders'));
     }
 
     public function toggleStatus(Order $order, Request $request)

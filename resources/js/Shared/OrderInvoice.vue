@@ -1,19 +1,9 @@
 <template>
-    <Head>
-        <title>Накладная по заявке: #{{order.id}}</title>
-    </Head>
-
-    <div class="p-5 d-print-none">
-        <Link :href="route('orders.index')">
-            <i class="fa fa-long-arrow-alt-left"></i> Вернуться к списку заказов
-        </Link>
-    </div>
-
-    <div class="container mt-4">
+    <div>
         <h3 class="page-title">Накладная №{{ order.id }}</h3>
 
         <p class="pt-2" style="font-size: 18px;">
-            Покупатель: {{order.client}}
+            Покупатель: {{ order.client }}
         </p>
 
         <table class="table table-bordered">
@@ -28,16 +18,16 @@
             </thead>
             <tbody>
             <tr v-for="(orderItem, index) in orderItems">
-                <td class="text-center">{{index + 1}}</td>
-                <td>{{orderItem.nomenclature}}</td>
-                <td class="text-center">{{orderItem.quantity}} {{$page.props.shared.unitLabels[orderItem.unit]}}</td>
-                <td class="text-center">{{numberFormat(orderItem.price_for_sale)}} сом.</td>
-                <td class="text-right">{{numberFormat(orderItem.price_for_sale * orderItem.quantity)}} сом.</td>
+                <td class="text-center">{{ index + 1 }}</td>
+                <td>{{ orderItem.nomenclature }}</td>
+                <td class="text-center">{{ orderItem.quantity }} {{ $page.props.shared.unitLabels[orderItem.unit] }}</td>
+                <td class="text-center">{{ numberFormat(orderItem.price_for_sale) }} сом.</td>
+                <td class="text-right">{{ numberFormat(orderItem.price_for_sale * orderItem.quantity) }} сом.</td>
             </tr>
             <tr>
-                <td  colspan="4"></td>
+                <td colspan="4"></td>
                 <td class="text-right">
-                    <b>Итого:</b>  {{numberFormat(order.amount)}} сом.
+                    <b>Итого:</b> {{ numberFormat(order.amount) }} сом.
                 </td>
             </tr>
             </tbody>
@@ -76,14 +66,10 @@
         </div>
     </div>
 </template>
-<script>
-import {Head, Link} from "@inertiajs/inertia-vue3";
-import AuthLayout from "../../Layouts/AuthLayout.vue";
 
+<script>
 export default {
-    components: {Head, Link},
-    props: ['order', 'orderItems'],
-    layout: AuthLayout
+    props: ['order', 'orderItems']
 }
 </script>
 

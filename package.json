@@ -20,6 +20,7 @@
         "maska": "^2.1.7",
         "sass": "^1.58.3",
         "vue": "^3.2.36",
+        "vue-cookies": "^1.8.3",
         "vue-lazyload": "^3.0.0-rc.2",
         "vue-toastification": "next"
     },

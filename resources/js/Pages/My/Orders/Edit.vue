@@ -19,13 +19,17 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Клиент</label>
-                                <select class="form-control"
-                                        :class="{'is-invalid': errors.client_id}"
-                                        v-model.trim="form.client_id">
-                                    <option :value="client.id"
-                                            v-for="client in clients">{{ client.name }}
-                                    </option>
-                                </select>
+
+                                <custom-select
+                                    full
+                                    searchable
+                                    :class="{'is-invalid': errors.client_id}"
+                                    :options="clients"
+                                    v-model.number="form.client_id"
+                                    :value="form.client_id"
+                                    label-key="name"
+                                    placeholder="Выберите клиента"
+                                    class="btn-group-sm" />
 
                                 <div v-if="errors.client_id" class="error invalid-feedback">
                                     {{ errors.client_id }}
@@ -40,14 +44,19 @@
 
                             <div class="row mb-1" v-for="(orderItem, index) in form.orderItems">
                                 <div class="col-6 col-sm-6">
-                                    <select class="form-control form-control-sm"
-                                            :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
-                                            v-model.trim="orderItem.nomenclature_id">
-                                        <option :value="nomenclature.id"
-                                                :disabled="selectedNomenclatures.includes(nomenclature.id)"
-                                                v-for="nomenclature in nomenclatures">{{ nomenclature.name }}
-                                        </option>
-                                    </select>
+
+                                    <custom-select
+                                        full
+                                        searchable
+                                        :key="index"
+                                        :disabledValues="selectedNomenclatures"
+                                        :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
+                                        :options="nomenclatures"
+                                        v-model.number="orderItem.nomenclature_id"
+                                        :value="orderItem.nomenclature_id"
+                                        label-key="name"
+                                        placeholder=""
+                                        class="btn-group-sm" />
                                 </div>
                                 <div class="col-4 col-sm-4">
                                     <input type="number"
@@ -120,15 +129,16 @@ import compact from "lodash/compact";
 import keyBy from "lodash/keyBy";
 import get from "lodash/get";
 import find from "lodash/find";
+import CustomSelect from "../../../Shared/CustomSelect.vue";
 
 export default {
     props: ['order', 'clients', 'selectedClientId', 'nomenclatures', 'errors'],
-    components: {Head, Link},
+    components: {CustomSelect, Head, Link},
     data() {
         return {
             selectedClient: null,
             form: useForm({
-                client_id: this.order?.client_id || this.selectedClientId,
+                client_id: this.order?.client_id || parseInt(this.selectedClientId),
                 orderItems: this.order?.orderItems || [{nomenclature_id: null, quantity: null}]
             }),
         }

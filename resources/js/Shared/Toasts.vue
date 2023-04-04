@@ -1,3 +1,4 @@
+<template></template>
 <script>
 import {useToast} from 'vue-toastification';
 import {Inertia} from "@inertiajs/inertia";

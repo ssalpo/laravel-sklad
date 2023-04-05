@@ -18,14 +18,15 @@
                         <div class="mx-auto col col-md-6">
                             <div class="form-group">
                                 <label class="form-asterisk">Номенклатура</label>
-                                <select class="form-control"
-                                        :class="{'is-invalid': errors.nomenclature_id}"
-                                        v-model.trim="form.nomenclature_id">
-                                    <option :value="nomenclature.id"
-                                            :selected="!form.nomenclature_id && index === 0"
-                                            v-for="(nomenclature, index) in nomenclatures">{{ nomenclature.name }}
-                                    </option>
-                                </select>
+
+                                <custom-select
+                                    full
+                                    searchable
+                                    :class="{'is-invalid': errors.nomenclature_id}"
+                                    :options="nomenclatures"
+                                    v-model.number="form.nomenclature_id"
+                                    :value="form.nomenclature_id"
+                                    label-key="name" />
 
                                 <div v-if="errors.nomenclature_id" class="error invalid-feedback">
                                     {{ errors.nomenclature_id }}
@@ -110,10 +111,11 @@
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import get from "lodash/get";
 import find from "lodash/find";
+import CustomSelect from "../../Shared/CustomSelect.vue";
 
 export default {
     props: ['mixtureCompositionId', 'mixtureCompositionItem', 'units', 'nomenclatures', 'errors'],
-    components: {Head, Link},
+    components: {CustomSelect, Head, Link},
     data() {
         return {
             form: useForm({

@@ -14,7 +14,7 @@
                href="javascript:void(0)"
                :class="{disabled: disabledValues.includes(option[returnValueKey]), active: option[returnValueKey] === value}"
                @click.prevent="!disabledValues.includes(option[returnValueKey]) ? onChange(option): null"
-               v-for="option in filteredOptions">{{ option[labelKey] }}</a>
+               v-for="option in filteredOptions">{{ render !== null ? render(option[labelKey]) : option[labelKey]  }}</a>
         </div>
     </div>
 </template>
@@ -30,6 +30,10 @@ export default {
             type: Boolean,
             default: () => false
         },
+        render: {
+            type: Function,
+            default: null
+        },
         disabledValues: {
             type: Array,
             default: () => []
@@ -43,7 +47,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: () => 'Выберите элемент'
+            default: () => null
         },
         options: {
             type: Array,

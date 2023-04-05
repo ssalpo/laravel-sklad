@@ -23,7 +23,7 @@ class DashboardController extends Controller
                      SELECT nomenclature_id,
                             (price_for_sale - price) * quantity AS profit
                      FROM order_items
-                        INNER JOIN orders o ON order_items.order_id = o.id AND o.status = ? AND deleted_at IS NULL
+                        INNER JOIN orders o ON order_items.order_id = o.id AND o.status = ? AND o.deleted_at IS NULL
                      WHERE DATE(order_items.created_at) = ?
                  ) AS t
                      INNER JOIN nomenclatures n ON n.id = t.nomenclature_id
@@ -37,7 +37,7 @@ class DashboardController extends Controller
                      SELECT nomenclature_id,
                             (price_for_sale - price) * quantity AS profit
                      FROM order_items
-                        INNER JOIN orders o ON order_items.order_id = o.id AND o.status = ? AND deleted_at IS NULL
+                        INNER JOIN orders o ON order_items.order_id = o.id AND o.status = ? AND o.deleted_at IS NULL
                      WHERE order_items.created_at BETWEEN ? AND ?
                  ) AS t
                      INNER JOIN nomenclatures n ON n.id = t.nomenclature_id

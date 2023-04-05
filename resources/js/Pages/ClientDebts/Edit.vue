@@ -19,13 +19,16 @@
                         <div v-if="!debt?.id" class="mx-auto col col-md-6">
                             <div class="form-group">
                                 <label class="form-asterisk">Заявка</label>
-                                <select class="form-control"
-                                        :class="{'is-invalid': errors.order_id}"
-                                        v-model.trim="form.order_id">
-                                    <option :value="order.id"
-                                            v-for="(order, index) in orders"> Заявка №{{ order.id }}
-                                    </option>
-                                </select>
+
+                                <custom-select
+                                    full
+                                    searchable
+                                    :class="{'is-invalid': errors.order_id}"
+                                    :options="orders"
+                                    v-model.number="form.order_id"
+                                    :value="form.order_id"
+                                    :render="id => `Заявка № ${id}`"
+                                    label-key="id" />
 
                                 <div v-if="errors.order_id" class="error invalid-feedback">
                                     {{ errors.order_id }}
@@ -82,10 +85,11 @@
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import {vMaska} from "maska";
+import CustomSelect from "../../Shared/CustomSelect.vue";
 
 export default {
     props: ['orders', 'debt', 'client', 'selectedOrder', 'errors'],
-    components: {Head, Link},
+    components: {CustomSelect, Head, Link},
     directives: {maska: vMaska},
     data() {
         return {

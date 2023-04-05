@@ -6,7 +6,7 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div class="custom-select-search-input" v-if="searchable">
-                <input type="text" @blur="onBlur" @keyup="onKeyUp" class="form-control form-control-sm "
+                <input type="text" @keyup="onKeyUp" class="form-control form-control-sm"
                        placeholder="Найти">
             </div>
 
@@ -101,9 +101,6 @@ export default {
         },
         setSelected(v) {
             this.selected = this.findLabel(v)
-        },
-        onBlur() {
-            $(this.$el).find('.custom-select-btn').dropdown('toggle');
         }
     },
     watch: {

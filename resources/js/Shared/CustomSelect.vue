@@ -87,6 +87,8 @@ export default {
 
             let isRun = false;
 
+            alert('go next', this.searchQuery);
+
             const regex = new RegExp(this.searchQuery, 'ig');
 
             return this.searchQuery

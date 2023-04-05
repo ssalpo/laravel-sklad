@@ -44,7 +44,6 @@
 
                     </div>
 
-
                     <h5 class="mb-3 mt-4">Прибыль по товарам за сегодня</h5>
 
                     <div class="table-responsive">
@@ -52,12 +51,14 @@
                             <thead>
                             <tr>
                                 <th width="50%">Номенклатура</th>
+                                <th>Продажи</th>
                                 <th>Прибыль</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="nomenclature in todayNomenclatureProfits">
                                 <td>{{ nomenclature.name }}</td>
+                                <td>{{ numberFormat(nomenclature.amount) }} сом.</td>
                                 <td>{{ numberFormat(nomenclature.profit) }} сом.</td>
                             </tr>
                             </tbody>
@@ -70,12 +71,14 @@
                             <thead>
                             <tr>
                                 <th width="50%">Номенклатура</th>
+                                <th>Продажи</th>
                                 <th>Прибыль</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr v-for="nomenclature in monthNomenclatureProfits">
                                 <td>{{ nomenclature.name }}</td>
+                                <td>{{ numberFormat(nomenclature.amount) }} сом.</td>
                                 <td>{{ numberFormat(nomenclature.profit) }} сом.</td>
                             </tr>
                             </tbody>

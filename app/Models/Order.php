@@ -6,6 +6,7 @@ use App\Models\Traits\CurrentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class Order extends Model
 {
@@ -33,6 +34,18 @@ class Order extends Model
         self::STATUS_SEND => 'Отправлен',
         self::STATUS_CANCELED => 'Отменен',
     ];
+
+    public function scopeFilter($q, $data)
+    {
+        $q->when(
+            Arr::get($data, 'client_id'),
+            fn($q, $v) => $q->where('client_id', $v)
+        )
+            ->when(
+                Arr::get($data, 'user_id'),
+                fn($q, $v) => $q->where('user_id', $v)
+            );
+    }
 
     public function scopeStatusNew($q)
     {

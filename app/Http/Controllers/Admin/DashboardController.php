@@ -4,45 +4,30 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\AnalyticService;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
+    public function __construct(
+        public AnalyticService $analyticService
+    )
+    {
+    }
+
     public function index()
     {
-        $todayProfit = Order::whereDate('created_at', now())->statusSend()->sum('profit');
+        $startOfDayDate = now()->startOfDay();
+        $endOfDayDate = now()->endOfDay();
 
-        $monthProfit = Order::whereBetween('created_at', [
-            now()->startOfMonth(),
-            now()->endOfMonth()
-        ])->statusSend()->sum('profit');
+        $startOfMonthDate = now()->startOfMonth();
+        $endOfMonthDate = now()->endOfMonth();
 
-        $todayNomenclatureProfits = DB::select('
-            SELECT t.nomenclature_id AS id, n.name, SUM(t.profit) AS profit
-            FROM (
-                     SELECT nomenclature_id,
-                            (price_for_sale - price) * quantity AS profit
-                     FROM order_items
-                        INNER JOIN orders o ON order_items.order_id = o.id AND o.status = ? AND o.deleted_at IS NULL
-                     WHERE DATE(order_items.created_at) = ?
-                 ) AS t
-                     INNER JOIN nomenclatures n ON n.id = t.nomenclature_id
-            GROUP BY t.nomenclature_id;
-        ', [Order::STATUS_SEND, now()->format('Y-m-d')]);
+        $todayProfit = $this->analyticService->ordersProfitInRange($startOfDayDate, $endOfDayDate);
+        $monthProfit = $this->analyticService->ordersProfitInRange($startOfMonthDate, $endOfMonthDate);
 
-
-        $monthNomenclatureProfits = DB::select('
-            SELECT t.nomenclature_id AS id, n.name, SUM(t.profit) AS profit
-            FROM (
-                     SELECT nomenclature_id,
-                            (price_for_sale - price) * quantity AS profit
-                     FROM order_items
-                        INNER JOIN orders o ON order_items.order_id = o.id AND o.status = ? AND o.deleted_at IS NULL
-                     WHERE order_items.created_at BETWEEN ? AND ?
-                 ) AS t
-                     INNER JOIN nomenclatures n ON n.id = t.nomenclature_id
-            GROUP BY t.nomenclature_id;
-        ', [Order::STATUS_SEND, now()->startOfMonth(), now()->endOfMonth()]);
+        $todayNomenclatureProfits = $this->analyticService->getNomenclatureTotalsInRange($startOfDayDate, $endOfDayDate);
+        $monthNomenclatureProfits = $this->analyticService->getNomenclatureTotalsInRange($startOfMonthDate, $endOfMonthDate);
 
         return inertia('Dashboard', compact(
             'todayProfit',

@@ -1,4 +1,9 @@
 <template>
+    {{searchQuery}}
+
+    <br>
+
+    {{filteredOptions}}
     <div class="btn-group d-block custom-select-wrapper" :class="{'full-width': this.full}">
         <button :class="['btn dropdown-toggle custom-select-btn', btnClass]" type="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -37,8 +37,17 @@
                                 <td>{{clientDiscount.nomenclature}}</td>
                                 <td>{{numberFormat(clientDiscount.discount)}} сом.</td>
                                 <td class="text-center">
-                                    <Link :href="route('client-discounts.edit', {client: client.id, client_discount: clientDiscount.id})">
+                                    <Link class="btn btn-sm btn-outline-primary mr-2" :href="route('client-discounts.edit', {client: client.id, client_discount: clientDiscount.id})">
                                         <i class="fa fa-pencil-alt"></i>
+                                    </Link>
+
+                                    <Link method="delete" as="button"
+                                          type="button"
+                                          preserve-sscroll
+                                          preserve-state
+                                          :href="route('client-discounts.destroy', {client: client.id, client_discount: clientDiscount.id})"
+                                          class="btn btn-sm btn-outline-danger">
+                                        <i class="fa fa-trash-alt"></i>
                                     </Link>
                                 </td>
                             </tr>

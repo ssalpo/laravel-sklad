@@ -75,4 +75,13 @@ class ClientDiscountController extends Controller
 
         return to_route('client-discounts.index', $client->id);
     }
+
+    public function destroy(int $client, int $discountId)
+    {
+        ClientDiscount::whereClientId($client)->findOrFail($discountId)->delete();
+
+        Toast::success('Скидка удалена.');
+
+        to_route('client-discounts.index', $client);
+    }
 }

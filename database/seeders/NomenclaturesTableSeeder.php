@@ -66,14 +66,6 @@ class NomenclaturesTableSeeder extends Seeder
                 'unit' => UnitConvertor::UNIT_G,
             ],
             [
-                'name' => 'Family 450г.',
-                'type' => 1,
-                'price' => 0,
-                'markup' => 0,
-                'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_G,
-            ],
-            [
                 'name' => 'Famely Lux 5л.',
                 'type' => 1,
                 'price' => 0,
@@ -144,13 +136,6 @@ class NomenclaturesTableSeeder extends Seeder
             ],
             [
                 'name' => 'слесь',
-                'type' => 2,
-                'price' => 0,
-                'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_KG,
-            ],
-            [
-                'name' => 'анузол',
                 'type' => 2,
                 'price' => 0,
                 'price_for_sale' => 0,

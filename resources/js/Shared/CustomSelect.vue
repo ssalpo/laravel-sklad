@@ -6,7 +6,7 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div class="custom-select-search-input" v-if="searchable">
-                <input type="text" @keyup="onKeyUp" class="form-control form-control-sm"
+                <input type="text" @keyup="onKeyUp" ref="searchInput" class="form-control form-control-sm"
                        placeholder="Найти">
             </div>
 
@@ -96,6 +96,7 @@ export default {
         onChange(option) {
             this.selected = option[this.labelKey];
             this.searchQuery = '';
+            this.$refs.searchInput.value = '';
 
             this.$emit('update:modelValue', option[this.returnValueKey])
         },

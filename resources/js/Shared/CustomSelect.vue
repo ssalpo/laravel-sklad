@@ -6,7 +6,7 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div class="custom-select-search-input" v-if="searchable">
-                <input type="text" @keyup="searchQuery = $event.target.value" class="form-control form-control-sm "
+                <input type="text" @blur="onBlur" @keyup="onKeyUp" class="form-control form-control-sm "
                        placeholder="Найти">
             </div>
 
@@ -22,6 +22,7 @@
 <script>
 import find from "lodash/find";
 import get from "lodash/get";
+import debounce from "lodash/debounce";
 
 export default {
     props: {
@@ -86,6 +87,9 @@ export default {
         }
     },
     methods: {
+        onKeyUp: debounce(function (e) {
+            this.searchQuery = e.target.value;
+        }, 500),
         findLabel(v) {
             return get(find(this.options, [this.returnValueKey, v]), this.labelKey)
         },
@@ -97,6 +101,9 @@ export default {
         },
         setSelected(v) {
             this.selected = this.findLabel(v)
+        },
+        onBlur() {
+            $(this.$el).find('.custom-select-btn').dropdown('toggle');
         }
     },
     watch: {

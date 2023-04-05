@@ -45,7 +45,7 @@
                                         <button v-if="currentPayIndex !== debt.id" @click="currentPayIndex = debt.id"
                                                 class="btn btn-sm btn-success">Погасить долг
                                         </button>
-                                        <client-debtn-payment-add
+                                        <client-debt-payment-add
                                             :submit-url="route('my.client-debt-payment.store', {client: debt.client.id, client_debt: debt.id})"
                                             :max-amount="debt.amount - debt.payments_sum_amount"
                                             @cancel="currentPayIndex = null"
@@ -65,10 +65,10 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import ClientDebtnPaymentAdd from "../../../Shared/ClientDebtnPaymentAdd.vue";
+import ClientDebtPaymentAdd from "../../../Shared/ClientDebtPaymentAdd.vue";
 
 export default {
-    components: {ClientDebtnPaymentAdd, Head, Link},
+    components: {ClientDebtPaymentAdd, Head, Link},
     props: ['debts'],
     data: () => ({
         currentPayIndex: null

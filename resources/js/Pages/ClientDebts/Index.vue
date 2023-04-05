@@ -89,7 +89,7 @@
                                                 class="btn btn-sm btn-primary">Погасить долг
                                         </button>
 
-                                        <client-debtn-payment-add
+                                        <client-debt-payment-add
                                             :submit-url="route('client.debts.payments.store', {client: client.id, debt: debt.id})"
                                             :max-amount="debt.amount - debt.payments_sum_amount"
                                             @cancel="currentPayIndex = null"
@@ -125,10 +125,10 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import ClientDebtnPaymentAdd from "../../Shared/ClientDebtnPaymentAdd.vue";
+import ClientDebtPaymentAdd from "../../Shared/ClientDebtPaymentAdd.vue";
 
 export default {
-    components: {ClientDebtnPaymentAdd, Head, Link},
+    components: {ClientDebtPaymentAdd, Head, Link},
     props: ['client', 'debts', 'totalDebts', 'totalPayments'],
     data: () => ({
         currentPayIndex: null

@@ -27,7 +27,7 @@
                             </tr>
                             <tr>
                                 <td class="p-1">Общая сумма</td>
-                                <td class="p-1">{{order.amount}} сом.</td>
+                                <td class="p-1">{{numberFormat(order.amount, 2)}} сом.</td>
                             </tr>
                         </table>
                     </div>
@@ -67,8 +67,10 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
+import {numberFormat} from "../../../functions";
 
 export default {
+    methods: {numberFormat},
     components: {Head, Link},
     props: ['order', 'orderItems'],
 }

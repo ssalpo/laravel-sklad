@@ -24,7 +24,6 @@ class OrderController extends Controller
     public function index()
     {
         $orders = Order::with(['user', 'client'])
-            ->withSum('debts', 'amount')
             ->my()
             ->orderBy('created_at', 'DESC')
             ->paginate()
@@ -32,7 +31,6 @@ class OrderController extends Controller
                 'id' => $m->id,
                 'client_id' => $m->client->id,
                 'client_name' => $m->client->name,
-                'debts_sum_amount' => $m->debts_sum_amount,
                 'amount' => $m->amount,
                 'status' => $m->status,
                 'created_at' => $m->created_at->format('d-m-Y H:i'),

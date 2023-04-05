@@ -22,7 +22,13 @@ class UsersTableSeeder extends Seeder
                 'username' => 'admin',
                 'is_admin' => true,
                 'password' => 'admin'
-            ]
+            ],
+            [
+                'name' => 'User 1',
+                'username' => 'user1',
+                'is_admin' => false,
+                'password' => 'secret'
+            ],
         ];
 
         foreach ($users as $userData) {

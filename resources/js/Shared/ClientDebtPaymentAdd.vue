@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row debt-payment-add">
         <div class="col-12">
             <input type="text"
                    v-model="form.amount"
@@ -48,3 +48,9 @@ export default {
     }
 }
 </script>
+
+<style>
+.debt-payment-add {
+    min-width: 120px;
+}
+</style>

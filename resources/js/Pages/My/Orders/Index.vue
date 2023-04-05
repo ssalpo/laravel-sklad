@@ -21,8 +21,7 @@
                                 <th>Клиент</th>
                                 <th>Сумма</th>
                                 <th>Статус</th>
-                                <th>Сумма долга</th>
-                                <th>Долги</th>
+                                <th width="100">Долги</th>
                                 <th>Дата создания</th>
                                 <th width="100">Действия</th>
                             </tr>
@@ -34,11 +33,11 @@
                                 <td>{{order.amount}} сом.</td>
                                 <td>{{$page.props.shared.orderStatusLabels[order.status]}}</td>
                                 <td>
-                                    {{numberFormat(order.debts_sum_amount)}} сом.
-                                    (<Link :href="route('my.client-debts.index', {client: order.client_id, order: order.id})">История долгов</Link>)
-                                </td>
-                                <td>
-                                    <Link :href="route('my.order-debts.create', order.id)">
+                                    <Link class="btn btn-sm btn-outline-success mr-2" :href="route('my.client-debts.index', {client: order.client_id, order: order.id})">
+                                        История долгов
+                                    </Link>
+
+                                    <Link class="btn btn-sm btn-outline-primary mr-2" :href="route('my.order-debts.create', order.id)">
                                         Добавить долг
                                     </Link>
                                 </td>

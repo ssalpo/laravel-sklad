@@ -96,7 +96,7 @@
                                     </button>
                                 </div>
                                 <div class="col-12 col-sm-6 mt-3 mt-sm-0" v-if="this.form.orderItems.length > 0">
-                                    Итого: {{ totalSum }} сом.
+                                    Итого: {{ numberFormat(totalSum, 2) }} сом.
                                 </div>
                             </div>
                         </div>
@@ -130,6 +130,7 @@ import keyBy from "lodash/keyBy";
 import get from "lodash/get";
 import find from "lodash/find";
 import CustomSelect from "../../../Shared/CustomSelect.vue";
+import {numberFormat} from "../../../functions";
 
 export default {
     props: ['order', 'clients', 'selectedClientId', 'nomenclatures', 'errors'],
@@ -172,6 +173,7 @@ export default {
         }
     },
     methods: {
+        numberFormat,
         submit() {
             if (!this.order?.id) {
                 this.form.post(route('my.orders.store'));

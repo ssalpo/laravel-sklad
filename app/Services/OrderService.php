@@ -36,7 +36,6 @@ class OrderService extends BaseService
 
             $totals = $this->calculateTotals($data, $nomenclatures, $clientDiscounts);
 
-
             $order = Order::create(array_merge(
                 [
                     'status' => Order::STATUS_NEW,

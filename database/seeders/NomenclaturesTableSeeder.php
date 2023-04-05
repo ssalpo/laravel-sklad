@@ -23,7 +23,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Family Lux 500г.',
@@ -31,7 +31,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_G,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Ойнашуяк 500г.',
@@ -39,7 +39,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_G,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'May 1л.',
@@ -47,7 +47,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Family 900г.',
@@ -55,7 +55,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_G,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Family 450г.',
@@ -63,7 +63,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_G,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Famely Lux 5л.',
@@ -71,7 +71,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Famely гель 5л.',
@@ -79,7 +79,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'May 3л.',
@@ -87,7 +87,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Famely 5л.',
@@ -95,7 +95,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Универсал 5л.',
@@ -103,7 +103,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'Famely 2.5л.',
@@ -111,7 +111,7 @@ class NomenclaturesTableSeeder extends Seeder
                 'price' => 0,
                 'markup' => 0,
                 'price_for_sale' => 0,
-                'unit' => UnitConvertor::UNIT_L,
+                'unit' => UnitConvertor::UNIT_PCS,
             ],
             [
                 'name' => 'АОС',

@@ -19,8 +19,8 @@
                             <tr>
                                 <th>Клиент</th>
                                 <th>Номер заявки</th>
-                                <th>Сумма долга</th>
                                 <th>Остаток долга</th>
+                                <th>Сумма долга</th>
                                 <th>Статус оплаты</th>
                                 <th>Дата создания</th>
                                 <th>Комментарий</th>
@@ -33,8 +33,8 @@
                                 <td>
                                     <Link :href="route('orders.show', debt.order_id)">Заявка №{{ debt.order_id }}</Link>
                                 </td>
-                                <td>{{ numberFormat(debt.amount) }} сом.</td>
                                 <td>{{ numberFormat(debt.amount - debt.payments_sum_amount) }} сом.</td>
+                                <td>{{ numberFormat(debt.amount) }} сом.</td>
                                 <td :class="[debt.is_paid ? 'text-success' : 'text-danger']">
                                     {{ debt.is_paid ? 'Оплачено' : 'Не оплачено' }}
                                 </td>

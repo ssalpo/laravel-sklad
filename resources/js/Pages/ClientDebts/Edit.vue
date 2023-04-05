@@ -99,7 +99,7 @@ export default {
     methods: {
         submit() {
             if (!this.debt?.id) {
-                this.form.post(route('client.debts.store'));
+                this.form.post(route('client.debts.store', this.client.id));
                 return;
             }
 

@@ -6,7 +6,7 @@
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
             <div class="custom-select-search-input" v-if="searchable">
-                <input type="text" v-model="searchQuery" class="form-control form-control-sm "
+                <input type="text" @keyup="searchQuery = $event.target.value" class="form-control form-control-sm "
                        placeholder="Найти">
             </div>
 

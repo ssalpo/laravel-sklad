@@ -23,6 +23,10 @@
                                 <td class="p-1">{{mixtureComposition.water}} {{mixtureComposition.waterUnit}}</td>
                             </tr>
                             <tr>
+                                <td class="p-1">Масса состава</td>
+                                <td class="p-1">{{mixtureComposition.weight}} {{mixtureComposition.weightUnit}}</td>
+                            </tr>
+                            <tr>
                                 <td class="p-1">Цена работника за единицу</td>
                                 <td class="p-1">${{numberFormat(mixtureComposition.worker_price, 4)}}</td>
                             </tr>

@@ -21,7 +21,7 @@ class UsersTableSeeder extends Seeder
                 'name' => 'Admin',
                 'username' => 'admin',
                 'is_admin' => true,
-                'password' => 'oripov9494'
+                'password' => 'admin'
             ]
         ];
 

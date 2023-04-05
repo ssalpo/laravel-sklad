@@ -239,6 +239,13 @@ class NomenclaturesTableSeeder extends Seeder
                 'price_for_sale' => 0,
                 'unit' => UnitConvertor::UNIT_PCS,
             ],
+            [
+                'name' => 'Целлофан',
+                'type' => 2,
+                'price' => 0,
+                'price_for_sale' => 0,
+                'unit' => UnitConvertor::UNIT_PCS,
+            ],
 
         ];
 

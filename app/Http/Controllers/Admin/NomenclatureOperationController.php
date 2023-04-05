@@ -39,6 +39,7 @@ class NomenclatureOperationController extends Controller
                     'name' => $m->nomenclature->name,
                     'unit' => UnitConvertor::UNIT_LABELS[$m->nomenclature->unit]
                 ],
+                'can_edit' => $m->can_edit,
                 'quantity' => $m->quantity,
                 'created_at' => $m->created_at->format('d-m-Y H:i')
             ]);

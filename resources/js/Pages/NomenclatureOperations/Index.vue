@@ -37,11 +37,14 @@
                                 <td>{{nomenclatureOperation.nomenclature.name}}</td>
                                 <td>{{nomenclatureOperation.quantity}} {{nomenclatureOperation.nomenclature.unit}}</td>
                                 <td class="text-center">
-                                    <Link class="btn btn-sm btn-outline-primary mr-1" :href="route('nomenclature-operations.edit', {nomenclature_operation: nomenclatureOperation.id, type: 1})">
+                                    <Link class="btn btn-sm btn-outline-primary mr-1"
+                                          v-if="nomenclatureOperation.can_edit"
+                                          :href="route('nomenclature-operations.edit', {nomenclature_operation: nomenclatureOperation.id, type: 1})">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
 
                                     <Link method="delete" as="button"
+                                          v-if="nomenclatureOperation.can_edit"
                                           type="button"
                                           preserve-sscroll
                                           preserve-state

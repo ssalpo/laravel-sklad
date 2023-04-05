@@ -15,11 +15,15 @@ class NomenclatureArrival extends Model
         'quantity',
         'unit',
         'comment',
-        'arrival_at'
+        'arrival_at',
+        'price',
+        'price_for_sale',
     ];
 
     protected $casts = [
-        'arrival_at' => 'datetime'
+        'arrival_at' => 'datetime',
+        'price' => 'double',
+        'price_for_sale' => 'double',
     ];
 
     protected $appends = ['can_edit'];

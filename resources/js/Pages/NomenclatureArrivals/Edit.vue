@@ -50,7 +50,7 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Количество поступления</label>
-                                <input :disabled="box.quantity || box.quantityInSingleBox" type="number"
+                                <input  type="number"
                                        class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
                                        v-model.number="form.quantity">
@@ -135,8 +135,8 @@ export default {
     data() {
         return {
             box: {
-                quantity: 0,
-                quantityInSingleBox: 0
+                quantity: null,
+                quantityInSingleBox: null
             },
             form: useForm({
                 nomenclature_id: this.nomenclatureArrival?.nomenclature_id,

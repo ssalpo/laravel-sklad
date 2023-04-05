@@ -50,6 +50,7 @@
                                     </Link>
 
                                     <Link method="delete" as="button"
+                                          v-if="nomenclatureArrival.can_edit"
                                           type="button"
                                           preserve-sscroll
                                           preserve-state

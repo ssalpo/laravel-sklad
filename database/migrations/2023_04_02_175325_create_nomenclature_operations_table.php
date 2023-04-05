@@ -18,6 +18,8 @@ return new class extends Migration
             $table->foreignId('nomenclature_id')->constrained()->cascadeOnDelete();
             $table->tinyInteger('type');
             $table->integer('quantity');
+            $table->decimal('price')->default(0);
+            $table->decimal('price_for_sale')->default(0);
             $table->softDeletes();
             $table->timestamps();
         });

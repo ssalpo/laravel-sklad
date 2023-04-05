@@ -8,14 +8,26 @@ class NomenclatureOperationService extends BaseService
 {
     public function store(array $data)
     {
-        return NomenclatureOperation::create($data);
+        return NomenclatureOperation::create(
+            NomenclatureService::mergeNomenclaturePrices(
+                $data['nomenclature_id'],
+                $data
+            )
+        );
     }
 
     public function update(int $id, array $data)
     {
         $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
 
-        $nomenclatureOperation->update($data);
+        if($nomenclatureOperation->can_edit) {
+            $nomenclatureOperation->update(
+                NomenclatureService::mergeNomenclaturePrices(
+                    $data['nomenclature_id'],
+                    $data
+                )
+            );
+        }
 
         return $nomenclatureOperation;
     }
@@ -24,7 +36,9 @@ class NomenclatureOperationService extends BaseService
     {
         $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
 
-        $nomenclatureOperation->delete();
+        if($nomenclatureOperation->can_edit) {
+            $nomenclatureOperation->delete();
+        }
 
         return $nomenclatureOperation;
     }

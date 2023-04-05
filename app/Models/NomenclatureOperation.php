@@ -13,8 +13,17 @@ class NomenclatureOperation extends Model
     protected $fillable = [
         'nomenclature_id',
         'type',
-        'quantity'
+        'quantity',
+        'price',
+        'price_for_sale',
     ];
+
+    protected $casts = [
+        'price' => 'double',
+        'price_for_sale' => 'double',
+    ];
+
+    protected $appends = ['can_edit'];
 
     public const OPERATION_TYPE_WITHDRAW = 1;
     public const OPERATION_TYPE_INVENTORY = 2;
@@ -31,5 +40,10 @@ class NomenclatureOperation extends Model
     public function scopeTypeWithdraw($q)
     {
         return $q->whereType(self::OPERATION_TYPE_WITHDRAW);
+    }
+
+    public function getCanEditAttribute()
+    {
+        return now()->diffInDays($this->created_at) <= 0;
     }
 }

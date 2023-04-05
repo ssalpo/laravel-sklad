@@ -8,7 +8,12 @@ class NomenclatureArrivalService
 {
     public function store(array $data)
     {
-        return NomenclatureArrival::create($data);
+        return NomenclatureArrival::create(
+            NomenclatureService::mergeNomenclaturePrices(
+                $data['nomenclature_id'],
+                $data
+            )
+        );
     }
 
     public function update(int $id, array $data)
@@ -16,7 +21,12 @@ class NomenclatureArrivalService
         $nomenclatureArrival = NomenclatureArrival::findOrFail($id);
 
         if($nomenclatureArrival->can_edit) {
-            $nomenclatureArrival->update($data);
+            $nomenclatureArrival->update(
+                NomenclatureService::mergeNomenclaturePrices(
+                    $data['nomenclature_id'],
+                    $data
+                )
+            );
         }
 
         return $nomenclatureArrival;
@@ -26,7 +36,9 @@ class NomenclatureArrivalService
     {
         $nomenclatureArrival = NomenclatureArrival::findOrFail($id);
 
-        $nomenclatureArrival->delete();
+        if($nomenclatureArrival->can_edit) {
+            $nomenclatureArrival->delete();
+        }
 
         return $nomenclatureArrival;
     }

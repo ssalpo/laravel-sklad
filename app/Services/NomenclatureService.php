@@ -48,4 +48,11 @@ class NomenclatureService
             }
         }
     }
+
+    public static function mergeNomenclaturePrices(int $id, array $data): array
+    {
+        $nomenclature = Nomenclature::findOrFail($id);
+
+        return array_merge($data, ['price' => $nomenclature->price, 'price_for_sale' => $nomenclature->price_for_sale]);
+    }
 }

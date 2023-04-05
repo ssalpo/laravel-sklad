@@ -93,7 +93,7 @@ class OrderController extends Controller
 
         Toast::success('Заявка успешно создана!');
 
-        return to_route('orders.show', $order->id);
+        return to_route('my.orders.show', $order->id);
     }
 
     public function destroy(int $id)

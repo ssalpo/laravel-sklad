@@ -135,7 +135,8 @@ export default {
 
 .dropdown-menu {
     overflow-y: scroll;
-    max-height: 200px;
+    max-height: 240px;
+    min-width: 210px;
 }
 
 .custom-select-search-input {

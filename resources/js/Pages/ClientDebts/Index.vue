@@ -24,10 +24,10 @@
                     </div>
                 </div>
                 <div class="col-lg-4 col-sm-6 col-12">
-                    <div class="small-box bg-info">
+                    <div class="small-box bg-success">
                         <div class="inner">
                             <h3>{{ numberFormat(totalPayments) }} с.</h3>
-                            <p>Общая сумма долга</p>
+                            <p>Общая сумма погашений</p>
                         </div>
                         <div class="icon">
                             <i class="fa fa-chart-bar"></i>
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="col-lg-4 col-sm-6 col-12">
-                    <div class="small-box bg-success">
+                    <div class="small-box bg-info">
                         <div class="inner">
                             <h3>{{ numberFormat(totalDebts - totalPayments) }} с.</h3>
                             <p>Остаток для погашения</p>

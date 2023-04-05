@@ -101,4 +101,13 @@ class NomenclatureArrivalController extends Controller
 
         return to_route('nomenclature-arrivals.index');
     }
+
+    public function destroy(int $id)
+    {
+        $this->nomenclatureArrivalService->destroy($id);
+
+        Toast::success('Приход успешно удален.');
+
+        return to_route('nomenclature-arrivals.index');
+    }
 }

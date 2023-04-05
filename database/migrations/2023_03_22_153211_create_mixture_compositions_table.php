@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('mixture_compositions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('nomenclature_id')->constrained();
+            $table->foreignId('nomenclature_id')->constrained()->cascadeOnDelete();
             $table->double('weight')->default(0);
             $table->tinyInteger('weight_unit');
             $table->double('water')->default(0);
             $table->tinyInteger('water_unit');
             $table->double('worker_price')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

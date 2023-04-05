@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('mixture_composition_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('mixture_composition_id')->constrained();
-            $table->foreignId('nomenclature_id')->constrained();
+            $table->foreignId('mixture_composition_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('nomenclature_id')->constrained()->cascadeOnDelete();
             $table->double('price')->default(0);
             $table->double('quantity')->default(0);
             $table->tinyInteger('unit');
             $table->boolean('end_result')->default(false)->comment('При перерасчете суммы состава текущий состав добавляет в конечный итог');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

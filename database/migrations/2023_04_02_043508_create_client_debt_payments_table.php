@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('client_debt_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_debt_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('client_debt_id')->constrained()->cascadeOnDelete()->cascadeOnDelete();
+            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete()->cascadeOnDelete();
             $table->double('amount')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

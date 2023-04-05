@@ -14,7 +14,7 @@ class OrderController extends Controller
     {
         $orders = Order::with(['user', 'client'])
             ->orderBy('created_at', 'DESC')
-            ->paginate(1)
+            ->paginate()
             ->through(fn($m) => [
                 'id' => $m->id,
                 'user' => $m->user->name,

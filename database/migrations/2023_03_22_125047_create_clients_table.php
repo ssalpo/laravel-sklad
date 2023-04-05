@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->double('discount')->default(0);
             $table->double('discount_for_single')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

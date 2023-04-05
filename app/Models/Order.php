@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Models\Traits\CurrentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
-    use HasFactory, CurrentUser;
+    use HasFactory, CurrentUser, SoftDeletes;
 
     protected $fillable = [
         'user_id',

@@ -21,4 +21,13 @@ class NomenclatureArrivalService
 
         return $nomenclatureArrival;
     }
+
+    public function destroy(int $id)
+    {
+        $nomenclatureArrival = NomenclatureArrival::findOrFail($id);
+
+        $nomenclatureArrival->delete();
+
+        return $nomenclatureArrival;
+    }
 }

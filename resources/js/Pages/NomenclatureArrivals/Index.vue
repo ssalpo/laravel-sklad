@@ -43,8 +43,19 @@
                                 <td>{{nomenclatureArrival.arrival_at}}</td>
                                 <td>{{nomenclatureArrival.created_at}}</td>
                                 <td class="text-center">
-                                    <Link v-if="nomenclatureArrival.can_edit" :href="route('nomenclature-arrivals.edit', nomenclatureArrival.id)">
+                                    <Link v-if="nomenclatureArrival.can_edit"
+                                          class="btn btn-sm btn-outline-primary mr-2"
+                                          :href="route('nomenclature-arrivals.edit', nomenclatureArrival.id)">
                                         <i class="fa fa-pencil-alt"></i>
+                                    </Link>
+
+                                    <Link method="delete" as="button"
+                                          type="button"
+                                          preserve-sscroll
+                                          preserve-state
+                                          :href="route('nomenclature-arrivals.destroy', nomenclatureArrival.id)"
+                                          class="btn btn-sm btn-outline-danger">
+                                        <i class="fa fa-trash-alt"></i>
                                     </Link>
                                 </td>
                             </tr>

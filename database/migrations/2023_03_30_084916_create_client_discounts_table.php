@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('client_discounts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained()->cascadeOnDelete('cascade');
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
             $table->foreignId('nomenclature_id')->constrained()->cascadeOnDelete();
             $table->double('discount');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

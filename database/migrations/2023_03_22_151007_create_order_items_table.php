@@ -15,13 +15,14 @@ return new class extends Migration
     {
         Schema::create('order_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->nullable()->constrained()->onDelete('cascade');
-            $table->foreignId('nomenclature_id')->constrained();
+            $table->foreignId('order_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('nomenclature_id')->constrained()->cascadeOnDelete();
             $table->double('price')->default(0);
             $table->double('price_for_sale')->default(0);
             $table->integer('quantity')->default(0);
             $table->tinyInteger('unit');
             $table->double('discount')->default(0);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

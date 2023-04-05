@@ -15,12 +15,13 @@ return new class extends Migration
     {
         Schema::create('client_debts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('client_id')->constrained();
-            $table->foreignId('created_by')->constrained('users');
-            $table->foreignId('order_id')->constrained();
+            $table->foreignId('client_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('created_by')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('order_id')->constrained()->cascadeOnDelete();
             $table->double('amount')->default(0);
             $table->text('comment')->nullable();
             $table->boolean('is_paid')->default(false);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

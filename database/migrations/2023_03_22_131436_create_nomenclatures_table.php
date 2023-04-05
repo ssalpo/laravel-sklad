@@ -22,6 +22,7 @@ return new class extends Migration
             $table->decimal('markup')->default(0)->comment('Наценка');
             $table->tinyInteger('type');
             $table->tinyInteger('unit');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

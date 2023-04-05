@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('nomenclature_operations', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('nomenclature_id')->constrained();
+            $table->foreignId('nomenclature_id')->constrained()->cascadeOnDelete();
             $table->tinyInteger('type');
             $table->integer('quantity');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

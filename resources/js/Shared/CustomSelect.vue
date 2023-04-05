@@ -80,13 +80,25 @@ export default {
     computed: {
         filteredOptions() {
             if (!this.searchable) {
+                alert('disabled search');
+
                 return this.options;
             }
+
+            let isRun = false;
 
             const regex = new RegExp(this.searchQuery, 'ig');
 
             return this.searchQuery
-                ? this.options.filter(e => regex.test(e[this.labelKey]))
+                ? this.options.filter(e => {
+
+                    if(!isRun) {
+                        alert('regex find');
+                        isRun = true;
+                    }
+
+                    return regex.test(e[this.labelKey]);
+                })
                 : this.options;
         }
     },

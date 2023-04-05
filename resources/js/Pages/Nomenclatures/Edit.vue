@@ -130,7 +130,7 @@ export default {
                 dollar_exchange_rate: this.nomenclature?.dollar_exchange_rate || 0,
                 price_for_sale: this.nomenclature?.price_for_sale || 0,
                 type: this.nomenclature?.type,
-                unit: this.nomenclature?.unit,
+                unit: this.nomenclature?.unit || 7,
             }),
         }
     },

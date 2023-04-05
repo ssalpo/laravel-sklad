@@ -1,9 +1,4 @@
 <template>
-    {{searchQuery}}
-
-    <br>
-
-    {{filteredOptions}}
     <div class="btn-group d-block custom-select-wrapper" :class="{'full-width': this.full}">
         <button :class="['btn dropdown-toggle custom-select-btn', btnClass]" type="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -80,27 +75,13 @@ export default {
     computed: {
         filteredOptions() {
             if (!this.searchable) {
-                alert('disabled search');
-
                 return this.options;
             }
-
-            let isRun = false;
-
-            alert('go next', this.searchQuery);
 
             const regex = new RegExp(this.searchQuery, 'ig');
 
             return this.searchQuery
-                ? this.options.filter(e => {
-
-                    if(!isRun) {
-                        alert('regex find');
-                        isRun = true;
-                    }
-
-                    return regex.test(e[this.labelKey]);
-                })
+                ? this.options.filter(e => regex.test(e[this.labelKey]))
                 : this.options;
         }
     },

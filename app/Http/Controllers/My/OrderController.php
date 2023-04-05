@@ -80,7 +80,9 @@ class OrderController extends Controller
 
         $selectedClientId = request('clientId');
 
-        $nomenclatures = Nomenclature::saleType()->get(['id', 'name', 'price_for_sale']);
+        $nomenclatures = Nomenclature::saleType()
+            ->hasPriceForSale()
+            ->get(['id', 'name', 'price_for_sale']);
 
         return inertia('My/Orders/Edit', compact('clients', 'nomenclatures', 'selectedClientId'));
     }

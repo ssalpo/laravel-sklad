@@ -52,6 +52,12 @@ class Nomenclature extends Model
         $q->whereType(self::TYPE_SALE);
     }
 
+    public function scopeHasPriceForSale($q)
+    {
+        $q->where('price', '>', 0)
+            ->where('price_for_sale', '>', 0);
+    }
+
     public function scopeCompositeType($q)
     {
         $q->whereType(self::TYPE_COMPOSITE);

@@ -77,9 +77,13 @@ class NomenclatureController extends Controller
         return to_route('nomenclatures.index');
     }
 
-    public function changeMarkups()
+    public function changeMarkups(Request $request)
     {
-        $this->nomenclatureService->changeMarkups();
+        $exchangeRate = $request->input('dollar_exchange_rate', 0);
+
+        if($exchangeRate) {
+            $this->nomenclatureService->changeMarkups($exchangeRate);
+        }
 
         Toast::info('Себестоимость всех товаров изменены.');
     }

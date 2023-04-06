@@ -25,7 +25,7 @@ class NomenclatureService
         return $nomenclature;
     }
 
-    public function changeMarkups()
+    public function changeMarkups(float $dollarExchangeRate)
     {
         $nomenclatures = Nomenclature::with('mixtureComposition.mixtureCompositionItems')
             ->saleType()
@@ -39,11 +39,12 @@ class NomenclatureService
             $totalSum = (new MixtureCompositionService)->calculateTotalSum($nomenclature->mixtureComposition);
 
             if ($nomenclature->dollar_exchange_rate) {
-                $price = $totalSum * $nomenclature->dollar_exchange_rate;
+                $price = $totalSum * $dollarExchangeRate;
 
                 $nomenclature->update([
                     'price' => round($price, 2, PHP_ROUND_HALF_UP),
-                    'price_for_sale' => round($price + $nomenclature->markup, 2, PHP_ROUND_HALF_UP)
+                    'price_for_sale' => round($price + $nomenclature->markup, 2, PHP_ROUND_HALF_UP),
+                    'dollar_exchange_rate' => $dollarExchangeRate
                 ]);
             }
         }

@@ -13,18 +13,25 @@
         <div class="container">
             <div class="card">
                 <div class="card-header">
-                    <button class="btn btn-sm btn-outline-info" :disabled="isMarkupChanging" @click="changeMarkup">
-                        <span class="fa fa-exchange-alt"></span> <span class="d-none d-sm-inline-block">Обновить себестоимость</span>
-                    </button>
-
-                    <div class="card-tools">
-                        <Link :href="route('nomenclatures.create')" class="btn btn-success btn-sm px-3">
-                            Новая номенклатура
-                        </Link>
+                    <div class="row">
+                        <div class="col-6 col-sm-7 col-md-7 text-left d-none d-sm-flex">
+                            <nomenclature-change-markups />
+                        </div>
+                        <div class="col-12 col-sm-5 col-md-5 text-right">
+                            <div class="card-tools">
+                                <Link :href="route('nomenclatures.create')" class="btn btn-success btn-sm px-3">
+                                    Новая номенклатура
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <nomenclature-change-markups
+                        class="d-flex mb-3 d-sm-none"
+                    />
+
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
@@ -73,24 +80,11 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
+import Pagination from "@/Shared/Pagination.vue";
+import NomenclatureChangeMarkups from "@/Shared/NomenclatureChangeMarkups.vue";
 
 export default {
-    components: {Pagination, Head, Link},
-    props: ['nomenclatures'],
-    data: () => ({
-        isMarkupChanging: false,
-    }),
-    methods: {
-        changeMarkup() {
-            this.isMarkupChanging = true;
-
-            axios.post(route('nomenclatures.change-markups'))
-                .then(() => {
-                    this.$inertia.visit(route('nomenclatures.index'))
-                })
-                .finally(() => this.isMarkupChanging = false)
-        }
-    }
+    components: {NomenclatureChangeMarkups, Pagination, Head, Link},
+    props: ['nomenclatures']
 }
 </script>

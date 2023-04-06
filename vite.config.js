@@ -25,6 +25,11 @@ export default defineConfig({
                     includeAbsolute: false,
                 },
             },
-        }),
+        })
     ],
+    resolve: {
+        alias: {
+            '@': '/resources/js'
+        }
+    }
 });

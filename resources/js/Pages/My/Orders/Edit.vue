@@ -129,8 +129,8 @@ import compact from "lodash/compact";
 import keyBy from "lodash/keyBy";
 import get from "lodash/get";
 import find from "lodash/find";
-import CustomSelect from "../../../Shared/CustomSelect.vue";
-import {numberFormat} from "../../../functions";
+import CustomSelect from "@/Shared/CustomSelect.vue";
+import {numberFormat} from "@/functions";
 
 export default {
     props: ['order', 'clients', 'selectedClientId', 'nomenclatures', 'errors'],

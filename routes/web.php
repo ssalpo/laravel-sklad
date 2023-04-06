@@ -4,7 +4,8 @@ use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
 // Admin routes
-Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(__DIR__ . '/admin.php'
+Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(
+    __DIR__ . '/admin.php'
 );
 
 // Auth

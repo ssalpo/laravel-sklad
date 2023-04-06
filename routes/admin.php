@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AutocompleteController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientDebtController;
 use App\Http\Controllers\Admin\ClientDebtPaymentController;
@@ -54,3 +55,11 @@ Route::resource('/mixture-compositions/{mixture_composition}/mixture-composition
 Route::post('/users/{user}/toggle-admin-status', [UserController::class, 'toggleAdminStatus'])->name('users.toggle-admin-status');
 Route::post('/users/{user}/toggle-activity', [UserController::class, 'toggleActivity'])->name('users.toggle_activity');
 Route::resource('users', UserController::class);
+
+
+// Autocomplete routes
+Route::group(['prefix' => 'autocomplete', 'as' => 'autocomplete.'], static function () {
+    Route::get('clients', [AutocompleteController::class, 'clients'])->name('clients');
+    Route::get('nomenclatures', [AutocompleteController::class, 'nomenclatures'])->name('nomenclatures');
+    Route::get('orders', [AutocompleteController::class, 'orders'])->name('orders');
+});

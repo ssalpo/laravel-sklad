@@ -11,6 +11,11 @@
     <link rel="stylesheet" href="/external/admin-lte/css/all.min.css">
     <!-- icheck bootstrap -->
     <link rel="stylesheet" href="/external/admin-lte/css/icheck-bootstrap.min.css">
+
+    <!-- Select2 -->
+    <link rel="stylesheet" href="/external/admin-lte/css/select2/select2.min.css">
+    <link rel="stylesheet" href="/external/admin-lte/css/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+
     <!-- Tempusdominus Bootstrap 4 -->
     <link rel="stylesheet" href="/external/admin-lte/css/tempusdominus-bootstrap-4.min.css">
     <!-- Theme style -->
@@ -34,6 +39,8 @@
 <script src="/external/admin-lte/js/bootstrap.bundle.min.js"></script>
 <!-- AdminLTE App -->
 <script src="/external/admin-lte/js/adminlte.min.js"></script>
+<!-- Select2 -->
+<script src="/external/admin-lte/js/select2/select2.full.min.js"></script>
 
 <script src="/external/moment/moment.min.js"></script>
 <script src="/external/moment/locale/ru.js"></script>
@@ -41,10 +48,5 @@
 <!-- Tempusdominus Bootstrap 4 -->
 <script src="/external/admin-lte/js/tempusdominus-bootstrap-4.min.js"></script>
 
-<script>
-    $(function () {
-
-    });
-</script>
 </body>
 </html>

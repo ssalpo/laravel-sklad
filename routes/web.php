@@ -3,9 +3,6 @@
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
-// Select 2
-Route::get('select2', [\App\Http\Controllers\Select2Controller::class, 'index']);
-
 // Admin routes
 Route::middleware(['auth:sanctum', 'user.activity.check', 'admin'])->group(
     __DIR__ . '/admin.php'

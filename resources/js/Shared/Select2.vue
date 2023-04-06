@@ -3,6 +3,7 @@
 </template>
 
 <script>
+import isObject from "lodash/isObject"
 
 export default {
     props: {
@@ -26,6 +27,10 @@ export default {
             type: Boolean,
             default: true
         },
+        ajax: {
+            type: Boolean,
+            default: false
+        },
         prefetch: {
             type: Boolean,
             default: false
@@ -40,11 +45,25 @@ export default {
             type: String,
             default: 'id'
         },
+        disabledValues: {
+            type: Array,
+            default: () => []
+        },
+        selected: {
+            type: Object,
+            default: () => {
+            }
+        }
     },
     data() {
         return {
             isFetched: false,
-            listOptions: this.options
+            listOptions: []
+        }
+    },
+    created() {
+        if (this.searchable && !this.ajax && !this.prefetch) {
+            this.listOptions = this.options.map(this.convertToOptionData);
         }
     },
     computed: {
@@ -53,7 +72,7 @@ export default {
                 alert('Please enter "placeholder" property.');
             }
 
-            return {
+            let config = {
                 selectOnClose: true,
                 dropdownAutoWidth: true,
                 minimumResultsForSearch: this.searchable ? 0 : -1,
@@ -61,13 +80,27 @@ export default {
                 placeholder: this.placeholder,
                 ...this.config
             };
+
+            if (this.ajax) {
+                config['minimumInputLength'] = 1;
+
+                config['ajax'] = {
+                    delay: 500,
+                    url: this.url,
+                    processResults: this.processAjaxResult
+                };
+            }
+
+            return config;
         }
     },
     mounted: function () {
         let vm = this;
 
+        this.setSelected(this.selected);
+
         $(this.$el)
-            .select2({...this.selectConfig, data: this.listOptions})
+            .select2({...this.selectConfig, data: !this.prefetch ? this.listOptions : []})
             .val(this.modelValue)
             .trigger("change")
             .on("change", function () {
@@ -88,21 +121,36 @@ export default {
         options: {
             deep: true,
             handler: function (options) {
-                this.listOptions = options
+                if(!this.prefetch) {
+                    this.listOptions = options.map(this.convertToOptionData)
+                }
             }
         },
         listOptions: {
             deep: true,
             handler: function (options) {
                 $(this.$el)
-                    .empty()
-                    .select2({...this.selectConfig, data: options});
+                    .select2({...this.selectConfig, data: options})
+                    .val(this.modelValue)
+                    .trigger("change");
+            }
+        },
+        selected: {
+            deep: true,
+            handler: function (v) {
+                this.setSelected(v);
             }
         }
     },
     methods: {
         convertToOptionData(data) {
-            return {id: data[this.idKey], text: data[this.textKey]};
+            let item = {id: data[this.idKey], text: data[this.textKey]};
+
+            if (this.disabledValues.includes(item.id)) {
+                item['disabled'] = true;
+            }
+
+            return item;
         },
         prefetchFromServer() {
             if (this.prefetch && !this.url) {
@@ -112,10 +160,26 @@ export default {
             }
 
             if (this.prefetch && this.url) {
-                axios.post(this.url)
+                axios.get(this.url)
                     .then((r) => {
                         this.listOptions = r.data.map(this.convertToOptionData)
                     })
+            }
+        },
+        processAjaxResult(response) {
+            return {
+                results: response.map(this.convertToOptionData)
+            }
+        },
+
+        setSelected(data) {
+            if (!this.listOptions.length && isObject(data)) {
+                this.listOptions = [
+                    {
+                        ...this.convertToOptionData(data),
+                        selected: true
+                    }
+                ]
             }
         }
     },

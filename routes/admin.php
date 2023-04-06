@@ -59,7 +59,7 @@ Route::resource('users', UserController::class);
 
 // Autocomplete routes
 Route::group(['prefix' => 'autocomplete', 'as' => 'autocomplete.'], static function () {
-    Route::post('clients', [AutocompleteController::class, 'clients'])->name('clients');
-    Route::post('nomenclatures', [AutocompleteController::class, 'nomenclatures'])->name('nomenclatures');
-    Route::post('orders', [AutocompleteController::class, 'orders'])->name('orders');
+    Route::get('clients', [AutocompleteController::class, 'clients'])->name('clients');
+    Route::get('nomenclatures', [AutocompleteController::class, 'nomenclatures'])->name('nomenclatures');
+    Route::get('orders', [AutocompleteController::class, 'orders'])->name('orders');
 });

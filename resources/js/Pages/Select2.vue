@@ -9,12 +9,11 @@
 
         <select2
             clearable
-            prefetch
             :url="route('autocomplete.nomenclatures')"
-            :searchable="true"
+            searchable
+            ajax
             placeholder="Выберите клиента"
             v-model="selected"
-            :options="options"
         />
 
     </div>
@@ -29,17 +28,17 @@ export default {
     components: {Select2},
     data: () => ({
         options: [
-            {id: 1, text: 'Клиент 1'},
-            {id: 2, text: 'Клиент 2'},
-            {id: 3, text: 'Клиент 3'},
-            {id: 4, text: 'Клиент 4'},
-            {id: 5, text: 'Клиент 5'},
-            {id: 6, text: 'Клиент 6'},
-            {id: 7, text: 'Клиент 7'},
-            {id: 8, text: 'Клиент 8'},
-            {id: 9, text: 'Клиент 9'},
+            {id: 1, name: 'Клиент 1'},
+            {id: 2, name: 'Клиент 2'},
+            {id: 3, name: 'Клиент 3'},
+            {id: 4, name: 'Клиент 4'},
+            {id: 5, name: 'Клиент 5'},
+            {id: 6, name: 'Клиент 6'},
+            {id: 7, name: 'Клиент 7'},
+            {id: 8, name: 'Клиент 8'},
+            {id: 9, name: 'Клиент 9'},
         ],
-        selected: 2
+        selected: 3
     }),
     methods: {
         addClient() {

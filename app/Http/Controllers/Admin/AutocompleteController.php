@@ -12,12 +12,15 @@ class AutocompleteController extends Controller
 {
     public function clients()
     {
-        return Client::all(['id', 'name']);
+        return Client::when(request('q'), fn($q, $v) => $q->where('name', 'like', '%' . $v . '$'))
+            ->get(['id', 'name']);
     }
 
     public function nomenclatures()
     {
-        return Nomenclature::saleType()->get(['id', 'name']);
+        return Nomenclature::saleType()
+            ->when(request('q'), fn($q, $v) => $q->where('name', 'like', '%' . $v . '%'))
+            ->get(['id', 'name']);
     }
 
     public function orders()
@@ -25,6 +28,6 @@ class AutocompleteController extends Controller
         return array_map(fn($m) => [
             'id' => $m->id,
             'name' => 'Заявка №' . $m->id
-        ], Order::pluck('id'));
+        ], Order::when(request('q'), fn($q, $v) => $q->whereId($v))->pluck('id'));
     }
 }

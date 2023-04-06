@@ -50,7 +50,7 @@ class OrderService extends BaseService
                 $discount = Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
 
                 $item['price'] = $nomenclature->price;
-                $item['price_for_sale'] = $nomenclature->price_for_sale - $discount;
+                $item['price_for_sale'] = $item['price_for_sale'] - $discount;
                 $item['unit'] = $nomenclature->unit;
                 $item['discount'] = $discount;
 
@@ -69,7 +69,7 @@ class OrderService extends BaseService
         foreach ($data['orderItems'] as $item) {
             $nomenclature = $nomenclatures->where('id', $item['nomenclature_id'])->first();
 
-            $priceForSale = $nomenclature->price_for_sale - Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
+            $priceForSale = $item['price_for_sale'] - Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
 
             if (!$nomenclature) {
                 continue;

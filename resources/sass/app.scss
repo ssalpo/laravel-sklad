@@ -30,15 +30,13 @@
 }
 
 
-
-
 .editor-content p {
     margin-bottom: 7px;
     line-height: 25px;
 }
 
 .form-asterisk:after {
-    content:" *";
+    content: " *";
     color: red;
 }
 
@@ -52,4 +50,9 @@
     p {
         margin-bottom: 0;
     }
+}
+
+.nomenclatures-line:not(:last-child) {
+    border: 1px solid #ccc;
+    padding: 10px 5px;
 }

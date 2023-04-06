@@ -42,38 +42,59 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-1" v-for="(orderItem, index) in form.orderItems">
-                                <div class="col-6 col-sm-6">
+                            <div class="row nomenclatures-line" :class="{'mb-2': form.orderItems.length > index + 1}"  v-for="(orderItem, index) in form.orderItems">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-10">
+                                            <div class="row mb-2">
+                                                <div class="col-12">
+                                                    <custom-select
+                                                        full
+                                                        searchable
+                                                        :key="index"
+                                                        :disabledValues="selectedNomenclatures"
+                                                        :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
+                                                        :options="nomenclatures"
+                                                        v-model.number="orderItem.nomenclature_id"
+                                                        :value="orderItem.nomenclature_id"
+                                                        label-key="name"
+                                                        placeholder=""
+                                                        class="btn-group-sm" />
+                                                </div>
+                                            </div>
 
-                                    <custom-select
-                                        full
-                                        searchable
-                                        :key="index"
-                                        :disabledValues="selectedNomenclatures"
-                                        :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
-                                        :options="nomenclatures"
-                                        v-model.number="orderItem.nomenclature_id"
-                                        :value="orderItem.nomenclature_id"
-                                        label-key="name"
-                                        placeholder=""
-                                        class="btn-group-sm" />
-                                </div>
-                                <div class="col-4 col-sm-4">
-                                    <input type="number"
-                                           :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}"
-                                           class="form-control form-control-sm"
-                                           v-model.trim="orderItem.quantity">
-                                </div>
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-sm btn-danger" @click="removeOrderItem(index)">
-                                        <i class="fa fa-trash"></i>
-                                    </button>
-                                </div>
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <input type="number"
+                                                           placeholder="Кол-во"
+                                                           :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}"
+                                                           class="form-control form-control-sm"
+                                                           v-model.trim="orderItem.quantity">
+                                                </div>
 
-                                <div class="col"
-                                     v-if="errors['orderItems.' + index + '.nomenclature_id'] || errors['orderItems.' + index + '.quantity']">
-                                    <div class="error invalid-feedback" style="display: block !important;">
-                                        Заполните корректно поля
+                                                <div class="col-6">
+                                                    <input type="number"
+                                                           placeholder="Сумма"
+                                                           :class="{'is-invalid': errors['orderItems.' + index + '.price_for_sale']}"
+                                                           class="form-control form-control-sm"
+                                                           v-model.trim="orderItem.price_for_sale">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 align-content-center">
+                                            <button type="button" class="btn btn-sm btn-danger" @click="removeOrderItem(index)">
+                                                <i class="fa fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-12"
+                                             v-if="errors['orderItems.' + index + '.nomenclature_id'] || errors['orderItems.' + index + '.quantity']">
+                                            <div class="error invalid-feedback" style="display: block !important;">
+                                                Заполните корректно поля
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -140,7 +161,7 @@ export default {
             selectedClient: null,
             form: useForm({
                 client_id: this.order?.client_id || parseInt(this.selectedClientId),
-                orderItems: this.order?.orderItems || [{nomenclature_id: null, quantity: null}]
+                orderItems: this.order?.orderItems || [{nomenclature_id: null, quantity: null, price_for_sale: null}]
             }),
         }
     },
@@ -185,7 +206,7 @@ export default {
         addOrderItem() {
             if (!this.canAddNomenclature) return;
 
-            this.form.orderItems.push({nomenclature_id: null, quantity: null})
+            this.form.orderItems.push({nomenclature_id: null, quantity: null, price_for_sale: null})
         },
         removeOrderItem(index) {
             this.form.orderItems.splice(index, 1)

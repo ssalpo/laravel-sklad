@@ -44,4 +44,16 @@ class ClientDebtPaymentController extends Controller
 
         return back();
     }
+
+    public function destroy(int $clientId, int $clientDebt, int $clientDebtPaymentId)
+    {
+        $this->clientDebtPaymentService->destroy(
+            $clientDebt,
+            $clientDebtPaymentId
+        );
+
+        Toast::success('Успешно удалено.');
+
+        return back();
+    }
 }

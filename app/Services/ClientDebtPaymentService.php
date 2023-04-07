@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\ClientDebt;
+use App\Models\ClientDebtPayment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -36,6 +37,16 @@ class ClientDebtPaymentService
 
             return $payment;
         });
+    }
+
+    public function destroy(int $clientDebtId, int $clientDebtPaymentId)
+    {
+        $payment = ClientDebtPayment::whereClientDebtId($clientDebtId)
+            ->findOrFail($clientDebtPaymentId);
+
+        $payment->delete();
+
+        return $payment;
     }
 
     public function setRelatedToCurrentUser(): self

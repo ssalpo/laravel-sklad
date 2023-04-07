@@ -48,7 +48,7 @@
                                         <div class="col-10">
                                             <div class="row mb-2">
                                                 <div class="col-12">
-                                                    <custom-select
+<!--                                                    <custom-select
                                                         full
                                                         searchable
                                                         :key="index"
@@ -59,25 +59,38 @@
                                                         :value="orderItem.nomenclature_id"
                                                         label-key="name"
                                                         placeholder=""
-                                                        class="btn-group-sm" />
+                                                        class="btn-group-sm" />-->
+
+                                                    <select2
+                                                        :key="index"
+                                                        class="form-control-sm"
+                                                        :disabledValues="selectedNomenclatures"
+                                                        :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
+                                                        :options="nomenclatures"
+                                                        placeholder="Выберите номенклатуру"
+                                                        v-model.number="orderItem.nomenclature_id"
+                                                    />
                                                 </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="col-6">
-                                                    <input type="number"
-                                                           placeholder="Кол-во"
-                                                           :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}"
-                                                           class="form-control form-control-sm"
-                                                           v-model.trim="orderItem.quantity">
+                                                    <numeric-field
+                                                        only-integer
+                                                        type="number"
+                                                        placeholder="Кол-во"
+                                                        :class-name="['form-control form-control-sm', errors['orderItems.' + index + '.quantity'] ? ' is-invalid' : '']"
+                                                        v-model="orderItem.quantity"
+                                                    />
                                                 </div>
 
                                                 <div class="col-6">
-                                                    <input type="number"
-                                                           placeholder="Сумма"
-                                                           :class="{'is-invalid': errors['orderItems.' + index + '.price_for_sale']}"
-                                                           class="form-control form-control-sm"
-                                                           v-model.trim="orderItem.price_for_sale">
+                                                    <numeric-field
+                                                        placeholder="Сумма"
+                                                        :class-name="['form-control form-control-sm', errors['orderItems.' + index + '.price_for_sale'] ? ' is-invalid' : '']"
+                                                        v-model="orderItem.price_for_sale"
+                                                    />
+
                                                 </div>
                                             </div>
                                         </div>
@@ -152,10 +165,12 @@ import get from "lodash/get";
 import find from "lodash/find";
 import CustomSelect from "@/Shared/CustomSelect.vue";
 import {numberFormat} from "@/functions";
+import NumericField from "../../../Shared/NumericField.vue";
+import Select2 from "../../../Shared/Select2.vue";
 
 export default {
     props: ['order', 'clients', 'selectedClientId', 'nomenclatures', 'errors'],
-    components: {CustomSelect, Head, Link},
+    components: {Select2, NumericField, CustomSelect, Head, Link},
     data() {
         return {
             selectedClient: null,

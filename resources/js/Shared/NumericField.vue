@@ -100,7 +100,7 @@ export default {
         },
         precision: {
             type: Number,
-            default: 5,
+            default: 3,
             validator(val) {
                 return val >= 0 && Number.isInteger(val);
             }
@@ -133,18 +133,18 @@ export default {
             type: Boolean,
             default: true
         },
-        onlyInteger:{
+        onlyInteger: {
             type: Boolean,
             default: false
         },
         className: {
-            type: String,
+            type: [String, Array],
             default: null
         }
     },
     data() {
         return {
-            newValue: 0,
+            newValue: null,
             minDisable: false,
             maxDisable: false,
             interval: null,
@@ -156,18 +156,22 @@ export default {
         modelValue: {
             immediate: true,
             handler(val) {
-                if (this.precision) {
-                    val = this.toPrecision(val, this.precision);
-                }
-                if (this.max && val >= this.max) {
-                    this.newValue = this.max;
-                } else if (this.min && val <= this.min) {
-                    this.newValue = this.min;
+                if (val === null) {
+                    this.$emit("update:modelValue", val);
                 } else {
-                    this.newValue = val;
-                }
-                if (this.newValue !== val) {
-                    this.$emit("update:modelValue", this.newValue);
+                    if (this.precision) {
+                        val = this.toPrecision(val, this.precision);
+                    }
+                    if (this.max && val >= this.max) {
+                        this.newValue = this.max;
+                    } else if (this.min && val <= this.min) {
+                        this.newValue = this.min;
+                    } else {
+                        this.newValue = val;
+                    }
+                    if (this.newValue !== val) {
+                        this.$emit("update:modelValue", this.newValue);
+                    }
                 }
             }
         }
@@ -298,12 +302,15 @@ export default {
         },
         onKeyPress(event) {
             let isNumber = /^[0-9]*\.?[0-9]*$/.test(event.key);
+            let alreadyHasDots = event.target.value.search(/\./) !== -1
 
-            if(this.onlyInteger && (!isNumber || event.key === '.')) {
+            if (this.onlyInteger && (!isNumber || event.key === '.')) {
                 return event.preventDefault();
             }
 
-            if (!isNumber && event.key !== '.') return event.preventDefault();
+            if (event.key === '.' && alreadyHasDots) return event.preventDefault();
+
+            if (!isNumber && event.key !== '.' && alreadyHasDots) return event.preventDefault();
         },
         /**
          * On change event trigger on input
@@ -372,7 +379,7 @@ export default {
         inputClasses() {
             return [
                 this.controls ? "" : "no-control",
-                this.className ? this.className : "",
+                this.className ? (Array.isArray(this.className) ? this.className.join('') : this.className) : "",
                 "numeric-input"
             ];
         },
@@ -426,11 +433,11 @@ export default {
     /*height: inherit;*/
     padding: 2px 2rem;
     box-sizing: border-box;
-    font-size: inherit;
-    border: 1px solid #cccccc;
-    border-radius: 2px;
+    /*font-size: inherit;*/
+    /*border: 1px solid #cccccc;*/
+    /*border-radius: 2px;*/
     display: block;
-    line-height: 1.8rem;
+    /*line-height: 1.8rem;*/
     transition: all 0.1s ease 0s;
     width: 100%;
     -moz-appearance: textfield !important;

@@ -105,7 +105,8 @@ export default {
             .trigger("change")
             .on("change", function () {
                 vm.$emit("update:modelValue", this.value)
-            });
+            })
+            .on('select2:open', this.onOpen);
 
         this.prefetchFromServer()
     },
@@ -181,6 +182,9 @@ export default {
                     }
                 ]
             }
+        },
+        onOpen(event) {
+            $(document).find('.select2-search__field').addClass('form-control form-control-sm')
         }
     },
     destroyed: function () {

@@ -66,7 +66,7 @@
                                 <td :data-id="mixtureCompositionItem.id">{{ index + 1 }}</td>
                                 <td>{{mixtureCompositionItem.nomenclature}}</td>
                                 <td>{{mixtureCompositionItem.quantity}} {{mixtureCompositionItem.unit}}</td>
-                                <td>${{numberFormat(mixtureCompositionItem.price, 3)}}</td>
+                                <td>${{numberFormat(mixtureCompositionItem.price, 4)}}</td>
                                 <td class="text-center">
                                     <Link class="btn btn-sm btn-link" :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
                                         <i class="fa fa-pencil-alt"></i>

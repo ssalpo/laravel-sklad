@@ -41,6 +41,7 @@
 <script src="/external/admin-lte/js/adminlte.min.js"></script>
 <!-- Select2 -->
 <script src="/external/admin-lte/js/select2/select2.full.min.js"></script>
+<script src="/external/admin-lte/js/select2/i18n/ru.js"></script>
 
 <script src="/external/moment/moment.min.js"></script>
 <script src="/external/moment/locale/ru.js"></script>

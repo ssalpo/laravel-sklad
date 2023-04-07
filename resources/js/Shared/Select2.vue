@@ -79,6 +79,7 @@ export default {
 
             let config = {
                 // selectOnClose: true,
+                language: 'ru',
                 dropdownAutoWidth: true,
                 minimumResultsForSearch: this.searchable ? 0 : -1,
                 allowClear: this.clearable,

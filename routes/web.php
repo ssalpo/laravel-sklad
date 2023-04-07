@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AutocompleteController;
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +22,12 @@ Route::middleware(['auth:sanctum', 'user.activity.check', 'applicant'])
     ->name('my.')
     ->prefix('my')
     ->group(__DIR__ . '/profile.php');
+
+// Autocomplete routes
+Route::group(['prefix' => 'autocomplete', 'as' => 'autocomplete.'], static function () {
+    Route::get('clients', [AutocompleteController::class, 'clients'])->name('clients');
+    Route::get('nomenclatures', [AutocompleteController::class, 'nomenclatures'])->name('nomenclatures');
+    Route::get('orders', [AutocompleteController::class, 'orders'])->name('orders');
+})->middleware(['auth:sanctum', 'user.activity.check']);
 
 

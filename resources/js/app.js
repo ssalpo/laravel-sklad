@@ -29,6 +29,12 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) })
             .mixin({ methods: {route, numberFormat}})
+            .directive('numeric', (el, binding) => {
+                el.setAttribute('step', 'any')
+                el.addEventListener('keypress', (event) => {
+
+                })
+            })
             .use(plugin)
             .use(VueCookies, { expires: '1d'})
             .use(Toast, {

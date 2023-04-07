@@ -8,6 +8,10 @@
     color: #dc3545;
 }
 
+.select2-invalid ~ .select2 .select2-selection {
+    border-color: #dc3545;
+}
+
 .animate-background {
     background-color: #ffc107;
     animation-name: bckanim;

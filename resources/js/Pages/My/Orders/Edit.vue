@@ -20,16 +20,13 @@
                             <div class="form-group">
                                 <label class="form-asterisk">Клиент</label>
 
-                                <custom-select
-                                    full
-                                    searchable
-                                    :class="{'is-invalid': errors.client_id}"
+                                <select2-clients
+                                    :prefetch="false"
                                     :options="clients"
+                                    class="form-control-sm"
+                                    :is-invalid="errors.client_id !== undefined"
                                     v-model.number="form.client_id"
-                                    :value="form.client_id"
-                                    label-key="name"
-                                    placeholder="Выберите клиента"
-                                    class="btn-group-sm" />
+                                />
 
                                 <div v-if="errors.client_id" class="error invalid-feedback">
                                     {{ errors.client_id }}
@@ -42,32 +39,20 @@
                                 </div>
                             </div>
 
-                            <div class="row nomenclatures-line" :class="{'mb-2': form.orderItems.length > index + 1}"  v-for="(orderItem, index) in form.orderItems">
+                            <div class="row nomenclatures-line" :class="{'mb-2': form.orderItems.length > index + 1}"
+                                 v-for="(orderItem, index) in form.orderItems">
                                 <div class="col-12">
                                     <div class="row">
                                         <div class="col-10">
                                             <div class="row mb-2">
                                                 <div class="col-12">
-<!--                                                    <custom-select
-                                                        full
-                                                        searchable
-                                                        :key="index"
-                                                        :disabledValues="selectedNomenclatures"
-                                                        :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
+                                                    <select2-nomenclatures
+                                                        :prefetch="false"
                                                         :options="nomenclatures"
-                                                        v-model.number="orderItem.nomenclature_id"
-                                                        :value="orderItem.nomenclature_id"
-                                                        label-key="name"
-                                                        placeholder=""
-                                                        class="btn-group-sm" />-->
-
-                                                    <select2
                                                         :key="index"
                                                         class="form-control-sm"
                                                         :disabledValues="selectedNomenclatures"
-                                                        :class="{'is-invalid': errors['orderItems.' + index + '.nomenclature_id']}"
-                                                        :options="nomenclatures"
-                                                        placeholder="Выберите номенклатуру"
+                                                        :is-invalid="errors['orderItems.' + index + '.nomenclature_id'] !== undefined"
                                                         v-model.number="orderItem.nomenclature_id"
                                                     />
                                                 </div>
@@ -77,25 +62,24 @@
                                                 <div class="col-6">
                                                     <numeric-field
                                                         only-integer
-                                                        type="number"
                                                         placeholder="Кол-во"
-                                                        :class-name="['form-control form-control-sm', errors['orderItems.' + index + '.quantity'] ? ' is-invalid' : '']"
-                                                        v-model="orderItem.quantity"
-                                                    />
+                                                        :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}"
+                                                        class="form-control form-control-sm"
+                                                        v-model.trim="orderItem.quantity"/>
                                                 </div>
 
                                                 <div class="col-6">
                                                     <numeric-field
                                                         placeholder="Сумма"
-                                                        :class-name="['form-control form-control-sm', errors['orderItems.' + index + '.price_for_sale'] ? ' is-invalid' : '']"
-                                                        v-model="orderItem.price_for_sale"
-                                                    />
-
+                                                        :class="{'is-invalid': errors['orderItems.' + index + '.price_for_sale']}"
+                                                        class="form-control form-control-sm"
+                                                        v-model.trim="orderItem.price_for_sale"/>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="col-2 align-content-center">
-                                            <button type="button" class="btn btn-sm btn-danger" @click="removeOrderItem(index)">
+                                            <button type="button" class="btn btn-sm btn-danger"
+                                                    @click="removeOrderItem(index)">
                                                 <i class="fa fa-trash"></i>
                                             </button>
                                         </div>
@@ -163,14 +147,15 @@ import compact from "lodash/compact";
 import keyBy from "lodash/keyBy";
 import get from "lodash/get";
 import find from "lodash/find";
-import CustomSelect from "@/Shared/CustomSelect.vue";
 import {numberFormat} from "@/functions";
-import NumericField from "../../../Shared/NumericField.vue";
 import Select2 from "../../../Shared/Select2.vue";
+import NumericField from "../../../Shared/NumericField.vue";
+import Select2Nomenclatures from "../../../Shared/Select2Nomenclatures.vue";
+import Select2Clients from "../../../Shared/Select2Clients.vue";
 
 export default {
     props: ['order', 'clients', 'selectedClientId', 'nomenclatures', 'errors'],
-    components: {Select2, NumericField, CustomSelect, Head, Link},
+    components: {Select2Clients, Select2Nomenclatures, Select2, NumericField, Head, Link},
     data() {
         return {
             selectedClient: null,
@@ -193,7 +178,7 @@ export default {
                     discount = get(this.selectedClient.discounts, e.nomenclature_id, 0);
                 }
 
-                let priceForSale = nomenclature.price_for_sale - discount;
+                let priceForSale = e.price_for_sale - discount;
 
                 return a + (priceForSale * parseInt(e.quantity) || 0);
             }, 0)

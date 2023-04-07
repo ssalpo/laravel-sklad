@@ -6,6 +6,7 @@
 import isObject from "lodash/isObject"
 
 export default {
+    name: 'select2',
     props: {
         modelValue: {
             type: [Number, String],
@@ -26,6 +27,10 @@ export default {
         searchable: {
             type: Boolean,
             default: true
+        },
+        isInvalid: {
+            type: Boolean,
+            default: false
         },
         ajax: {
             type: Boolean,
@@ -73,7 +78,7 @@ export default {
             }
 
             let config = {
-                selectOnClose: true,
+                // selectOnClose: true,
                 dropdownAutoWidth: true,
                 minimumResultsForSearch: this.searchable ? 0 : -1,
                 allowClear: this.clearable,
@@ -122,7 +127,7 @@ export default {
         options: {
             deep: true,
             handler: function (options) {
-                if(!this.prefetch) {
+                if (!this.prefetch) {
                     this.listOptions = options.map(this.convertToOptionData)
                 }
             }
@@ -140,6 +145,13 @@ export default {
             deep: true,
             handler: function (v) {
                 this.setSelected(v);
+            }
+        },
+        isInvalid(status) {
+            if(status) {
+                $(this.$el).addClass('select2-invalid')
+            } else {
+                $(this.$el).removeClass('select2-invalid')
             }
         }
     },
@@ -194,7 +206,3 @@ export default {
     }
 }
 </script>
-
-<style scoped>
-
-</style>

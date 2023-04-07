@@ -35,9 +35,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Масса продукта</label>
-                                <input type="text" class="form-control"
+                                <numeric-field type="text" class="form-control"
                                        :class="{'is-invalid': errors.weight}"
-                                       v-model.number="form.weight">
+                                       v-model.number="form.weight" />
                                 <div v-if="errors.weight" class="error invalid-feedback">
                                     {{ errors.weight }}
                                 </div>
@@ -58,9 +58,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Кол-во воды</label>
-                                <input type="number" class="form-control"
+                                <numeric-field type="number" class="form-control"
                                        :class="{'is-invalid': errors.water}"
-                                       v-model.number="form.water">
+                                       v-model.number="form.water" />
                                 <div v-if="errors.water" class="error invalid-feedback">
                                     {{ errors.water }}
                                 </div>
@@ -81,9 +81,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма оплаты работника</label>
-                                <input type="text" class="form-control"
+                                <numeric-field :precision="4" type="text" class="form-control"
                                        :class="{'is-invalid': errors.worker_price}"
-                                       v-model.number="form.worker_price">
+                                       v-model.number="form.worker_price" />
                                 <div v-if="errors.worker_price" class="error invalid-feedback">
                                     {{ errors.worker_price }}
                                 </div>
@@ -112,10 +112,11 @@
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import CustomSelect from "../../Shared/CustomSelect.vue";
+import NumericField from "../../Shared/NumericField.vue";
 
 export default {
     props: ['mixtureComposition', 'units', 'nomenclatures', 'errors'],
-    components: {CustomSelect, Head, Link},
+    components: {NumericField, CustomSelect, Head, Link},
     data() {
         return {
             form: useForm({

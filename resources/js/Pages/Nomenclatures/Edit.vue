@@ -45,35 +45,13 @@
                             </div>
 
                             <div class="form-group" v-if="showForSaleType">
-                                <label class="form-asterisk">Себестоимость</label>
-                                <input type="text" class="form-control"
-                                       :class="{'is-invalid': errors.price}"
-                                       v-model.number="form.price">
-
-                                <div v-if="errors.price" class="error invalid-feedback">
-                                    {{ errors.price }}
-                                </div>
-                            </div>
-
-                            <div class="form-group" v-if="showForSaleType">
                                 <label class="form-asterisk">Наценка</label>
-                                <input type="text" class="form-control"
+                                <numeric-field :precision="2" type="text" class="form-control"
                                        :class="{'is-invalid': errors.markup}"
-                                       v-model.trim="form.markup">
+                                       v-model.trim="form.markup" />
 
                                 <div v-if="errors.markup" class="error invalid-feedback">
                                     {{ errors.markup }}
-                                </div>
-                            </div>
-
-                            <div class="form-group" v-if="showForSaleType">
-                                <label>Курс доллара для расчета себестоимости</label>
-                                <input type="text" class="form-control"
-                                       :class="{'is-invalid': errors.dollar_exchange_rate}"
-                                       v-model.number="form.dollar_exchange_rate">
-
-                                <div v-if="errors.dollar_exchange_rate" class="error invalid-feedback">
-                                    {{ errors.dollar_exchange_rate }}
                                 </div>
                             </div>
 
@@ -116,10 +94,11 @@
 </template>
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
+import NumericField from "../../Shared/NumericField.vue";
 
 export default {
     props: ['nomenclature', 'units', 'categories', 'errors'],
-    components: {Head, Link},
+    components: {NumericField, Head, Link},
     data() {
         return {
             form: useForm({

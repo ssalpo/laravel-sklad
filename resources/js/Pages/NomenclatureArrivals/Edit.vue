@@ -36,24 +36,24 @@
                                 <label class="form-asterisk">Расчет по количеству коробок</label>
                                 <div class="row">
                                     <div class="col">
-                                        <input type="number" class="form-control"
+                                        <numeric-field type="number" class="form-control"
                                                placeholder="К-во коробок"
-                                               v-model.number="box.quantity">
+                                               v-model.number="box.quantity" />
                                     </div>
                                     <div class="col">
-                                        <input type="number" class="form-control"
+                                        <numeric-field type="number" class="form-control"
                                                placeholder="К-во в одной коробке"
-                                               v-model.number="box.quantityInSingleBox">
+                                               v-model.number="box.quantityInSingleBox" />
                                     </div>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-asterisk">Количество поступления</label>
-                                <input  type="number"
+                                <numeric-field  type="number"
                                        class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
-                                       v-model.number="form.quantity">
+                                       v-model.number="form.quantity" />
 
                                 <div v-if="errors.quantity" class="error invalid-feedback">
                                     {{ errors.quantity }}
@@ -127,10 +127,11 @@ import get from "lodash/get";
 import {vMaska} from "maska";
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import CustomSelect from "../../Shared/CustomSelect.vue";
+import NumericField from "../../Shared/NumericField.vue";
 
 export default {
     props: ['nomenclatureArrival', 'nomenclatures', 'currentDate', 'errors'],
-    components: {CustomSelect, Head, Link},
+    components: {NumericField, CustomSelect, Head, Link},
     directives: {maska: vMaska},
     data() {
         return {

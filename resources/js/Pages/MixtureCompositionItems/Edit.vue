@@ -35,9 +35,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Количество</label>
-                                <input type="text" class="form-control"
+                                <numeric-field type="text" class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
-                                       v-model.number="form.quantity">
+                                       v-model.number="form.quantity" />
                                 <div v-if="errors.quantity" class="error invalid-feedback">
                                     {{ errors.quantity }}
                                 </div>
@@ -62,9 +62,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма</label>
-                                <input type="text" class="form-control"
+                                <numeric-field :precision="4" type="text" class="form-control"
                                        :class="{'is-invalid': errors.price}"
-                                       v-model.number="form.price">
+                                       v-model.number="form.price" />
                                 <div v-if="errors.price" class="error invalid-feedback">
                                     {{ errors.price }}
                                 </div>
@@ -112,10 +112,11 @@ import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import get from "lodash/get";
 import find from "lodash/find";
 import CustomSelect from "../../Shared/CustomSelect.vue";
+import NumericField from "../../Shared/NumericField.vue";
 
 export default {
     props: ['mixtureCompositionId', 'mixtureCompositionItem', 'units', 'nomenclatures', 'errors'],
-    components: {CustomSelect, Head, Link},
+    components: {NumericField, CustomSelect, Head, Link},
     data() {
         return {
             form: useForm({

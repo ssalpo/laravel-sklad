@@ -34,9 +34,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Количество поступления</label>
-                                <input type="number" class="form-control"
+                                <numeric-field type="number" class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
-                                       v-model.number="form.quantity">
+                                       v-model.number="form.quantity" />
 
                                 <div v-if="errors.quantity" class="error invalid-feedback">
                                     {{ errors.quantity }}
@@ -68,10 +68,11 @@
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import CustomSelect from "../../Shared/CustomSelect.vue";
+import NumericField from "../../Shared/NumericField.vue";
 
 export default {
     props: ['nomenclatures', 'nomenclatureOperation', 'currentType', 'backRoute', 'errors'],
-    components: {CustomSelect, Head, Link},
+    components: {NumericField, CustomSelect, Head, Link},
     data() {
         return {
             form: useForm({

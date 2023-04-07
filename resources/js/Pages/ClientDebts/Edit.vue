@@ -39,9 +39,9 @@
                         <div class="mx-auto col col-md-6">
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма</label>
-                                <input type="text" class="form-control"
+                                <numeric-field :precision="4" type="text" class="form-control"
                                        :class="{'is-invalid': errors.amount}"
-                                       v-model.trim="form.amount">
+                                       v-model.trim="form.amount" />
 
                                 <div v-if="errors.amount" class="error invalid-feedback">
                                     {{ errors.amount }}
@@ -86,10 +86,11 @@
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import {vMaska} from "maska";
 import CustomSelect from "../../Shared/CustomSelect.vue";
+import NumericField from "../../Shared/NumericField.vue";
 
 export default {
     props: ['orders', 'debt', 'client', 'selectedOrder', 'errors'],
-    components: {CustomSelect, Head, Link},
+    components: {NumericField, CustomSelect, Head, Link},
     directives: {maska: vMaska},
     data() {
         return {

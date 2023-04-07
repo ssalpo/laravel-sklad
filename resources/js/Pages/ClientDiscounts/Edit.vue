@@ -34,9 +34,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма скидки</label>
-                                <input type="text" class="form-control"
+                                <numeric-field type="text" class="form-control"
                                        :class="{'is-invalid': errors.discount}"
-                                       v-model.trim="form.discount">
+                                       v-model.trim="form.discount" />
 
                                 <div v-if="errors.discount" class="error invalid-feedback">
                                     {{ errors.discount }}
@@ -65,10 +65,11 @@
 </template>
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
+import NumericField from "../../Shared/NumericField.vue";
 
 export default {
     props: ['client', 'clientDiscount', 'nomenclatures', 'errors'],
-    components: {Head, Link},
+    components: {NumericField, Head, Link},
     data() {
         return {
             form: useForm({

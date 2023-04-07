@@ -2,7 +2,7 @@
     <input v-bind="$attrs"
            step="any"
            @keydown="onKeyDown"
-           @input="$emit('update:modelValue', $event.target.value)" type="number"/>
+           @input="$emit('update:modelValue', $event.target.value)" type="number" :value="modelValue"/>
 </template>
 
 <script>
@@ -12,7 +12,7 @@ export default {
         modelValue: [Number, String],
         precision: {
             type: Number,
-            default: 5
+            default: 3
         },
         onlyInteger: {
             type: Boolean,

@@ -3,13 +3,23 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderRequest;
+use App\Models\Client;
+use App\Models\Nomenclature;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\OrderService;
 use App\Services\Toast;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
+    public function __construct(
+        public OrderService $orderService
+    )
+    {
+    }
+
     public function index()
     {
         $orders = Order::with(['user', 'client'])
@@ -29,6 +39,34 @@ class OrderController extends Controller
             ]);
 
         return inertia('Orders/Index', compact('orders'));
+    }
+
+    public function create()
+    {
+        $clients = Client::with('discounts')
+            ->get()
+            ->transform(fn($m) => [
+                'id' => $m->id,
+                'name' => $m->name,
+                'discounts' => $m->discounts->pluck('discount', 'nomenclature_id')
+            ]);
+
+        $selectedClientId = request('clientId');
+
+        $nomenclatures = Nomenclature::saleType()
+            ->hasPriceForSale()
+            ->get(['id', 'name', 'price_for_sale']);
+
+        return inertia('Orders/Edit', compact('clients', 'nomenclatures', 'selectedClientId'));
+    }
+
+    public function store(OrderRequest $request)
+    {
+        $order = $this->orderService->store($request->validated());
+
+        Toast::success('Заявка успешно создана!');
+
+        return to_route('orders.show', $order->id);
     }
 
     public function show(Order $order)

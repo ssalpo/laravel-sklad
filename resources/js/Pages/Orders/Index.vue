@@ -12,6 +12,15 @@
     <div class="content">
         <div class="container">
             <div class="card">
+                <div class="card-header">
+                    <div class="card-tools">
+                        <Link :href="route('orders.create')" class="btn btn-success btn-sm px-3">
+                            Новая заявка
+                        </Link>
+                    </div>
+                </div>
+                <!-- /.card-header -->
+
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">

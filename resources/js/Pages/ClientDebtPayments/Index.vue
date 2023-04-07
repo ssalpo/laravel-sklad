@@ -28,12 +28,11 @@
                                 <td>{{numberFormat(payment.amount)}} сом.</td>
                                 <td>{{payment.created_at}}</td>
                                 <td>
-
                                     <Link method="delete" as="button"
                                           type="button"
                                           preserve-sscroll
                                           preserve-state
-                                          :href="route('client.debts.destroy', {client: queryParams.client, debt: queryParams.debt, payment: payment.id})"
+                                          :href="route('client.debts.payments.destroy', {client: queryParams.client, debt: queryParams.debt, payment: payment.id})"
                                           class="btn btn-sm btn-link">
                                         <i class="fa fa-trash-alt text-danger"></i>
                                     </Link>

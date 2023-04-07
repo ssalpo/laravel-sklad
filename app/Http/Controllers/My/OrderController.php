@@ -10,18 +10,20 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\OrderService;
 use App\Services\Toast;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class OrderController extends Controller
 {
-    private OrderService $orderService;
-
-    public function __construct(OrderService $orderService)
+    public function __construct(
+        public OrderService $orderService
+    )
     {
-        $this->orderService = $orderService;
     }
 
-    public function index()
+    public function index(): Response|ResponseFactory
     {
         $orders = Order::with(['user', 'client'])
             ->my()
@@ -39,7 +41,7 @@ class OrderController extends Controller
         return inertia('My/Orders/Index', compact('orders'));
     }
 
-    public function show(int $id)
+    public function show(int $id): Response|ResponseFactory
     {
         $order = Order::with(['user', 'client'])
             ->my()
@@ -68,7 +70,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function create()
+    public function create(): Response|ResponseFactory
     {
         $clients = Client::with('discounts')
             ->get()
@@ -87,7 +89,7 @@ class OrderController extends Controller
         return inertia('My/Orders/Edit', compact('clients', 'nomenclatures', 'selectedClientId'));
     }
 
-    public function store(OrderRequest $request)
+    public function store(OrderRequest $request): RedirectResponse
     {
         $order = $this->orderService->store($request->validated());
 
@@ -96,7 +98,29 @@ class OrderController extends Controller
         return to_route('my.orders.show', $order->id);
     }
 
-    public function destroy(int $id)
+    public function markAsSend(int $orderId): RedirectResponse
+    {
+        $this->orderService
+            ->setRelatedToMe()
+            ->markAsSend($orderId);
+
+        Toast::success('Статус заявки изменен на "Отправлено".');
+
+        return back();
+    }
+
+    public function markAsCancel(int $orderId): RedirectResponse
+    {
+        $this->orderService
+            ->setRelatedToMe()
+            ->markAsCancel($orderId);
+
+        Toast::success('Статус заявки изменен на "Отменен".');
+
+        return back();
+    }
+
+    public function destroy(int $id): RedirectResponse
     {
         $this->orderService
             ->setRelatedToMe(true)

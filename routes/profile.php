@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AutocompleteController;
 use App\Http\Controllers\My\ClientController;
 use App\Http\Controllers\My\ClientDebtController;
 use App\Http\Controllers\My\ClientDebtPaymentController;
@@ -10,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 
 // Order routes
 Route::resource('orders', OrderController::class);
+Route::post('/orders/{order}/mark-as-send', [OrderController::class, 'markAsSend'])->name('orders.mark-as-send');
+Route::post('/orders/{order}/mark-as-cancel', [OrderController::class, 'markAsCancel'])->name('orders.mark-as-cancel');
 Route::get('/orders/{order}/debts', [OrderDebtController::class, 'create'])->name('order-debts.create');
 Route::post('/orders/{order}/debts', [OrderDebtController::class, 'store'])->name('order-debts.store');
 

@@ -30,7 +30,7 @@
                                 <th>Заявщик</th>
                                 <th>Клиент</th>
                                 <th>Сумма</th>
-                                <th width="130">Статус</th>
+                                <th colspan="2">Статус</th>
                                 <th>Прибыль</th>
                                 <th>Дата создания</th>
                                 <th></th>
@@ -45,8 +45,14 @@
                                 <td>{{ order.client.name }}</td>
                                 <td>{{ numberFormat(order.amount) }} сом.</td>
                                 <td>
-                                    <order-status-toggle style="width: 120px" :order-status="order.status"
-                                                         :order-id="order.id"/>
+                                    {{$page.props.shared.orderStatusLabels[order.status]}}
+                                </td>
+                                <td>
+                                    <order-change-status-btn
+                                        size="btn-xs"
+                                        :order-id="order.id"
+                                        :status="order.status"
+                                    />
                                 </td>
                                 <td>{{ numberFormat(order.profit) }} сом.</td>
                                 <td>{{ order.created_at }}</td>
@@ -87,11 +93,11 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
-import OrderStatusToggle from "../../Shared/OrderStatusToggle.vue";
+import Pagination from "@/Shared/Pagination.vue";
+import OrderChangeStatusBtn from "@/Shared/OrderChangeStatusBtn.vue";
 
 export default {
-    components: {OrderStatusToggle, Pagination, Head, Link},
+    components: {OrderChangeStatusBtn, Pagination, Head, Link},
     props: ['orders'],
     data() {
         return {

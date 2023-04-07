@@ -10,7 +10,10 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\OrderService;
 use App\Services\Toast;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Response;
+use Inertia\ResponseFactory;
 
 class OrderController extends Controller
 {
@@ -20,7 +23,7 @@ class OrderController extends Controller
     {
     }
 
-    public function index()
+    public function index(): Response
     {
         $orders = Order::with(['user', 'client'])
             ->orderBy('created_at', 'DESC')
@@ -41,7 +44,7 @@ class OrderController extends Controller
         return inertia('Orders/Index', compact('orders'));
     }
 
-    public function create()
+    public function create(): Response
     {
         $clients = Client::with('discounts')
             ->get()
@@ -60,7 +63,7 @@ class OrderController extends Controller
         return inertia('Orders/Edit', compact('clients', 'nomenclatures', 'selectedClientId'));
     }
 
-    public function store(OrderRequest $request)
+    public function store(OrderRequest $request): RedirectResponse
     {
         $order = $this->orderService->store($request->validated());
 
@@ -69,7 +72,7 @@ class OrderController extends Controller
         return to_route('orders.show', $order->id);
     }
 
-    public function show(Order $order)
+    public function show(Order $order): Response
     {
         $order->load(['user', 'client']);
 
@@ -96,7 +99,7 @@ class OrderController extends Controller
         ]);
     }
 
-    public function invoices()
+    public function invoices(): Response
     {
         $orderIds = explode(',', request('ids'));
 
@@ -121,13 +124,29 @@ class OrderController extends Controller
         return inertia('Orders/Invoices', compact('orders'));
     }
 
-    public function toggleStatus(Order $order, Request $request)
+    public function markAsSend(int $orderId): RedirectResponse
     {
-        if (in_array($request->status, array_keys(Order::STATUS_LABELS))) {
-            $order->update($request->only('status'));
+        $this->orderService->markAsSend($orderId);
 
-            Toast::success(sprintf('Статус заказа изменен на "%s"', Order::STATUS_LABELS[$request->status]));
-        }
+        Toast::success('Статус заявка изменен на "Отправлено".');
+
+        return back();
+    }
+
+    public function markAsCancel(int $orderId): RedirectResponse
+    {
+        $this->orderService->markAsCancel($orderId);
+
+        Toast::success('Статус заявка изменен на "Отменен".');
+
+        return back();
+    }
+
+    public function toggleStatus(int $order, Request $request): RedirectResponse
+    {
+        $this->orderService->toggleStatus($order, $request->status);
+
+        Toast::success(sprintf('Статус заказа изменен на "%s"', Order::STATUS_LABELS[$request->status]));
 
         return back();
     }

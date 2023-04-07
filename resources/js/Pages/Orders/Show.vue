@@ -13,7 +13,17 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <h5>Состав заявки</h5>
+                    <div class="row">
+                        <div class="col-8 col-sm-6">
+                            <h5>Состав заявки</h5>
+                        </div>
+                        <div class="col-4 col-sm-6 text-right">
+                            <order-change-status-btn
+                                class="btn-sm"
+                                :order-id="order.id"
+                                :status="order.status" />
+                        </div>
+                    </div>
 
                     <div class="table-responsive table-hover mb-4 mt-3">
                         <table width="250" border="1">
@@ -71,9 +81,10 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
+import OrderChangeStatusBtn from "../../Shared/OrderChangeStatusBtn.vue";
 
 export default {
-    components: {Head, Link},
+    components: {OrderChangeStatusBtn, Head, Link},
     props: ['order', 'orderItems'],
 }
 </script>

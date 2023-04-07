@@ -15,7 +15,7 @@ class OrderService extends BaseService
 {
     protected bool $relatedToMe = false;
 
-    public function setRelatedToMe(bool $relatedToMe): static
+    public function setRelatedToMe(bool $relatedToMe = true): static
     {
         $this->relatedToMe = $relatedToMe;
 
@@ -61,7 +61,7 @@ class OrderService extends BaseService
         });
     }
 
-    public function calculateTotals(array $data, ModelCollection $nomenclatures, Collection $clientDiscounts)
+    public function calculateTotals(array $data, ModelCollection $nomenclatures, Collection $clientDiscounts): array
     {
         $amount = 0;
         $profit = 0;
@@ -82,11 +82,44 @@ class OrderService extends BaseService
         return compact('amount', 'profit');
     }
 
-    public function destroy(int $orderId)
+    public function destroy(int $orderId): bool
     {
         return Order::when($this->relatedToMe, static fn($q) => $q->my())
             ->statusNew()
             ->findOrFail($orderId)
             ->delete();
+    }
+
+    public function toggleStatus(int $id, int $status): bool
+    {
+        $order = Order::when($this->relatedToMe, fn($o) => $o->relatedToMe())->findOrFail($id);
+
+        if (array_key_exists($status, Order::STATUS_LABELS)) {
+            return $order->update(['status' => $status]);
+        }
+
+        return false;
+    }
+
+    public function markAsSend(int $orderId): bool
+    {
+        $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe())->findOrFail($orderId);
+
+        if ($order->status === Order::STATUS_NEW) {
+            return $order->update(['status' => Order::STATUS_SEND]);
+        }
+
+        return false;
+    }
+
+    public function markAsCancel(int $orderId): bool
+    {
+        $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe())->findOrFail($orderId);
+
+        if ($order->status === Order::STATUS_SEND) {
+            return $order->update(['status' => Order::STATUS_CANCELED]);
+        }
+
+        return false;
     }
 }

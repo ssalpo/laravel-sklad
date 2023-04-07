@@ -4,13 +4,13 @@
     </Head>
 
     <div class="content-header">
-        <div class="container">
+        <div class="container-fluid">
             <h1 class="m-0">Аналитика</h1>
         </div>
     </div>
 
     <div class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
                     <h5 class="mb-3 mt-2">Прибыль</h5>

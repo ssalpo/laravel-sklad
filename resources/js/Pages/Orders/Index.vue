@@ -4,13 +4,13 @@
     </Head>
 
     <div class="content-header">
-        <div class="container">
+        <div class="container-fluid">
             <h5 class="m-0">Заявки</h5>
         </div>
     </div>
 
     <div class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
                     <div class="card-tools">
@@ -80,7 +80,7 @@
 
     <Teleport to="body" v-if="this.invoices.length">
         <div class="content-wrapper d-flex align-items-center" style="height: 60px; width: 100%; position: fixed; bottom: 0; background: #dee2e6">
-            <div class="container d-flex align-items-center justify-content-end">
+            <div class="container-fluid d-flex align-items-center justify-content-end">
                 <span>Выбранных заявок: {{this.invoices.length}}</span>
 
                 <Link @click="clearInvoices" :href="route('order-invoices', {ids: this.invoices.join(',')})" class="ml-3 btn btn-sm btn-outline-success">Печать</Link>

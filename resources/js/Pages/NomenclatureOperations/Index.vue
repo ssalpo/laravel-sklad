@@ -4,13 +4,13 @@
     </Head>
 
     <div class="content-header">
-        <div class="container">
+        <div class="container-fluid">
             <h5 class="m-0">Списание</h5>
         </div>
     </div>
 
     <div class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
                     <div class="card-tools">

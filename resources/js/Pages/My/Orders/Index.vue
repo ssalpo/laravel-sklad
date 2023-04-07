@@ -4,13 +4,13 @@
     </Head>
 
     <div class="content-header">
-        <div class="container">
+        <div class="container-fluid">
             <h5 class="m-0">Мои заявки</h5>
         </div>
     </div>
 
     <div class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
                     <div class="table-responsive">

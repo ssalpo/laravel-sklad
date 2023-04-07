@@ -4,7 +4,7 @@
 
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
-            <div class="container">
+            <div class="container-fluid">
                 <slot/>
             </div>
         </div>

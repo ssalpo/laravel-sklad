@@ -1,7 +1,7 @@
 <template>
     <!-- Navbar -->
     <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
-        <div class="container">
+        <div class="container-fluid">
             <button class="navbar-toggler p-0 px-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>

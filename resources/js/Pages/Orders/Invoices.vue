@@ -9,7 +9,7 @@
         </Link>
     </div>
 
-    <div class="container mt-4">
+    <div class="container-fluid mt-4">
         <order-invoice
             style="page-break-inside: avoid"
             :class="{'mt-4': index > 0}"

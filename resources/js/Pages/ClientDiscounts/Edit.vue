@@ -4,13 +4,13 @@
     </Head>
 
     <div class="content-header">
-        <div class="container">
+        <div class="container-fluid">
             <h1 class="m-0">{{ clientDiscount?.id ? 'Обновление данных' : 'Новая скидка' }}</h1>
         </div>
     </div>
 
     <div class="content">
-        <div class="container">
+        <div class="container-fluid">
             <div class="card card-primary">
                 <!-- form start -->
                 <form @submit.prevent="submit">

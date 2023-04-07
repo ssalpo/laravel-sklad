@@ -70,6 +70,7 @@
 
                                                 <div class="col-6">
                                                     <numeric-field
+                                                        :precision="2"
                                                         placeholder="Сумма"
                                                         :class="{'is-invalid': errors['orderItems.' + index + '.price_for_sale']}"
                                                         class="form-control form-control-sm"

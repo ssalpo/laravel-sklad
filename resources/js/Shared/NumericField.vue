@@ -10,7 +10,7 @@
         <input
             :name="name"
             ref="input"
-            type="text"
+            type="number"
             step="any"
             :class="inputClasses"
             :value="computedValue"

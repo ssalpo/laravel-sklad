@@ -19,14 +19,11 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Тип номенклатуры</label>
-                                <select class="form-control"
-                                        :class="{'is-invalid': errors.type}"
-                                        v-model.number="form.type">
-                                    <option :value="index"
-                                            v-for="(nomenclatureType, index) in $page.props.shared.nomenclatureTypes">
-                                        {{ nomenclatureType }}
-                                    </option>
-                                </select>
+
+                                <select2-nomenclature-types
+                                    v-model.number="form.type"
+                                    :is-invalid="errors.type !== undefined"
+                                />
 
                                 <div v-if="errors.type" class="error invalid-feedback">
                                     {{ errors.type }}
@@ -95,10 +92,11 @@
 <script>
 import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import NumericField from "../../Shared/NumericField.vue";
+import Select2NomenclatureTypes from "../../Shared/Select2NomenclatureTypes.vue";
 
 export default {
     props: ['nomenclature', 'units', 'categories', 'errors'],
-    components: {NumericField, Head, Link},
+    components: {Select2NomenclatureTypes, NumericField, Head, Link},
     data() {
         return {
             form: useForm({

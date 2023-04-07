@@ -106,7 +106,7 @@ export default {
         this.setSelected(this.selected);
 
         $(this.$el)
-            .select2({...this.selectConfig, data: !this.prefetch ? this.listOptions : []})
+            .select2({...this.selectConfig, data: this.listOptions})
             .val(this.modelValue)
             .trigger("change")
             .on("change", function () {
@@ -126,6 +126,7 @@ export default {
             }
         },
         options: {
+            immediate: true,
             deep: true,
             handler: function (options) {
                 if (!this.prefetch) {

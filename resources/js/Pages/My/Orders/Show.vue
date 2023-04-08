@@ -19,10 +19,10 @@
                         </div>
                         <div class="col-4 col-sm-6 text-right">
                             <order-change-status-btn
-                                class="btn-sm"
                                 for-profile
-                                :order="order.id"
-                                :status="order.status" />
+                                :order-id="order.id"
+                                :status="order.status"
+                            />
                         </div>
                     </div>
 
@@ -78,7 +78,7 @@
                                 <td>
                                     <order-refund-modal
                                         for-profile
-                                        v-if="!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity'])"
+                                        v-if="(!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity'])) && !orderIsCancel(order.status)"
                                         :order-id="order.id"
                                         :order-item-id="orderItem.id"
                                         :nomenclature-id="orderItem.nomenclature_id"

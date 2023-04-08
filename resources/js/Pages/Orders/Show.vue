@@ -19,7 +19,6 @@
                         </div>
                         <div class="col-4 col-sm-6 text-right">
                             <order-change-status-btn
-                                class="btn-sm"
                                 rollback-btn
                                 :order-id="order.id"
                                 :status="order.status" />

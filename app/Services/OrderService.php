@@ -103,7 +103,7 @@ class OrderService extends BaseService
 
     public function markAsSend(int $orderId, bool $isRollback = false): bool
     {
-        $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe())->findOrFail($orderId);
+        $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe(true))->findOrFail($orderId);
 
         if (
             $order->status === Order::STATUS_NEW ||
@@ -117,7 +117,7 @@ class OrderService extends BaseService
 
     public function markAsCancel(int $orderId): bool
     {
-        $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe())->findOrFail($orderId);
+        $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe(true))->findOrFail($orderId);
 
         if ($order->status === Order::STATUS_SEND) {
             return $order->update(['status' => Order::STATUS_CANCELED]);

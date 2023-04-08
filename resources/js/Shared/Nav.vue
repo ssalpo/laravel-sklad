@@ -77,6 +77,12 @@
                                     Списание
                                 </Link>
                             </li>
+
+                            <li>
+                                <Link :href="route('nomenclature-refunds.index')" class="dropdown-item">
+                                    Возврат
+                                </Link>
+                            </li>
                         </ul>
                     </li>
 

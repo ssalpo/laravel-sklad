@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\MixtureCompositionItemController;
 use App\Http\Controllers\Admin\NomenclatureArrivalController;
 use App\Http\Controllers\Admin\NomenclatureController;
 use App\Http\Controllers\Admin\NomenclatureOperationController;
+use App\Http\Controllers\Admin\NomenclatureRefundController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\StorehouseController;
 use App\Http\Controllers\Admin\UserController;
@@ -43,6 +44,8 @@ Route::resource('nomenclatures', NomenclatureController::class);
 Route::get('nomenclatures-operations/withdraw', [NomenclatureOperationController::class, 'withdrawIndex'])->name('nomenclature-operations.index-withdraw');
 Route::post('nomenclatures-operations/refund-order', [NomenclatureOperationController::class, 'refundOrder'])->name('nomenclature-operations.order-refund');
 Route::resource('nomenclature-operations', NomenclatureOperationController::class);
+
+Route::get('nomenclature-refunds', [NomenclatureRefundController::class, 'index'])->name('nomenclature-refunds.index');
 
 // Nomenclature arrivals
 Route::resource('nomenclature-arrivals', NomenclatureArrivalController::class);

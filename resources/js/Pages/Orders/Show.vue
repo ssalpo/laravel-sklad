@@ -109,7 +109,7 @@
                                 <tbody>
                                     <tr v-for="item in orderRefunds">
                                         <td>{{item.nomenclature}}</td>
-                                        <td>{{item.quantity}} шт.</td>
+                                        <td>{{item.quantity}} {{item.nomenclature_unit}}</td>
                                         <td>{{item.price_for_sale}} сом.</td>
                                         <td>{{item.price_for_sale * item.quantity}} сом.</td>
                                         <td>{{item.comment}}</td>

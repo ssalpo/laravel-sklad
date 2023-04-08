@@ -4,7 +4,7 @@ import { createApp, h } from 'vue';
 import { createInertiaApp} from '@inertiajs/inertia-vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { InertiaProgress } from '@inertiajs/progress'
-import {numberFormat} from "./functions";
+import {numberFormat, queryParams, queryParamsExcept} from "./functions";
 import DefaultLayout from './Layouts/DefaultLayout.vue';
 import axios from 'axios';
 import Toast from "vue-toastification";
@@ -28,7 +28,7 @@ createInertiaApp({
     },
     setup({ el, App, props, plugin }) {
         const app = createApp({ render: () => h(App, props) })
-            .mixin({ methods: {route, numberFormat}})
+            .mixin({ methods: {route, numberFormat, queryParams, queryParamsExcept}})
             .directive('numeric', (el, binding) => {
                 el.setAttribute('step', 'any')
                 el.addEventListener('keypress', (event) => {

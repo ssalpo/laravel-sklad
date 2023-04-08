@@ -93,7 +93,7 @@ export default {
             this.filters.get(route('all-client-debts'))
         },
         reset() {
-            this.filters.client = '';
+            this.filters.reset();
 
             this.$inertia.visit(route('all-client-debts'));
         }

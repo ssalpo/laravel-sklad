@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class NomenclatureOperation extends Model
 {
@@ -63,5 +64,12 @@ class NomenclatureOperation extends Model
     public function getCanEditAttribute()
     {
         return now()->diffInDays($this->created_at) <= 0;
+    }
+
+    public function scopeFilter($q, array $data = [])
+    {
+        $q->when(Arr::get($data, 'order'), fn($q, $v) => $q->whereOrderId($v));
+
+        $q->when(Arr::get($data, 'nomenclature'), fn($q, $v) => $q->whereNomenclatureId($v));
     }
 }

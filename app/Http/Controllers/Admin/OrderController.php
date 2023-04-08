@@ -12,6 +12,7 @@ use App\Models\OrderItem;
 use App\Services\NomenclatureOperationService;
 use App\Services\OrderService;
 use App\Services\Toast;
+use App\Services\UnitConvertor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
@@ -100,6 +101,7 @@ class OrderController extends Controller
             ->get()
             ->transform(fn($m) => [
                 'nomenclature' => $m->nomenclature->name,
+                'nomenclature_unit' => UnitConvertor::UNIT_LABELS[$m->nomenclature->unit],
                 'quantity' => $m->quantity,
                 'price' => $m->price,
                 'price_for_sale' => $m->price_for_sale,

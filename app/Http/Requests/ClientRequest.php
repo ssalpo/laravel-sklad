@@ -24,8 +24,16 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
+            'created_by' => 'required',
             'name' => 'required|min:2|max:255',
             'phone' => 'nullable|min:2|max:255'
         ];
+    }
+
+    protected function prepareForValidation()
+    {
+        return $this->merge([
+           'created_by' => auth()->id()
+        ]);
     }
 }

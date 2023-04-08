@@ -12,7 +12,8 @@ class Client extends Model
 
     protected $fillable = [
         'name',
-        'phone'
+        'phone',
+        'created_by'
     ];
 
     public function discounts()

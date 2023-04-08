@@ -28,7 +28,9 @@ return new class extends Migration
     public function down()
     {
         Schema::table('nomenclature_operations', function (Blueprint $table) {
-            $table->dropColumn(['order_id', 'order_item_id', 'comment']);
+            $table->dropConstrainedForeignId('order_id');
+            $table->dropConstrainedForeignId('order_item_id');
+            $table->dropColumn(['comment']);
         });
     }
 };

@@ -3,9 +3,14 @@
 namespace App\Services;
 
 use App\Models\NomenclatureOperation;
+use App\Models\OrderItem;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\DB;
 
 class NomenclatureOperationService extends BaseService
 {
+    private $relatedToMe = false;
+
     public function store(array $data)
     {
         return NomenclatureOperation::create(
@@ -20,7 +25,7 @@ class NomenclatureOperationService extends BaseService
     {
         $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
 
-        if($nomenclatureOperation->can_edit) {
+        if ($nomenclatureOperation->can_edit) {
             $nomenclatureOperation->update(
                 NomenclatureService::mergeNomenclaturePrices(
                     $data['nomenclature_id'],
@@ -36,10 +41,49 @@ class NomenclatureOperationService extends BaseService
     {
         $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
 
-        if($nomenclatureOperation->can_edit) {
+        if ($nomenclatureOperation->can_edit) {
             $nomenclatureOperation->delete();
         }
 
         return $nomenclatureOperation;
+    }
+
+    public function refundOrder(array $data)
+    {
+        $orderItem = OrderItem::whereOrderId($data['order_id'])
+            ->when($this->relatedToMe, fn($q) => $q->whereHas('order', fn($q) => $q->whereUserId(auth()->id())))
+            ->whereNomenclatureId($data['nomenclature_id'])
+            ->where('quantity', '>=', $data['quantity'])
+            ->findOrFail($data['order_item_id']);
+
+
+        return NomenclatureOperation::create(array_merge(
+            $data,
+            [
+                'type' => NomenclatureOperation::OPERATION_TYPE_REFUND,
+                'price' => $orderItem->price,
+                'price_for_sale' => $orderItem->price_for_sale,
+            ]
+        ));
+
+    }
+
+    public function getTotalOrderRefunds(int $orderId): Collection
+    {
+        return NomenclatureOperation::select(
+            'nomenclature_id',
+            DB::raw('SUM(quantity) AS quantity'),
+            DB::raw('SUM(price * quantity) AS amount'),
+        )
+            ->whereOrderId($orderId)
+            ->groupBy('nomenclature_id')
+            ->get();
+    }
+
+    public function setRelatedToMe()
+    {
+        $this->relatedToMe = true;
+
+        return $this;
     }
 }

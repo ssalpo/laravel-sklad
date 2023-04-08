@@ -27,7 +27,7 @@ class NomenclatureArrivalRequest extends FormRequest
     {
         return [
             'nomenclature_id' => 'required|exists:nomenclatures,id',
-            'quantity' => 'required|numeric',
+            'quantity' => 'required|numeric|gt:0',
             'unit' => 'required|in:' . implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
             'comment' => 'nullable|string',
             'arrival_at' => 'nullable|date_format:Y-m-d H:i'

@@ -16,6 +16,9 @@ class NomenclatureOperation extends Model
         'quantity',
         'price',
         'price_for_sale',
+        'order_id',
+        'order_item_id',
+        'comment'
     ];
 
     protected $casts = [
@@ -23,13 +26,13 @@ class NomenclatureOperation extends Model
         'price_for_sale' => 'double',
     ];
 
-    protected $appends = ['can_edit'];
-
     public const OPERATION_TYPE_WITHDRAW = 1;
     public const OPERATION_TYPE_INVENTORY = 2;
+    public const OPERATION_TYPE_REFUND = 3;
 
     public const OPERATION_LABELS = [
-        self::OPERATION_TYPE_WITHDRAW => 'Списание'
+        self::OPERATION_TYPE_WITHDRAW => 'Списание',
+        self::OPERATION_TYPE_REFUND => 'Возврат',
     ];
 
     public function nomenclature()
@@ -37,9 +40,24 @@ class NomenclatureOperation extends Model
         return $this->belongsTo(Nomenclature::class);
     }
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
+    public function orderItem()
+    {
+        return $this->belongsTo(OrderItem::class);
+    }
+
     public function scopeTypeWithdraw($q)
     {
         return $q->whereType(self::OPERATION_TYPE_WITHDRAW);
+    }
+
+    public function scopeTypeRefund($q)
+    {
+        return $q->whereType(self::OPERATION_TYPE_REFUND);
     }
 
     public function getCanEditAttribute()

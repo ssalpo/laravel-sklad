@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NomenclatureOperationRequest;
+use App\Http\Requests\OrderRefundRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureOperation;
 use App\Services\NomenclatureOperationService;
 use App\Services\Toast;
 use App\Services\UnitConvertor;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -95,6 +97,15 @@ class NomenclatureOperationController extends Controller
         $this->nomenclatureOperationService->delete($nomenclatureOperationId);
 
         Toast::success('Успешно удалено.');
+
+        return back();
+    }
+
+    public function refundOrder(OrderRefundRequest $request): RedirectResponse
+    {
+        $this->nomenclatureOperationService->refundOrder($request->validated());
+
+        Toast::success('Номенклатура успешно возвращена.');
 
         return back();
     }

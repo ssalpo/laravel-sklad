@@ -3,6 +3,7 @@
 use App\Http\Controllers\My\ClientController;
 use App\Http\Controllers\My\ClientDebtController;
 use App\Http\Controllers\My\ClientDebtPaymentController;
+use App\Http\Controllers\My\NomenclatureOperationController;
 use App\Http\Controllers\My\OrderController;
 use App\Http\Controllers\My\OrderDebtController;
 use Illuminate\Support\Facades\Route;
@@ -19,3 +20,4 @@ Route::resource('clients', ClientController::class);
 Route::get('client-debts', [ClientDebtController::class, 'index'])->name('client-debts.index');
 Route::post('clients/{client}/client-debts/{client_debt}/client-debt-payments', [ClientDebtPaymentController::class, 'store'])->name('client-debt-payment.store');
 
+Route::post('nomenclatures-operations/refund-order', [NomenclatureOperationController::class, 'refundOrder'])->name('nomenclature-operations.order-refund');

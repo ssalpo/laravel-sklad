@@ -28,7 +28,7 @@ class OrderRequest extends FormRequest
             'client_id' => 'required|exists:clients,id',
             'orderItems' => 'required|array',
             'orderItems.*.nomenclature_id' => 'required|exists:nomenclatures,id',
-            'orderItems.*.quantity' => 'required|numeric',
+            'orderItems.*.quantity' => 'required|integer|gt:0',
             'orderItems.*.price_for_sale' => 'required|regex:/^\d+(\.\d{1,3})?$/',
         ];
     }

@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Models\Client;
 use App\Models\Nomenclature;
+use App\Models\NomenclatureOperation;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\NomenclatureOperationService;
 use App\Services\OrderService;
 use App\Services\Toast;
 use Illuminate\Http\RedirectResponse;
@@ -52,10 +54,27 @@ class OrderController extends Controller
             ->get()
             ->transform(fn($model) => [
                 'id' => $model->id,
-                'nomenclature' => $model->nomenclature->name,
+                'nomenclature_id' => $model->nomenclature->id,
+                'nomenclature_name' => $model->nomenclature->name,
                 'price_for_sale' => $model->price_for_sale,
                 'quantity' => $model->quantity,
                 'unit' => $model->unit,
+            ]);
+
+        $orderTotalRefunds = (new NomenclatureOperationService)->getTotalOrderRefunds($order->id)
+            ->keyBy('nomenclature_id')
+            ->toArray();
+
+        $orderRefunds = NomenclatureOperation::typeRefund()
+            ->with('nomenclature')
+            ->whereOrderId($order->id)
+            ->get()
+            ->transform(fn($m) => [
+                'nomenclature' => $m->nomenclature->name,
+                'quantity' => $m->quantity,
+                'price' => $m->price,
+                'price_for_sale' => $m->price_for_sale,
+                'comment' => $m->comment,
             ]);
 
         return inertia('My/Orders/Show', [
@@ -66,7 +85,9 @@ class OrderController extends Controller
                 'amount' => $order->amount,
                 'status' => $order->status,
             ],
-            'orderItems' => $orderItems
+            'orderItems' => $orderItems,
+            'orderTotalRefunds' => $orderTotalRefunds,
+            'orderRefunds' => $orderRefunds,
         ]);
     }
 

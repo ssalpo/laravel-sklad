@@ -1,5 +1,15 @@
 <template>
     <button
+        v-if="orderIsCancel(status) && rollbackBtn === true"
+        @click="backStatusToSend"
+        type="button"
+        :class="[size]" class="btn btn-success mr-1"
+        title="Вернуть статус отправлено"
+    >
+        <span class="fa fa-reply-all"></span>
+    </button>
+
+    <button
         @click="toggleStatus"
         type="button"
         v-if="orderIsNew(status) || orderIsSend(status)"
@@ -18,6 +28,7 @@
 import {Link} from "@inertiajs/inertia-vue3";
 
 import {
+    orderIsCancel,
     orderIsNew,
     orderIsSend
 } from "../Constants/order";
@@ -35,9 +46,27 @@ export default {
         forProfile: {
             type: Boolean,
             default: false
+        },
+        rollbackBtn: {
+            type: Boolean,
+            default: false
+        }
+    },
+    computed: {
+        url() {
+            let statusAction = 'cancel';
+
+            let userTypeAction = this.forProfile ? 'my.' : '';
+
+            if (this.orderIsNew(this.status) || this.orderIsCancel(this.status)) {
+                statusAction = 'send'
+            }
+
+            return route(userTypeAction + 'orders.mark-as-' + statusAction, this.orderId);
         }
     },
     methods: {
+        orderIsCancel,
         orderIsNew,
         orderIsSend,
         toggleStatus() {
@@ -45,10 +74,14 @@ export default {
                 return;
             }
 
-            this.$inertia.post(route( (this.forProfile ? 'my.' : '') + 'orders.mark-as-' + (orderIsNew(this.status) ? 'send' : 'cancel'), this.orderId), {
-                preserveState: true,
-                preserveScroll: true,
-            })
+            this.$inertia.post(this.url, {preserveState: true, preserveScroll: true})
+        },
+        backStatusToSend() {
+            if (this.orderIsCancel(this.status) && !confirm('Вы уверены что хотите изменить статус на отправлено?')) {
+                return;
+            }
+
+            this.$inertia.post(this.url, {rollback: true}, {preserveState: true, preserveScroll: true,})
         }
     }
 }

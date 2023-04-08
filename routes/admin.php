@@ -41,6 +41,7 @@ Route::resource('nomenclatures', NomenclatureController::class);
 
 // Nomenclatures Operations
 Route::get('nomenclatures-operations/withdraw', [NomenclatureOperationController::class, 'withdrawIndex'])->name('nomenclature-operations.index-withdraw');
+Route::post('nomenclatures-operations/refund-order', [NomenclatureOperationController::class, 'refundOrder'])->name('nomenclature-operations.order-refund');
 Route::resource('nomenclature-operations', NomenclatureOperationController::class);
 
 // Nomenclature arrivals

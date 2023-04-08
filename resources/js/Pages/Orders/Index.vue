@@ -49,6 +49,7 @@
                                 </td>
                                 <td>
                                     <order-change-status-btn
+                                        rollback-btn
                                         size="btn-xs"
                                         :order-id="order.id"
                                         :status="order.status"

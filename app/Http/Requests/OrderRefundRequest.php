@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use App\Models\NomenclatureOperation;
 use Illuminate\Foundation\Http\FormRequest;
 
-class NomenclatureOperationRequest extends FormRequest
+class OrderRefundRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +24,11 @@ class NomenclatureOperationRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:' . implode(array_keys(NomenclatureOperation::OPERATION_LABELS)),
-            'nomenclature_id' => 'required|exists:nomenclatures,id',
-            'quantity' => 'required|numeric|gt:0'
+            'order_id' => 'required|numeric|exists:orders,id',
+            'order_item_id' => 'required|numeric|exists:order_items,id',
+            'nomenclature_id' => 'required|numeric|exists:nomenclatures,id',
+            'comment' => 'required|string',
+            'quantity' => 'required|numeric|gt:0',
         ];
     }
 }

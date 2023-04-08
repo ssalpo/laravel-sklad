@@ -28,10 +28,14 @@ class OrderController extends Controller
 
     public function index(): Response|ResponseFactory
     {
+        $filterParams = request()?->collect()->only(['id', 'client'])->all();
+
         $orders = Order::with(['user', 'client'])
             ->my()
+            ->filter($filterParams)
             ->orderBy('created_at', 'DESC')
             ->paginate()
+            ->withQueryString()
             ->through(fn($m) => [
                 'id' => $m->id,
                 'client_id' => $m->client->id,
@@ -41,7 +45,7 @@ class OrderController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('My/Orders/Index', compact('orders'));
+        return inertia('My/Orders/Index', compact('orders', 'filterParams'));
     }
 
     public function show(int $id): Response|ResponseFactory

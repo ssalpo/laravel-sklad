@@ -28,9 +28,13 @@ class OrderController extends Controller
 
     public function index(): Response
     {
+        $filterParams = request()?->collect()->except(['page'])->all();
+
         $orders = Order::with(['user', 'client'])
+            ->filter($filterParams)
             ->orderBy('created_at', 'DESC')
             ->paginate()
+            ->withQueryString()
             ->through(fn($m) => [
                 'id' => $m->id,
                 'user' => $m->user->name,
@@ -44,7 +48,7 @@ class OrderController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('Orders/Index', compact('orders'));
+        return inertia('Orders/Index', compact('orders', 'filterParams'));
     }
 
     public function create(): Response

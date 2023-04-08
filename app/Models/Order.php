@@ -38,13 +38,19 @@ class Order extends Model
     public function scopeFilter($q, $data)
     {
         $q->when(
-            Arr::get($data, 'client_id'),
+            Arr::get($data, 'client'),
             fn($q, $v) => $q->where('client_id', $v)
-        )
-            ->when(
-                Arr::get($data, 'user_id'),
-                fn($q, $v) => $q->where('user_id', $v)
-            );
+        );
+
+        $q->when(
+            Arr::get($data, 'user'),
+            fn($q, $v) => $q->where('user_id', $v)
+        );
+
+        $q->when(
+            Arr::get($data, 'id'),
+            fn($q, $v) => $q->where('id', $v)
+        );
     }
 
     public function scopeStatusNew($q)

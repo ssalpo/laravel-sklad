@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Nomenclature;
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class AutocompleteController extends Controller
@@ -20,6 +21,12 @@ class AutocompleteController extends Controller
     {
         return Nomenclature::saleType()
             ->when(request('q'), fn($q, $v) => $q->where('name', 'like', '%' . $v . '%'))
+            ->get(['id', 'name']);
+    }
+
+    public function users()
+    {
+        return User::when(request('q'), fn($q, $v) => $q->where('name', 'like', '%' . $v . '%'))
             ->get(['id', 'name']);
     }
 

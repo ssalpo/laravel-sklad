@@ -13,6 +13,10 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
+                    <button @click="isFilterShow = !isFilterShow" class="btn btn-sm btn-outline-info d-inline-block d-sm-none">
+                        <span class="fa fa-filter"></span>
+                    </button>
+
                     <div class="card-tools">
                         <Link :href="route('orders.create')" class="btn btn-success btn-sm px-3">
                             Новая заявка
@@ -23,6 +27,13 @@
 
                 <div class="card-body">
                     <div class="table-responsive">
+
+                        <filters
+                            v-show="isFilterShow"
+                            class="d-sm-block"
+                            :filter-params="filterParams"
+                        />
+
                         <table class="table table-bordered  text-nowrap">
                             <thead>
                             <tr>
@@ -96,12 +107,14 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "@/Shared/Pagination.vue";
 import OrderChangeStatusBtn from "@/Shared/OrderChangeStatusBtn.vue";
-
+import Filters from "./Filters.vue";
+import size from "lodash/size";
 export default {
-    components: {OrderChangeStatusBtn, Pagination, Head, Link},
-    props: ['orders'],
+    components: {Filters, OrderChangeStatusBtn, Pagination, Head, Link},
+    props: ['orders', 'filterParams'],
     data() {
         return {
+            isFilterShow: false,
             invoices: []
         }
     },
@@ -109,6 +122,8 @@ export default {
         if (this.$cookies.isKey('invoices')) {
             this.invoices = this.$cookies.get('invoices');
         }
+
+        this.isFilterShow = size(this.filterParams);
     },
     methods: {
         toggleInvoice(id) {

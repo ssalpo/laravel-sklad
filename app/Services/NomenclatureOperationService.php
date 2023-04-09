@@ -51,7 +51,10 @@ class NomenclatureOperationService extends BaseService
     public function refundOrder(array $data)
     {
         $orderItem = OrderItem::whereOrderId($data['order_id'])
-            ->when($this->relatedToMe, fn($q) => $q->whereHas('order', fn($q) => $q->whereUserId(auth()->id())))
+            ->whereHas(
+                'order', fn($q) => $q->statusSend()
+                ->when($this->relatedToMe, fn($q) => $q->my())
+            )
             ->whereNomenclatureId($data['nomenclature_id'])
             ->where('quantity', '>=', $data['quantity'])
             ->findOrFail($data['order_item_id']);

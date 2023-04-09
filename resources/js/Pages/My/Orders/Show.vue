@@ -58,8 +58,7 @@
                                 <th>Кол-во</th>
                                 <th>Цена за единицу</th>
                                 <th>Сумма продажи</th>
-                                <th>Комментарий</th>
-                                <th>Возвраты</th>
+                                <th colspan="2">Возвраты</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -78,7 +77,7 @@
                                 <td>
                                     <order-refund-modal
                                         for-profile
-                                        v-if="(!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity'])) && !orderIsCancel(order.status)"
+                                        v-if="(!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity'])) && orderIsSend(order.status)"
                                         :order-id="order.id"
                                         :order-item-id="orderItem.id"
                                         :nomenclature-id="orderItem.nomenclature_id"

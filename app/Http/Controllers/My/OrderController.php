@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\NomenclatureOperationService;
 use App\Services\OrderService;
+use App\Services\TelegramNotificationService;
 use App\Services\Toast;
 use App\Services\UnitConvertor;
 use Illuminate\Http\RedirectResponse;
@@ -21,7 +22,8 @@ use Inertia\ResponseFactory;
 class OrderController extends Controller
 {
     public function __construct(
-        public OrderService $orderService
+        public OrderService $orderService,
+        public TelegramNotificationService $telegramNotificationService
     )
     {
     }
@@ -122,6 +124,10 @@ class OrderController extends Controller
 
         Toast::success('Заявка успешно создана!');
 
+        $this->telegramNotificationService
+            ->forSubscribedUsers()
+            ->newOrder($order);
+
         return to_route('my.orders.show', $order->id);
     }
 
@@ -130,6 +136,10 @@ class OrderController extends Controller
         $this->orderService
             ->setRelatedToMe()
             ->markAsSend($orderId);
+
+        $this->telegramNotificationService
+            ->forSubscribedUsers()
+            ->orderStatusChanged($orderId, Order::STATUS_SEND);
 
         Toast::success('Статус заявки изменен на "Отправлено".');
 
@@ -142,6 +152,10 @@ class OrderController extends Controller
             ->setRelatedToMe()
             ->markAsCancel($orderId);
 
+        $this->telegramNotificationService
+            ->forSubscribedUsers()
+            ->orderStatusChanged($orderId, Order::STATUS_CANCELED);
+
         Toast::success('Статус заявки изменен на "Отменен".');
 
         return back();
@@ -150,7 +164,7 @@ class OrderController extends Controller
     public function destroy(int $id): RedirectResponse
     {
         $this->orderService
-            ->setRelatedToMe(true)
+            ->setRelatedToMe()
             ->destroy($id);
 
         Toast::success('Заявка успешно удалена!');

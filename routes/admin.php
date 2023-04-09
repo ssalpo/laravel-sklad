@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\NomenclatureOperationController;
 use App\Http\Controllers\Admin\NomenclatureRefundController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\StorehouseController;
+use App\Http\Controllers\Admin\TelegramNotificationController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -61,4 +62,7 @@ Route::resource('/mixture-compositions/{mixture_composition}/mixture-composition
 // Users
 Route::post('/users/{user}/toggle-admin-status', [UserController::class, 'toggleAdminStatus'])->name('users.toggle-admin-status');
 Route::post('/users/{user}/toggle-activity', [UserController::class, 'toggleActivity'])->name('users.toggle_activity');
+Route::get('/users/{user}/telegram-notifications', [TelegramNotificationController::class, 'index'])->name('users.telegram-notifications.index');
+Route::post('/users/{user}/telegram-notifications/toggle', [TelegramNotificationController::class, 'toggle'])->name('users.telegram-notifications.toggle');
 Route::resource('users', UserController::class);
+

@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\NomenclatureOperationService;
 use App\Services\OrderService;
+use App\Services\TelegramNotificationService;
 use App\Services\Toast;
 use App\Services\UnitConvertor;
 use Illuminate\Http\RedirectResponse;
@@ -20,7 +21,8 @@ use Inertia\Response;
 class OrderController extends Controller
 {
     public function __construct(
-        public OrderService $orderService
+        public OrderService $orderService,
+        public TelegramNotificationService $telegramNotificationService
     )
     {
     }
@@ -72,6 +74,10 @@ class OrderController extends Controller
     public function store(OrderRequest $request): RedirectResponse
     {
         $order = $this->orderService->store($request->validated());
+
+        $this->telegramNotificationService
+            ->forSubscribedUsers()
+            ->newOrder($order);
 
         Toast::success('Заявка успешно создана!');
 
@@ -155,6 +161,10 @@ class OrderController extends Controller
     {
         $this->orderService->markAsSend($orderId, $request->rollback === true);
 
+        $this->telegramNotificationService
+            ->forSubscribedUsers()
+            ->orderStatusChanged($orderId, Order::STATUS_SEND);
+
         Toast::success('Статус заявки изменен на "Отправлено".');
 
         return back();
@@ -163,6 +173,10 @@ class OrderController extends Controller
     public function markAsCancel(int $orderId): RedirectResponse
     {
         $this->orderService->markAsCancel($orderId);
+
+        $this->telegramNotificationService
+            ->forSubscribedUsers()
+            ->orderStatusChanged($orderId, Order::STATUS_CANCELED);
 
         Toast::success('Статус заявки изменен на "Отменен".');
 
@@ -173,7 +187,11 @@ class OrderController extends Controller
     {
         $this->orderService->toggleStatus($order, $request->status);
 
-        Toast::success(sprintf('Статус закази изменен на "%s"', Order::STATUS_LABELS[$request->status]));
+        $this->telegramNotificationService
+            ->forSubscribedUsers()
+            ->orderStatusChanged($order, $request->status);
+
+        Toast::success(sprintf('Статус заявки изменен на "%s"', Order::STATUS_LABELS[$request->status]));
 
         return back();
     }

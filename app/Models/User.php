@@ -26,6 +26,7 @@ class User extends Authenticatable
         'password',
         'is_active',
         'is_admin',
+        'telegram_user_id',
     ];
 
     /**
@@ -36,6 +37,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'is_admin',
+        'is_active',
+        'telegram_user_id'
     ];
 
     /**
@@ -51,5 +55,10 @@ class User extends Authenticatable
     public function setPasswordAttribute(string $value)
     {
         $this->attributes['password'] = Hash::make($value);
+    }
+
+    public function hasTelegramChannel(): bool
+    {
+        return !is_null($this->telegram_user_id);
     }
 }

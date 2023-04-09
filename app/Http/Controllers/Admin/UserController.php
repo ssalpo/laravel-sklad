@@ -19,6 +19,7 @@ class UserController extends Controller
                 'username' => $user->username,
                 'is_active' => $user->is_active,
                 'is_admin' => $user->is_admin,
+                'telegram_user_id' => $user->telegram_user_id,
                 'created_at' => $user->created_at->format('d.m.Y')
             ]);
 

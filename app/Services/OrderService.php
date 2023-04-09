@@ -22,7 +22,7 @@ class OrderService extends BaseService
         return $this;
     }
 
-    public function store(array $data): Model
+    public function store(array $data): Order
     {
         return DB::transaction(function () use ($data) {
             $nomenclatures = Nomenclature::whereIn(

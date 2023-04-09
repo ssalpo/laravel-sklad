@@ -31,6 +31,7 @@
                                 <th>Дата создания</th>
                                 <th>Активность</th>
                                 <th>Админ</th>
+                                <th width="50">Телеграм</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
@@ -45,6 +46,12 @@
                                 </td>
                                 <td>
                                     <input type="checkbox" :checked="user.is_admin" @change="toggleAdminStatus(user.id)">
+                                </td>
+                                <td>
+                                    <telegram-notification-toggle
+                                        :user-id="user.id"
+                                        :is-already-connected="user.telegram_user_id !== null"
+                                    />
                                 </td>
                                 <td class="text-center">
                                     <Link :href="route('users.edit', user.id)">
@@ -69,9 +76,10 @@
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "../../Shared/Pagination.vue";
+import TelegramNotificationToggle from "../../Shared/TelegramNotificationToggle.vue";
 
 export default {
-    components: {Pagination, Head, Link},
+    components: {TelegramNotificationToggle, Pagination, Head, Link},
     props: ['users'],
     methods: {
         toggleActivity(id) {

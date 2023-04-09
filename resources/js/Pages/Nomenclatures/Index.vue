@@ -39,8 +39,6 @@
                                 <th style="width: 10px">#</th>
                                 <th>Наименование</th>
                                 <th>Себестоимость</th>
-                                <th>Наценка</th>
-                                <th>Цена продажи</th>
                                 <th>Курс $</th>
                                 <th>Тип номенклатуры</th>
                                 <th title="Единица измерения" class="text-center">Ед. изм.</th>
@@ -54,8 +52,6 @@
                                 </td>
                                 <td>{{ nomenclature.name }}</td>
                                 <td>{{ numberFormat(nomenclature.price) }} сом.</td>
-                                <td>{{ numberFormat(nomenclature.markup) }} сом.</td>
-                                <td>{{ numberFormat(nomenclature.price_for_sale) }} сом.</td>
                                 <td>{{ numberFormat(nomenclature.dollar_exchange_rate) }}</td>
                                 <td>{{ $page.props.shared.nomenclatureTypes[nomenclature.type] }}</td>
                                 <td class="text-center">{{ nomenclature.unit }}</td>

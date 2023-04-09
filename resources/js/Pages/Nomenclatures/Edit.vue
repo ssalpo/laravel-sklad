@@ -41,17 +41,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group" v-if="showForSaleType">
-                                <label class="form-asterisk">Наценка</label>
-                                <numeric-field :precision="2" type="text" class="form-control"
-                                       :class="{'is-invalid': errors.markup}"
-                                       v-model.trim="form.markup" />
-
-                                <div v-if="errors.markup" class="error invalid-feedback">
-                                    {{ errors.markup }}
-                                </div>
-                            </div>
-
                             <div class="form-group">
                                 <label class="form-asterisk">Единица измерения</label>
                                 <select class="form-control"
@@ -103,7 +92,6 @@ export default {
                 name: this.nomenclature?.name,
                 category_id: this.nomenclature?.category_id,
                 price: this.nomenclature?.price || 0,
-                markup: this.nomenclature?.markup || 0,
                 dollar_exchange_rate: this.nomenclature?.dollar_exchange_rate || 0,
                 price_for_sale: this.nomenclature?.price_for_sale || 0,
                 type: this.nomenclature?.type,

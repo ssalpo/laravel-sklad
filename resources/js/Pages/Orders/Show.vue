@@ -58,9 +58,11 @@
                             <tr>
                                 <th style="width: 10px">#</th>
                                 <th>Номенклатура</th>
-                                <th>Кол-во</th>
+                                <th>Себестоимость товара</th>
                                 <th>Цена за единицу</th>
+                                <th>Кол-во</th>
                                 <th>Сумма продажи</th>
+                                <th>Прибыль</th>
                                 <th>Возвраты</th>
                                 <th>Действия</th>
                             </tr>
@@ -69,9 +71,11 @@
                             <tr v-for="(orderItem, index) in orderItems">
                                 <td :data-id="orderItem.nomenclature_id">{{index + 1}}</td>
                                 <td>{{orderItem.nomenclature_name}}</td>
-                                <td>{{orderItem.quantity}} {{$page.props.shared.unitLabels[orderItem.unit]}}</td>
+                                <td>{{orderItem.price}} сом.</td>
                                 <td>{{numberFormat(orderItem.price_for_sale)}} сом.</td>
+                                <td>{{orderItem.quantity}} {{$page.props.shared.unitLabels[orderItem.unit]}}</td>
                                 <td>{{numberFormat(orderItem.price_for_sale * orderItem.quantity)}} сом.</td>
+                                <td>{{numberFormat((orderItem.price_for_sale - orderItem.price) * orderItem.quantity)}} сом.</td>
                                 <td class="text-center">
                                     <span v-if="orderTotalRefunds[orderItem.nomenclature_id]">
                                         {{orderTotalRefunds[orderItem.nomenclature_id]['quantity']}} шт., сумму: {{orderTotalRefunds[orderItem.nomenclature_id]['amount']}} сом.
@@ -130,9 +134,10 @@ import {Head, Link} from "@inertiajs/inertia-vue3";
 import OrderChangeStatusBtn from "../../Shared/OrderChangeStatusBtn.vue";
 import OrderRefundModal from "../../Shared/OrderRefundModal.vue";
 import {orderIsCancel, orderIsSend} from "../../Constants/order";
+import {numberFormat} from "../../functions";
 
 export default {
-    methods: {orderIsSend, orderIsCancel},
+    methods: {numberFormat, orderIsSend, orderIsCancel},
     components: {OrderRefundModal, OrderChangeStatusBtn, Head, Link},
     props: ['order', 'orderItems', 'orderTotalRefunds', 'orderRefunds'],
 }

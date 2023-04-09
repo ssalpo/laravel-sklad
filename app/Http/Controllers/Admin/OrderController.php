@@ -16,7 +16,6 @@ use App\Services\UnitConvertor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Response;
-use Inertia\ResponseFactory;
 
 class OrderController extends Controller
 {
@@ -90,6 +89,7 @@ class OrderController extends Controller
                 'id' => $model->id,
                 'nomenclature_id' => $model->nomenclature->id,
                 'nomenclature_name' => $model->nomenclature->name,
+                'price' => $model->price,
                 'price_for_sale' => $model->price_for_sale,
                 'quantity' => $model->quantity,
                 'unit' => $model->unit

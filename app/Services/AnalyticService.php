@@ -11,10 +11,10 @@ class AnalyticService
 {
     private array $filters = [];
 
-    public function ordersProfitInRange(string|Carbon $from, string|Carbon $to, int $status = Order::STATUS_SEND)
+    public function ordersProfitInRange(string|Carbon|null $from, string|Carbon|null $to, int $status = Order::STATUS_SEND)
     {
-        $dateFrom = is_string($from) ? Carbon::parse($from) : $from;
-        $dateTo = is_string($to) ? Carbon::parse($to) : $to;
+        $dateFrom = $from ? Carbon::parse($from)->startOfDay() : null;
+        $dateTo = $to ? Carbon::parse($to)->endOfDay() : null;
 
         return Order::whereBetween('created_at', [$dateFrom, $dateTo])
             ->filter(request())
@@ -22,10 +22,10 @@ class AnalyticService
             ->sum('profit');
     }
 
-    public function getNomenclatureTotalsInRange(string|Carbon $from, string|Carbon $to, int $status = Order::STATUS_SEND)
+    public function getNomenclatureTotalsInRange(string|Carbon|null $from, string|Carbon|null $to, int $status = Order::STATUS_SEND)
     {
-        $dateFrom = is_string($from) ? Carbon::parse($from) : $from;
-        $dateTo = is_string($to) ? Carbon::parse($to) : $to;
+        $dateFrom = $from ? Carbon::parse($from)->startOfDay() : null;
+        $dateTo = $to ? Carbon::parse($to)->endOfDay() : null;
 
         return DB::table(DB::raw('order_items o_i'))
             ->select(
@@ -39,11 +39,11 @@ class AnalyticService
                 fn($q) => $q->on('o.id', '=', 'o_i.order_id')
                     ->where('o.status', $status)
                     ->when(
-                        Arr::get($this->filters, 'client_id'),
+                        Arr::get($this->filters, 'client'),
                         fn($q, $v) => $q->where('o.client_id', $v)
                     )
                     ->when(
-                        Arr::get($this->filters, 'user_id'),
+                        Arr::get($this->filters, 'user'),
                         fn($q, $v) => $q->where('o.user_id', $v)
                     )
                     ->whereBetween('o.created_at', [$dateFrom, $dateTo])

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AnalyticController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientDebtController;
 use App\Http\Controllers\Admin\ClientDebtPaymentController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::get('analytics-in-range', [AnalyticController::class, 'range'])->name('analytics.range');
 
 Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
 

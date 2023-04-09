@@ -384,6 +384,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@vuepic/vue-datepicker@npm:^4.3.0":
+  version: 4.3.0
+  resolution: "@vuepic/vue-datepicker@npm:4.3.0"
+  dependencies:
+    date-fns: ^2.29.3
+    date-fns-tz: ^1.3.7
+  peerDependencies:
+    vue: ">=3.2.0"
+  checksum: b6116fdfc152844b9e73f978f9e44d37e9e3caa1e502ac53da565c8c19e9680ce6e6ca18b6c8444382075586421b2c2f77a1085849bffb8129e48c67a74aae7c
+  languageName: node
+  linkType: hard
+
 "@vueup/vue-quill@npm:^1.1.0":
   version: 1.1.0
   resolution: "@vueup/vue-quill@npm:1.1.0"
@@ -648,6 +660,22 @@ __metadata:
   version: 2.6.21
   resolution: "csstype@npm:2.6.21"
   checksum: 2ce8bc832375146eccdf6115a1f8565a27015b74cce197c35103b4494955e9516b246140425ad24103864076aa3e1257ac9bab25a06c8d931dd87a6428c9dccf
+  languageName: node
+  linkType: hard
+
+"date-fns-tz@npm:^1.3.7":
+  version: 1.3.8
+  resolution: "date-fns-tz@npm:1.3.8"
+  peerDependencies:
+    date-fns: ">=2.0.0"
+  checksum: dbf17cb88de7c7b71a9f86b815ac62ebdbf725c030e78d2421309456b5001a85284a5b6763f4af0ba660183f12e876c165e725a0723f642edb7846407db03133
+  languageName: node
+  linkType: hard
+
+"date-fns@npm:^2.29.3":
+  version: 2.29.3
+  resolution: "date-fns@npm:2.29.3"
+  checksum: e01cf5b62af04e05dfff921bb9c9933310ed0e1ae9a81eb8653452e64dc841acf7f6e01e1a5ae5644d0337e9a7f936175fd2cb6819dc122fdd9c5e86c56be484
   languageName: node
   linkType: hard
 
@@ -1797,6 +1825,7 @@ __metadata:
     "@inertiajs/inertia-vue3": ^0.6.0
     "@inertiajs/progress": ^0.2.7
     "@vitejs/plugin-vue": ^4.0.0
+    "@vuepic/vue-datepicker": ^4.3.0
     "@vueup/vue-quill": ^1.1.0
     axios: ^1.1.2
     laravel-vite-plugin: ^0.7.2

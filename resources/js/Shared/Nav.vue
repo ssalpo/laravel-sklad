@@ -36,10 +36,23 @@
 
                 <ul class="navbar-nav" v-if="$page.props.shared.isAdmin">
 
-                    <li class="nav-item">
-                        <Link :href="route('dashboard.index')" class="nav-link">
+                    <li class="nav-item dropdown">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
                             <i class="fa fa-chart-pie d-md-none d-lg-inline-block"></i> Аналитика
-                        </Link>
+                        </a>
+
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li>
+                                <Link :href="route('dashboard.index')" class="dropdown-item">
+                                    Общая
+                                </Link>
+                            </li>
+                            <li>
+                                <Link :href="route('analytics.range')" class="dropdown-item">
+                                    За период
+                                </Link>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="nav-item">

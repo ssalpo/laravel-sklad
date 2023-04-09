@@ -25,7 +25,7 @@ class NomenclatureOperationRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:' . implode(array_keys(NomenclatureOperation::OPERATION_LABELS)),
+            'type' => 'required|in:' . implode(',', array_keys(NomenclatureOperation::OPERATION_LABELS)),
             'nomenclature_id' => 'required|exists:nomenclatures,id',
             'quantity' => 'required|numeric|gt:0'
         ];

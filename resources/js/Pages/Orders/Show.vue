@@ -13,6 +13,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
+
                     <div class="row">
                         <div class="col-8 col-sm-6">
                             <h5>Состав заявки</h5>
@@ -24,6 +25,11 @@
                                 :status="order.status" />
                         </div>
                     </div>
+
+                    <Link
+                        :href="route('client.debts.create', {client: order.client_id, order: order.id})"
+                        class="btn btn-sm btn-outline-primary mr-1 mt-2">Добавить долг
+                    </Link>
 
                     <div class="table-responsive mb-4 mt-3">
                         <table class="table table-bordered table-hover" style="max-width: 450px;">

@@ -32,9 +32,9 @@ class AutocompleteController extends Controller
 
     public function orders()
     {
-        return array_map(fn($m) => [
+        return Order::when(request('q'), fn($q, $v) => $q->whereId($v))->get()->transform(fn($m) => [
             'id' => $m->id,
             'name' => 'Заявка №' . $m->id
-        ], Order::when(request('q'), fn($q, $v) => $q->whereId($v))->pluck('id'));
+        ]);
     }
 }

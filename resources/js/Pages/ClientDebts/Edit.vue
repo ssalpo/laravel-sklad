@@ -20,15 +20,10 @@
                             <div class="form-group">
                                 <label class="form-asterisk">Заявка</label>
 
-                                <custom-select
-                                    full
-                                    searchable
-                                    :class="{'is-invalid': errors.order_id}"
-                                    :options="orders"
-                                    v-model.number="form.order_id"
-                                    :value="form.order_id"
-                                    :render="id => `Заявка № ${id}`"
-                                    label-key="id" />
+                                <select2-orders
+                                    :is-invalid="errors.order_id !== undefined"
+                                    v-model="form.order_id"
+                                />
 
                                 <div v-if="errors.order_id" class="error invalid-feedback">
                                     {{ errors.order_id }}
@@ -87,10 +82,11 @@ import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import {vMaska} from "maska";
 import CustomSelect from "../../Shared/CustomSelect.vue";
 import NumericField from "../../Shared/NumericField.vue";
+import Select2Orders from "../../Shared/Select2Orders.vue";
 
 export default {
     props: ['orders', 'debt', 'client', 'selectedOrder', 'errors'],
-    components: {NumericField, CustomSelect, Head, Link},
+    components: {Select2Orders, NumericField, CustomSelect, Head, Link},
     directives: {maska: vMaska},
     data() {
         return {

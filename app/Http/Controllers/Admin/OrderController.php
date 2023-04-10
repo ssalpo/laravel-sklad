@@ -122,6 +122,7 @@ class OrderController extends Controller
             'order' => [
                 'id' => $order->id,
                 'user' => $order->user->name,
+                'client_id' => $order->client->id,
                 'client' => $order->client->name,
                 'amount' => number_format($order->amount, 2, '.', ''),
                 'status' => $order->status,

@@ -5,7 +5,7 @@
 
     <div class="content-header">
         <div class="container-fluid">
-            <h5 class="m-0">Скидки</h5>
+            <h5 class="m-0">Скидки для {{client.name}}</h5>
         </div>
     </div>
 

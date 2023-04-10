@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AnalyticController;
+use App\Http\Controllers\Admin\Cash\CashTransactionController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientDebtController;
 use App\Http\Controllers\Admin\ClientDebtPaymentController;
@@ -22,6 +23,8 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.
 Route::get('analytics-in-range', [AnalyticController::class, 'range'])->name('analytics.range');
 
 Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
+
+Route::resource('cash-transactions', CashTransactionController::class);
 
 // Orders
 Route::resource('orders', OrderController::class);

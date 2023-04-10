@@ -43,6 +43,7 @@ class Order extends Model
             $m->orderItems()->delete();
             $m->debts()->delete();
             $m->nomenclatureOperations()->delete();
+            $m->cashTransaction()->delete();
         });
     }
 
@@ -102,5 +103,10 @@ class Order extends Model
     public function nomenclatureOperations()
     {
         return $this->hasMany(NomenclatureOperation::class);
+    }
+
+    public function cashTransaction()
+    {
+        return $this->hasOne(CashTransaction::class);
     }
 }

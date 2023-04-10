@@ -36,6 +36,15 @@ class NomenclatureOperation extends Model
         self::OPERATION_TYPE_REFUND => 'Возврат',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(static function ($m) {
+            $m->cashTransaction()->delete();
+        });
+    }
+
     public function nomenclature()
     {
         return $this->belongsTo(Nomenclature::class);
@@ -49,6 +58,11 @@ class NomenclatureOperation extends Model
     public function orderItem()
     {
         return $this->belongsTo(OrderItem::class);
+    }
+
+    public function cashTransaction()
+    {
+        return $this->hasOne(CashTransaction::class);
     }
 
     public function scopeTypeWithdraw($q)

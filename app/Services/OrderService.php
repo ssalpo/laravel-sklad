@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CashTransaction;
 use App\Models\ClientDiscount;
 use App\Models\Nomenclature;
 use App\Models\Order;
@@ -109,7 +110,15 @@ class OrderService extends BaseService
             $order->status === Order::STATUS_NEW ||
             ($isRollback && $order->status === Order::STATUS_CANCELED)
         ) {
-            return $order->update(['status' => Order::STATUS_SEND]);
+            return DB::transaction(function () use ($order, $isRollback) {
+                if ($isRollback) {
+                    $this->rollbackCashTransaction($order);
+                } else {
+                    $this->cashTransaction($order);
+                }
+
+                return $order->update(['status' => Order::STATUS_SEND]);
+            });
         }
 
         return false;
@@ -120,9 +129,35 @@ class OrderService extends BaseService
         $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe(true))->findOrFail($orderId);
 
         if ($order->status === Order::STATUS_SEND) {
-            return $order->update(['status' => Order::STATUS_CANCELED]);
+            return DB::transaction(function () use ($order) {
+
+                $this->cancelCashTransaction($order);
+
+                return $order->update(['status' => Order::STATUS_CANCELED]);
+            });
         }
 
         return false;
+    }
+
+
+    public function cashTransaction(Order $order): CashTransaction
+    {
+        return $order->cashTransaction()->create([
+            'type' => CashTransaction::TYPE_DEBIT,
+            'amount' => $order->amount,
+            'comment' => sprintf('Заявка №%s', $order->id),
+            'created_by' => auth()->id()
+        ]);
+    }
+
+    public function cancelCashTransaction(Order $order): bool
+    {
+        return $order->cashTransaction->update(['status' => CashTransaction::STATUS_CANCELED]);
+    }
+
+    public function rollbackCashTransaction(Order $order): bool
+    {
+        return $order->cashTransaction->update(['status' => CashTransaction::STATUS_COMPLETED]);
     }
 }

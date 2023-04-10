@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('nomenclature_operations', function (Blueprint $table) {
-            $table->foreignId('order_id')->nullable()->constrained();
-            $table->foreignId('order_item_id')->nullable()->constrained();
+            $table->foreignId('order_id')->nullable()->constrained()->cascadeOnDelete();
+            $table->foreignId('order_item_id')->nullable()->constrained()->cascadeOnDelete();
             $table->text('comment')->nullable();
         });
     }

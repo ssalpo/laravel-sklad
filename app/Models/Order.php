@@ -35,6 +35,17 @@ class Order extends Model
         self::STATUS_CANCELED => 'Отменен',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(static function ($m) {
+            $m->orderItems()->delete();
+            $m->debts()->delete();
+            $m->nomenclatureOperations()->delete();
+        });
+    }
+
     public function scopeFilter($q, $data)
     {
         $q->when(
@@ -86,5 +97,10 @@ class Order extends Model
     public function debts()
     {
         return $this->hasMany(ClientDebt::class);
+    }
+
+    public function nomenclatureOperations()
+    {
+        return $this->hasMany(NomenclatureOperation::class);
     }
 }

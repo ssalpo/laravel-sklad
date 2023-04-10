@@ -64,7 +64,7 @@ class NewOrder extends Notification implements ShouldQueue
             $m->line('----');
         }
 
-        $m->button('Просмотреть', dd(url('http://sk.94.ru') . '/orders/' . $this->order->id));
+        $m->button('Просмотреть', url('http://sk.94.ru') . '/orders/' . $this->order->id);
 
         return $m;
     }

@@ -26,6 +26,10 @@
                         </div>
                     </div>
 
+                    <Link class="btn btn-sm btn-outline-primary mt-2" :href="route('my.order-debts.create', order.id)">
+                        Добавить долг
+                    </Link>
+
                     <div class="table-responsive table-hover mb-4 mt-3">
                         <table class="table table-bordered table-hover" style="max-width: 450px;">
                             <tr>

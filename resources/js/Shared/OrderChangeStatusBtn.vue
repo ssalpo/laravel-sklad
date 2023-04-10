@@ -3,6 +3,7 @@
         v-if="orderIsCancel(status) && rollbackBtn === true"
         @click="backStatusToSend"
         type="button"
+        :disabled="actionStarted"
         :class="[size]" class="btn btn-success mr-1"
         title="Вернуть статус отправлено"
     >
@@ -12,6 +13,7 @@
     <button
         @click="toggleStatus"
         type="button"
+        :disabled="actionStarted"
         v-if="orderIsNew(status) || orderIsSend(status)"
         class="btn"
         :class="['btn-' + (orderIsNew(status) ? 'success' : 'danger'), size]"
@@ -52,6 +54,9 @@ export default {
             default: false
         }
     },
+    data: () => ({
+        actionStarted: false
+    }),
     computed: {
         url() {
             let statusAction = 'cancel';
@@ -74,14 +79,31 @@ export default {
                 return;
             }
 
-            this.$inertia.post(this.url, {preserveState: true, preserveScroll: true})
+            this.actionStarted = true;
+
+            this.$inertia.post(
+                this.url,
+                {preserveState: true, preserveScroll: true},
+                {
+                    onFinish: () => this.actionStarted = false
+                }
+            )
         },
         backStatusToSend() {
             if (this.orderIsCancel(this.status) && !confirm('Вы уверены что хотите изменить статус на отправлено?')) {
                 return;
             }
 
-            this.$inertia.post(this.url, {rollback: true}, {preserveState: true, preserveScroll: true,})
+            this.actionStarted = true;
+
+            this.$inertia.post(
+                this.url,
+                {rollback: true},
+                {preserveState: true, preserveScroll: true},
+                {
+                    onFinish: () => this.actionStarted = false
+                }
+            )
         }
     }
 }

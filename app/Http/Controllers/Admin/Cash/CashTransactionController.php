@@ -27,6 +27,8 @@ class CashTransactionController extends Controller
                 'type_label' => CashTransaction::TYPE_LABELS[$model->type],
                 'amount' => $model->amount,
                 'comment' => $model->comment,
+                'status' => $model->status,
+                'status_label' => CashTransaction::STATUS_LABELS[$model->status],
                 'created_at' => $model->created_at->format('d-m-Y H:i')
             ]);
 

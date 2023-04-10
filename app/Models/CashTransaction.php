@@ -32,6 +32,11 @@ class CashTransaction extends Model
     public const STATUS_COMPLETED = 1;
     public const STATUS_CANCELED = 2;
 
+    public const STATUS_LABELS = [
+        self::STATUS_COMPLETED => 'Проведен',
+        self::STATUS_CANCELED => 'Отменен',
+    ];
+
     public function order()
     {
         return $this->belongsTo(Order::class);

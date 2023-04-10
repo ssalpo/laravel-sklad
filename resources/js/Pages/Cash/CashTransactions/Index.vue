@@ -25,13 +25,16 @@
                                 <th width="10">#</th>
                                 <th width="100" class="text-center">Тип операции</th>
                                 <th width="150" class="text-center">Сумма</th>
+                                <th width="150" class="text-center">Статус</th>
                                 <th width="100">Дата</th>
                                 <th>Комментарий</th>
                                 <th width="100">Действия</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(cashTransaction, index) in cashTransactions.data">
+                            <tr
+                                :class="{'table-danger': cashTransaction.status === 2}"
+                                v-for="(cashTransaction, index) in cashTransactions.data">
                                 <td>
                                     {{cashTransaction.id}}
                                 </td>
@@ -42,6 +45,7 @@
                                     </div>
                                 </td>
                                 <td class="text-center">{{ cashTransaction.amount }} сом.</td>
+                                <td class="text-center" :class="{'text-success': cashTransaction.status === 1}">{{cashTransaction.status_label}}</td>
                                 <td>{{ cashTransaction.created_at }}</td>
                                 <td>{{ cashTransaction.comment }}</td>
                                 <td>

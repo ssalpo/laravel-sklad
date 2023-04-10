@@ -83,7 +83,7 @@
                                 </td>
                                 <td>
                                     <order-refund-modal
-                                        v-if="!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity'])"
+                                        v-if="orderIsSend(order.status) && (!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity']))"
                                         :order-id="order.id"
                                         :order-item-id="orderItem.id"
                                         :nomenclature-id="orderItem.nomenclature_id"

@@ -60,14 +60,23 @@ class NomenclatureOperationService extends BaseService
             ->findOrFail($data['order_item_id']);
 
 
-        return NomenclatureOperation::create(array_merge(
-            $data,
-            [
-                'type' => NomenclatureOperation::OPERATION_TYPE_REFUND,
-                'price' => $orderItem->price,
-                'price_for_sale' => $orderItem->price_for_sale,
-            ]
-        ));
+        return DB::transaction(function () use ($data, $orderItem) {
+            $order = $orderItem->order;
+
+            $order->update([
+                'amount' => $order->amount - ($data['quantity'] * $orderItem->price_for_sale),
+                'profit' => $order->profit - ($data['quantity'] * ($orderItem->price_for_sale - $orderItem->price))
+            ]);
+
+            return NomenclatureOperation::create(array_merge(
+                $data,
+                [
+                    'type' => NomenclatureOperation::OPERATION_TYPE_REFUND,
+                    'price' => $orderItem->price,
+                    'price_for_sale' => $orderItem->price_for_sale,
+                ]
+            ));
+        });
 
     }
 
@@ -76,7 +85,7 @@ class NomenclatureOperationService extends BaseService
         return NomenclatureOperation::select(
             'nomenclature_id',
             DB::raw('SUM(quantity) AS quantity'),
-            DB::raw('SUM(price * quantity) AS amount'),
+            DB::raw('SUM(price_for_sale * quantity) AS amount'),
         )
             ->whereOrderId($orderId)
             ->groupBy('nomenclature_id')

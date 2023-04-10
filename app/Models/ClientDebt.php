@@ -24,6 +24,15 @@ class ClientDebt extends Model
         'is_paid' => 'boolean'
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(static function ($m) {
+            $m->payments()->delete();
+        });
+    }
+
     public function scopeFilter($q, array $filterData = [])
     {
         $q->when(Arr::get($filterData, 'client'), fn($q, $v) => $q->whereClientId($v));

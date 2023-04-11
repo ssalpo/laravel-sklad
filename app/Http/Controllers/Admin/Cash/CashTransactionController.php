@@ -33,6 +33,8 @@ class CashTransactionController extends Controller
                 'amount' => $model->amount,
                 'comment' => $model->comment,
                 'status' => $model->status,
+                'order_id' => $model->order_id,
+                'nomenclature_operation_id' => $model->nomenclature_operation_id,
                 'status_label' => CashTransaction::STATUS_LABELS[$model->status],
                 'created_at' => $model->created_at->format('d-m-Y H:i')
             ]);
@@ -54,6 +56,15 @@ class CashTransactionController extends Controller
         $this->cashTransactionService->update($cashTransaction, $request->validated());
 
         Toast::success('Новая транзакция успешно создана.');
+
+        return to_route('cash-transactions.index');
+    }
+
+    public function destroy(int $id)
+    {
+        $this->cashTransactionService->destroy($id);
+
+        Toast::success('Успешно удалено.');
 
         return to_route('cash-transactions.index');
     }

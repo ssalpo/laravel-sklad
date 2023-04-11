@@ -1,19 +1,19 @@
 <template>
     <button v-if="!transaction?.id" type="button" @click="form.type = 1" class="btn btn-outline-success mr-2"
-            :class="[btnSize]"
+            :class="[btnSize, btnClass]"
             data-toggle="modal" :data-target="`#${uid}`">
         <span class="fa fa-plus-circle"></span>
         Приход
     </button>
 
     <button v-if="!transaction?.id" type="button" @click="form.type = 2" class="btn btn-outline-danger"
-            :class="[btnSize]" data-toggle="modal"
+            :class="[btnSize, btnClass]" data-toggle="modal"
             :data-target="`#${uid}`">
         <span class="fa fa-minus-circle"></span>
         Уход
     </button>
 
-    <button v-if="transaction?.id" class="btn btn-sm btn-outline-primary" :class="[btnSize]" data-toggle="modal"
+    <button v-if="transaction?.id" class="btn btn-sm btn-outline-primary" :class="[btnSize, btnClass]" data-toggle="modal"
             :data-target="`#${uid}`">
         <span class="fa fa-pen"></span>
     </button>
@@ -92,6 +92,7 @@ export default {
             type: String,
             default: 'btn-sm'
         },
+        btnClass: String,
         transaction: Object
     },
     data() {

@@ -23,6 +23,17 @@ class CashTransactionService
         return $cashTransaction;
     }
 
+    public function destroy(int $id): CashTransaction
+    {
+        $cashTransaction = CashTransaction::whereNull('order_id')
+            ->whereNull('nomenclature_operation_id')
+            ->findOrFail($id);
+
+        $cashTransaction->delete();
+
+        return $cashTransaction;
+    }
+
     public function getLastMonthDebit(Carbon $currentDate): float
     {
         $date = $currentDate->subMonth();
@@ -91,7 +102,7 @@ class CashTransactionService
                     ];
                 }
 
-                $lastAmount +=  $amounts[0] - $amounts[1];
+                $lastAmount += $amounts[0] - $amounts[1];
 
                 return [
                     'items' => $itemResult,

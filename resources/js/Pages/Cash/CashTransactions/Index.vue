@@ -54,8 +54,14 @@
                                 <td>{{ cashTransaction.comment }}</td>
                                 <td>
                                     <cash-transaction-modal
+                                        btn-class="mr-2"
                                         :key="cashTransaction.id"
                                         :transaction="cashTransaction"
+                                    />
+
+                                    <delete-btn
+                                        v-if="!cashTransaction.order_id && !cashTransaction.nomenclature_operation_id"
+                                        :url="route('cash-transactions.destroy', cashTransaction.id)"
                                     />
                                 </td>
                             </tr>
@@ -77,9 +83,10 @@ import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "@/Shared/Pagination.vue";
 import CashTransactionModal from "@/Shared/CashTransactionModal.vue";
 import Filters from "./Filters.vue";
+import DeleteBtn from "../../../Shared/DeleteBtn.vue";
 
 export default {
-    components: {Filters, CashTransactionModal, Pagination, Head, Link},
+    components: {DeleteBtn, Filters, CashTransactionModal, Pagination, Head, Link},
     props: ['cashTransactions', 'filterParams']
 }
 </script>

@@ -17,6 +17,18 @@
 
                     <div class="row">
                         <div class="col-lg-4 col-sm-4 col-12">
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3>{{ numberFormat(lastMonthDebitAmount + (currentMontTotalAmounts.debit - currentMontTotalAmounts.credit)) }} с.</h3>
+                                    <p>Текущий остаток</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-chart-line"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-4 col-sm-4 col-12">
 
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -34,18 +46,6 @@
                                 <div class="inner">
                                     <h3>{{ numberFormat(currentMontTotalAmounts.credit) }} с.</h3>
                                     <p>Уход</p>
-                                </div>
-                                <div class="icon">
-                                    <i class="fa fa-chart-line"></i>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="col-lg-4 col-sm-4 col-12">
-                            <div class="small-box bg-success">
-                                <div class="inner">
-                                    <h3>{{ numberFormat(lastMonthDebitAmount + (currentMontTotalAmounts.debit - currentMontTotalAmounts.credit)) }} с.</h3>
-                                    <p>Общий остаток</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fa fa-chart-line"></i>

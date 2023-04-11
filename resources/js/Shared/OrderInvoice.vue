@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h3 class="page-title">Накладная №{{ order.id }}</h3>
+        <h3 class="page-title">Накладная №{{ order.id }} от {{ computedPrintDate }}</h3>
 
         <p class="pt-2" style="font-size: 18px;">
             Покупатель: {{ order.client }}
@@ -20,7 +20,10 @@
             <tr v-for="(orderItem, index) in orderItems">
                 <td class="text-center">{{ index + 1 }}</td>
                 <td>{{ orderItem.nomenclature }}</td>
-                <td class="text-center">{{ orderItem.quantity }} {{ $page.props.shared.unitLabels[orderItem.unit] }}</td>
+                <td class="text-center">{{ orderItem.quantity }} {{
+                        $page.props.shared.unitLabels[orderItem.unit]
+                    }}
+                </td>
                 <td class="text-center">{{ numberFormat(orderItem.price_for_sale) }} сом.</td>
                 <td class="text-right">{{ numberFormat(orderItem.price_for_sale * orderItem.quantity) }} сом.</td>
             </tr>
@@ -69,7 +72,12 @@
 
 <script>
 export default {
-    props: ['order', 'orderItems']
+    props: ['order', 'orderItems', 'printDate'],
+    computed: {
+        computedPrintDate() {
+            return this.printDate.toLocaleDateString('ru-RU')
+        }
+    }
 }
 </script>
 

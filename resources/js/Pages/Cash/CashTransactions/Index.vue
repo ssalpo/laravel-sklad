@@ -18,6 +18,10 @@
                 <!-- /.card-header -->
 
                 <div class="card-body">
+                    <filters
+                        :filter-params="filterParams"
+                    />
+
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
@@ -72,9 +76,10 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "@/Shared/Pagination.vue";
 import CashTransactionModal from "@/Shared/CashTransactionModal.vue";
+import Filters from "./Filters.vue";
 
 export default {
-    components: {CashTransactionModal, Pagination, Head, Link},
-    props: ['cashTransactions']
+    components: {Filters, CashTransactionModal, Pagination, Head, Link},
+    props: ['cashTransactions', 'filterParams']
 }
 </script>

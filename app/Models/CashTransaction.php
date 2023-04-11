@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 
 class CashTransaction extends Model
 {
@@ -36,6 +38,25 @@ class CashTransaction extends Model
         self::STATUS_COMPLETED => 'Проведен',
         self::STATUS_CANCELED => 'Отменен',
     ];
+
+    public function scopeCompleted($q)
+    {
+        $q->whereStatus(self::STATUS_COMPLETED);
+    }
+
+    public function scopeCanceled($q)
+    {
+        $q->whereStatus(self::STATUS_CANCELED);
+    }
+
+    public function scopeFilter($q, array $data)
+    {
+        $q->when(Arr::get($data, 'status'), fn($q, $v) => $q->whereStatus($v));
+
+        $q->when(Arr::get($data, 'date'), fn($q, $v) => $q->whereDate('created_at', Carbon::parse($v)));
+
+        $q->when(Arr::get($data, 'type'), fn($q, $v) => $q->where('type', $v));
+    }
 
     public function order()
     {

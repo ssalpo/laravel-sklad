@@ -8,6 +8,7 @@ use App\Models\CashTransaction;
 use App\Services\CashTransactionService;
 use App\Services\Toast;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class CashTransactionController extends Controller
 {
@@ -19,8 +20,12 @@ class CashTransactionController extends Controller
 
     public function index()
     {
+        $filterParams = request()?->collect()->except(['page'])->all();
+
         $cashTransactions = CashTransaction::orderBy('created_at', 'DESC')
+            ->filter($filterParams)
             ->paginate(100)
+            ->withQueryString()
             ->through(fn($model) => [
                 'id' => $model->id,
                 'type' => $model->type,
@@ -32,7 +37,7 @@ class CashTransactionController extends Controller
                 'created_at' => $model->created_at->format('d-m-Y H:i')
             ]);
 
-        return inertia('Cash/CashTransactions/Index', compact('cashTransactions'));
+        return inertia('Cash/CashTransactions/Index', compact('cashTransactions', 'filterParams'));
     }
 
     public function store(CashTransactionRequest $request)
@@ -55,8 +60,23 @@ class CashTransactionController extends Controller
 
     public function dayStatistics()
     {
-        $transactions = $this->cashTransactionService->getStructuredTransactions();
+        $filterParams = request()?->all();
 
-        return inertia('Cash/CashTransactions/StatisticDay', compact('transactions'));
+        $date = request('date')
+            ? Carbon::createFromFormat('n-Y', implode('-', array_values(request('date'))))->addMonth()
+            : now();
+
+        $currentMontTotalAmounts = $this->cashTransactionService->getMonthAmounts($date);
+
+        [
+            $lastMonthDebitAmount,
+            $transactions
+        ] = array_values($this->cashTransactionService->getStructuredTransactions($date));
+
+
+        return inertia(
+            'Cash/CashTransactions/StatisticDay',
+            compact('currentMontTotalAmounts', 'lastMonthDebitAmount', 'transactions', 'filterParams')
+        );
     }
 }

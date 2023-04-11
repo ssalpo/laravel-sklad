@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\CashTransaction;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CashTransactionService
 {
@@ -22,7 +23,7 @@ class CashTransactionService
         return $cashTransaction;
     }
 
-    public function getLastMonthDebit(Carbon $currentDate)
+    public function getLastMonthDebit(Carbon $currentDate): float
     {
         $date = $currentDate->subMonth();
 
@@ -30,28 +31,49 @@ class CashTransactionService
             'type',
             \DB::raw('SUM(amount) amount')
         )->whereMonth('created_at', $date->format('m'))
+            ->completed()
             ->whereYear('created_at', $date->format('Y'))
             ->groupBy('type')
             ->get();
 
-        $lastDebit = $result->where('type', CashTransaction::TYPE_DEBIT)->first()?->amount ?? 0;
-        $lastCredit = $result->where('type', CashTransaction::TYPE_CREDIT)->first()?->amount ?? 0;
+        $lastDebit = $result->where('type', CashTransaction::TYPE_DEBIT)->sum('amount');
+        $lastCredit = $result->where('type', CashTransaction::TYPE_CREDIT)->sum('amount');
 
         return $lastDebit - $lastCredit;
     }
 
-    public function getStructuredTransactions()
+    public function getMonthAmounts(Carbon $date)
     {
-        $lastMonthDebitAmount = $this->getLastMonthDebit(now());
+        $transactions = CashTransaction::select(
+            'type',
+            \DB::raw('SUM(amount) amount')
+        )->whereMonth('created_at', $date->format('m'))
+            ->completed()
+            ->whereYear('created_at', $date->format('Y'))
+            ->groupBy('type')
+            ->get();
 
-        return CashTransaction::orderBy('created_at', 'ASC')
-            ->whereMonth('created_at', now()->format('m'))
-            ->whereYear('created_at', now()->format('Y'))
+        return [
+            'debit' => $transactions->where('type', CashTransaction::TYPE_DEBIT)->sum('amount'),
+            'credit' => $transactions->where('type', CashTransaction::TYPE_CREDIT)->sum('amount'),
+        ];
+    }
+
+    public function getStructuredTransactions(Carbon $currentDate): array
+    {
+        $lastMonthDebitAmount = $this->getLastMonthDebit($currentDate->clone());
+        $lastAmount = $lastMonthDebitAmount;
+
+        $transactions = CashTransaction::orderBy('created_at', 'ASC')
+            ->completed()
+            ->whereMonth('created_at', $currentDate->format('m'))
+            ->whereYear('created_at', $currentDate->format('Y'))
             ->get()
-            ->groupBy(fn($m) => $m->created_at->format('Y-m-d'))
-            ->map(function (Collection $items, $key) use (&$lastMonthDebitAmount) {
-                $debits = $items->where('type', CashTransaction::TYPE_DEBIT);
-                $credits = $items->where('type', CashTransaction::TYPE_CREDIT);
+            ->groupBy(fn($m) => $m->created_at->format('d-m-Y'))
+            ->map(function (Collection $items, $key) use (&$lastAmount) {
+                $debits = $items->where('type', CashTransaction::TYPE_DEBIT)->values();
+                $credits = $items->where('type', CashTransaction::TYPE_CREDIT)->values();
+                $amounts = [$debits->sum('amount'), $credits->sum('amount')];
 
                 $maxCount = max([$debits->count(), $credits->count()]);
 
@@ -69,12 +91,16 @@ class CashTransactionService
                     ];
                 }
 
-                $lastMonthDebitAmount += $debits->sum('amount') - $credits->sum('amount');
+                $lastAmount +=  $amounts[0] - $amounts[1];
 
                 return [
                     'items' => $itemResult,
-                    'amount' => $lastMonthDebitAmount
+                    'debit_amount' => $amounts[0],
+                    'credit_amount' => $amounts[1],
+                    'amount' => $lastAmount
                 ];
             });
+
+        return compact('lastMonthDebitAmount', 'transactions');
     }
 }

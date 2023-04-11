@@ -25,7 +25,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            {{transaction?.id ? `Редактирование операции №${transaction.id}` : 'Новая операция'}}
+                            {{transaction?.id ? `Редактирование операции №${transaction.id}` : `Новый ${typeLabels[this.form.type]}`}}
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -104,7 +104,11 @@ export default {
                 type: this.transaction?.type,
                 amount: this.transaction?.amount,
                 comment: this.transaction?.comment
-            })
+            }),
+            typeLabels: {
+                1: 'приход',
+                2: 'уход',
+            }
         };
     },
     methods: {

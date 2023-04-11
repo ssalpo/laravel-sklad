@@ -80,23 +80,13 @@
 
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
                             <li>
-                                <Link class="dropdown-item">
-                                    Дашборд
-                                </Link>
-                            </li>
-                            <li>
                                 <Link :href="route('cash-transactions.index')" class="dropdown-item">
                                     Операции
                                 </Link>
                             </li>
                             <li>
                                 <Link :href="route('cash-transaction.day-statistics')" class="dropdown-item">
-                                    ДДС день
-                                </Link>
-                            </li>
-                            <li>
-                                <Link class="dropdown-item">
-                                    ДДС месяц
+                                    Статистика за месяц
                                 </Link>
                             </li>
                         </ul>

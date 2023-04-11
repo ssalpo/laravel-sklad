@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>ДДС день</title>
+        <title>Статистика за месяц</title>
     </Head>
 
     <div class="content-header">
         <div class="container-fluid">
-            <h1 class="m-0">ДДС день</h1>
+            <h1 class="m-0">Статистика за месяц</h1>
         </div>
     </div>
 

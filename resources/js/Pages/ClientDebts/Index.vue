@@ -104,14 +104,9 @@
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
 
-                                    <Link method="delete" as="button"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('client.debts.destroy', {client: client.id, debt: debt.id})"
-                                          class="btn btn-sm btn-outline-danger">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </Link>
+                                    <delete-btn
+                                        :url="route('client.debts.destroy', {client: client.id, debt: debt.id})"
+                                    />
                                 </td>
                             </tr>
                             </tbody>
@@ -126,9 +121,10 @@
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import ClientDebtPaymentAdd from "../../Shared/ClientDebtPaymentAdd.vue";
+import DeleteBtn from "@/Shared/DeleteBtn.vue";
 
 export default {
-    components: {ClientDebtPaymentAdd, Head, Link},
+    components: {DeleteBtn, ClientDebtPaymentAdd, Head, Link},
     props: ['client', 'debts', 'totalDebts', 'totalPayments'],
     data: () => ({
         currentPayIndex: null

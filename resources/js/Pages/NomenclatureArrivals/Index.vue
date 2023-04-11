@@ -49,15 +49,10 @@
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
 
-                                    <Link method="delete" as="button"
-                                          v-if="nomenclatureArrival.can_edit"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('nomenclature-arrivals.destroy', nomenclatureArrival.id)"
-                                          class="btn btn-sm btn-outline-danger">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </Link>
+                                    <delete-btn
+                                        v-if="nomenclatureArrival.can_edit"
+                                        :url="route('nomenclature-arrivals.destroy', nomenclatureArrival.id)"
+                                    />
                                 </td>
                             </tr>
                             </tbody>
@@ -75,10 +70,11 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
+import Pagination from "@/Shared/Pagination.vue";
+import DeleteBtn from "@/Shared/DeleteBtn.vue";
 
 export default {
-    components: {Pagination, Head, Link},
+    components: {DeleteBtn, Pagination, Head, Link},
     props: ['nomenclatureArrivals'],
 }
 </script>

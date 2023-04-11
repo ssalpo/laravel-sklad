@@ -43,15 +43,10 @@
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
 
-                                    <Link method="delete" as="button"
-                                          v-if="nomenclatureOperation.can_edit"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('nomenclature-operations.destroy', {nomenclature_operation: nomenclatureOperation.id, type: currentType})"
-                                          class="btn btn-sm btn-outline-danger">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </Link>
+                                    <delete-btn
+                                        v-if="nomenclatureOperation.can_edit"
+                                        :url="route('nomenclature-operations.destroy', {nomenclature_operation: nomenclatureOperation.id, type: currentType})"
+                                    />
                                 </td>
                             </tr>
                             </tbody>

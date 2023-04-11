@@ -90,7 +90,7 @@
                                 </Link>
                             </li>
                             <li>
-                                <Link class="dropdown-item">
+                                <Link :href="route('cash-transaction.day-statistics')" class="dropdown-item">
                                     ДДС день
                                 </Link>
                             </li>

@@ -24,6 +24,7 @@ Route::get('analytics-in-range', [AnalyticController::class, 'range'])->name('an
 
 Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
 
+Route::get('cash-transactions/day-statistics', [CashTransactionController::class, 'dayStatistics'])->name('cash-transaction.day-statistics');
 Route::resource('cash-transactions', CashTransactionController::class);
 
 // Orders

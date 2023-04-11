@@ -50,6 +50,7 @@
                                 <td>{{ cashTransaction.comment }}</td>
                                 <td>
                                     <cash-transaction-modal
+                                        :key="cashTransaction.id"
                                         :transaction="cashTransaction"
                                     />
                                 </td>

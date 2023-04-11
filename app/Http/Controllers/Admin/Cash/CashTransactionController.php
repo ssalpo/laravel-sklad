@@ -52,4 +52,11 @@ class CashTransactionController extends Controller
 
         return to_route('cash-transactions.index');
     }
+
+    public function dayStatistics()
+    {
+        $transactions = $this->cashTransactionService->getStructuredTransactions();
+
+        return inertia('Cash/CashTransactions/StatisticDay', compact('transactions'));
+    }
 }

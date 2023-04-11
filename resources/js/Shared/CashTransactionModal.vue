@@ -33,6 +33,7 @@
                     </div>
                     <form @submit.prevent="submit">
                         <div class="modal-body">
+
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма</label>
                                 <numeric-field class="form-control"

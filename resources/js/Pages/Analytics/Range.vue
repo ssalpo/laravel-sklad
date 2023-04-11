@@ -21,18 +21,34 @@
                     <h5 class="mb-3 mt-2">Прибыль за период</h5>
 
                     <div class="row">
+
+                        <div class="col-lg-4 col-sm-6 col-12">
+
+                            <div class="small-box bg-success">
+                                <div class="inner">
+                                    <h3>{{ numberFormat(profit) }} с.</h3>
+                                    <p>За месяц</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-chart-line"></i>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="col-lg-4 col-sm-6 col-12">
 
                             <div class="small-box bg-info">
                                 <div class="inner">
-                                    <h3>{{ numberFormat(profit) }} с.</h3>
-                                    <p>Общая прибыль</p>
+                                    <h3>{{ numberFormat(amount) }} с.</h3>
+                                    <p>Сумма продажи</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fa fa-chart-bar"></i>
                                 </div>
                             </div>
                         </div>
+
+
                     </div>
 
                     <h5 class="mb-3 mt-4">Прибыль по товарам за период</h5>
@@ -68,6 +84,6 @@ import RangeFilters from "./RangeFilters.vue";
 
 export default {
     components: {RangeFilters, Head, Link},
-    props: ['profit', 'nomenclatureProfits', 'filterParams']
+    props: ['profit', 'amount', 'nomenclatureProfits', 'filterParams']
 }
 </script>

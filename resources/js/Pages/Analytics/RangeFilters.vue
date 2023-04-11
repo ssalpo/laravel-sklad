@@ -22,6 +22,13 @@
                 />
             </div>
 
+            <div class="col-12 col-sm-3 mb-2 mb-sm-0">
+                <select2-users
+                    v-model.number="filter.user"
+                    class="form-control-sm"
+                />
+            </div>
+
             <div class="col-12 col-sm-3">
                 <button class="btn btn-sm btn-primary mr-1" type="submit">
                     <span class="fa fa-search"></span>
@@ -40,14 +47,16 @@ import size from "lodash/size";
 import Select2Clients from "../../Shared/Select2Clients.vue";
 import VueDatePicker from '@vuepic/vue-datepicker';
 import '@vuepic/vue-datepicker/dist/main.css'
+import Select2Users from "../../Shared/Select2Users.vue";
 
 export default {
-    components: {Select2Clients, VueDatePicker},
+    components: {Select2Users, Select2Clients, VueDatePicker},
     props: ['filterParams'],
     data() {
         return {
             filter: useForm({
                 date: this.filterParams?.date,
+                user: this.filterParams?.user,
                 client: this.filterParams?.client,
             })
         }

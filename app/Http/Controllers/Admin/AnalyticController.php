@@ -23,9 +23,12 @@ class AnalyticController extends Controller
         $profit = $this->analyticService->setFilters($filterParams)
             ->ordersProfitInRange($dateFrom, $dateTo);
 
+        $amount = $this->analyticService->setFilters($filterParams)
+            ->ordersAmountInRange($dateFrom, $dateTo);
+
         $nomenclatureProfits = $this->analyticService->setFilters($filterParams)
             ->getNomenclatureTotalsInRange($dateFrom, $dateTo);
 
-        return inertia('Analytics/Range', compact('profit', 'nomenclatureProfits', 'filterParams'));
+        return inertia('Analytics/Range', compact('profit', 'amount', 'nomenclatureProfits', 'filterParams'));
     }
 }

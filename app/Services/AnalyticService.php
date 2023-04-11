@@ -22,6 +22,17 @@ class AnalyticService
             ->sum('profit');
     }
 
+    public function ordersAmountInRange(string|Carbon|null $from, string|Carbon|null $to, int $status = Order::STATUS_SEND)
+    {
+        $dateFrom = $from ? Carbon::parse($from)->startOfDay() : null;
+        $dateTo = $to ? Carbon::parse($to)->endOfDay() : null;
+
+        return Order::whereBetween('created_at', [$dateFrom, $dateTo])
+            ->filter(request())
+            ->whereStatus($status)
+            ->sum('amount');
+    }
+
     public function getNomenclatureTotalsInRange(string|Carbon|null $from, string|Carbon|null $to, int $status = Order::STATUS_SEND)
     {
         $dateFrom = $from ? Carbon::parse($from)->startOfDay() : null;

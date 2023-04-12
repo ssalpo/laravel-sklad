@@ -43,6 +43,7 @@
                                 <th>Сумма</th>
                                 <th colspan="2">Статус</th>
                                 <th>Прибыль</th>
+                                <th>Дата отправки</th>
                                 <th>Дата создания</th>
                                 <th></th>
                             </tr>
@@ -67,6 +68,7 @@
                                     />
                                 </td>
                                 <td>{{ numberFormat(order.profit) }} сом.</td>
+                                <td>{{ order.send_at }}</td>
                                 <td>{{ order.created_at }}</td>
                                 <td width="150">
                                     <button :class="[!this.invoices.includes(order.id) ? 'btn-outline-primary' : 'btn-outline-success']" class="btn btn-sm mr-1" @click="toggleInvoice(order.id)">Накладная</button>

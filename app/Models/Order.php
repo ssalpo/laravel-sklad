@@ -19,10 +19,12 @@ class Order extends Model
         'profit',
         'status',
         'is_admin',
+        'send_at',
     ];
 
     protected $casts = [
-        'is_admin' => 'boolean'
+        'is_admin' => 'boolean',
+        'send_at' => 'datetime'
     ];
 
     public const STATUS_NEW = 1;

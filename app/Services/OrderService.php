@@ -109,7 +109,13 @@ class OrderService extends BaseService
             $order->status === Order::STATUS_NEW ||
             ($isRollback && $order->status === Order::STATUS_CANCELED)
         ) {
-            return $order->update(['status' => Order::STATUS_SEND]);
+            $data = ['status' => Order::STATUS_SEND];
+
+            if(!$isRollback) {
+                $data['send_at'] = now();
+            }
+
+            return $order->update($data);
         }
 
         return false;

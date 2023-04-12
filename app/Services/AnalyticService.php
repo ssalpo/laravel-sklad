@@ -16,7 +16,7 @@ class AnalyticService
         $dateFrom = $from ? Carbon::parse($from)->startOfDay() : null;
         $dateTo = $to ? Carbon::parse($to)->endOfDay() : null;
 
-        return Order::whereBetween('created_at', [$dateFrom, $dateTo])
+        return Order::whereBetween('send_at', [$dateFrom, $dateTo])
             ->filter(request())
             ->whereStatus($status)
             ->sum('profit');
@@ -27,7 +27,7 @@ class AnalyticService
         $dateFrom = $from ? Carbon::parse($from)->startOfDay() : null;
         $dateTo = $to ? Carbon::parse($to)->endOfDay() : null;
 
-        return Order::whereBetween('created_at', [$dateFrom, $dateTo])
+        return Order::whereBetween('send_at', [$dateFrom, $dateTo])
             ->filter(request())
             ->whereStatus($status)
             ->sum('amount');
@@ -57,7 +57,7 @@ class AnalyticService
                         Arr::get($this->filters, 'user'),
                         fn($q, $v) => $q->where('o.user_id', $v)
                     )
-                    ->whereBetween('o.created_at', [$dateFrom, $dateTo])
+                    ->whereBetween('o.send_at', [$dateFrom, $dateTo])
             )
             ->join(
                 DB::raw('nomenclatures n'),

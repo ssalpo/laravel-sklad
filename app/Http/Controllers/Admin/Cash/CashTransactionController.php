@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin\Cash;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CashTransactionDollarExchangeRequest;
 use App\Http\Requests\CashTransactionRequest;
 use App\Models\CashTransaction;
 use App\Services\CashTransactionService;
@@ -31,6 +32,8 @@ class CashTransactionController extends Controller
                 'type' => $model->type,
                 'type_label' => CashTransaction::TYPE_LABELS[$model->type],
                 'amount' => $model->amount,
+                'amount_in_dollar' => $model->amount_in_dollar,
+                'dollar_exchange_rate' => $model->dollar_exchange_rate,
                 'comment' => $model->comment,
                 'status' => $model->status,
                 'order_id' => $model->order_id,
@@ -89,5 +92,15 @@ class CashTransactionController extends Controller
             'Cash/CashTransactions/StatisticDay',
             compact('currentMontTotalAmounts', 'lastMonthDebitAmount', 'transactions', 'filterParams')
         );
+    }
+
+    public function dollarExchange(int $cashTransaction, CashTransactionDollarExchangeRequest $request)
+    {
+        $this->cashTransactionService->dollarExchange(
+            $cashTransaction,
+            $request->dollar_exchange_rate
+        );
+
+        return back();
     }
 }

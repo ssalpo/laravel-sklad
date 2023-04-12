@@ -26,6 +26,7 @@ Route::get('storehouses', [StorehouseController::class, 'index'])->name('storeho
 
 Route::get('cash-transactions/day-statistics', [CashTransactionController::class, 'dayStatistics'])->name('cash-transaction.day-statistics');
 Route::resource('cash-transactions', CashTransactionController::class);
+Route::post('cash-transactions/{cash_transaction}/dollar-exchange', [CashTransactionController::class, 'dollarExchange'])->name('cash-transaction.dollar-exchange');
 
 // Orders
 Route::resource('orders', OrderController::class);

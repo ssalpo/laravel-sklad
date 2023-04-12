@@ -17,6 +17,8 @@ return new class extends Migration {
             $table->tinyInteger('type')->comment('Тип операции');
             $table->tinyInteger('status')->default(\App\Models\CashTransaction::STATUS_COMPLETED);
             $table->double('amount');
+            $table->double('amount_in_dollar')->default(0);
+            $table->double('dollar_exchange_rate')->default(0);
             $table->text('comment')->nullable();
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('order_id')->nullable()->constrained();

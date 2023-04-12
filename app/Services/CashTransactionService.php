@@ -112,4 +112,16 @@ class CashTransactionService
 
         return compact('lastMonthDebitAmount', 'transactions');
     }
+
+    public function dollarExchange(int $id, float $dollarExchangeRate): CashTransaction
+    {
+        $cashTransaction = CashTransaction::findOrFail($id);
+
+        $cashTransaction->update([
+            'amount_in_dollar' => $cashTransaction->amount / $dollarExchangeRate,
+            'dollar_exchange_rate' => $dollarExchangeRate
+        ]);
+
+        return $cashTransaction;
+    }
 }

@@ -24,11 +24,19 @@ class CashTransaction extends Model
         'type',
         'status',
         'amount',
+        'amount_in_dollar',
+        'dollar_exchange_rate',
         'comment',
         'created_by',
         'order_id',
         'order_id',
         'nomenclature_operation_id',
+    ];
+
+    protected $casts = [
+        'amount' => 'double',
+        'amount_in_dollar' => 'double',
+        'dollar_exchange_rate' => 'double',
     ];
 
     public const TYPE_DEBIT = 1;

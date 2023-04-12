@@ -32,6 +32,7 @@ class NomenclatureController extends Controller
                 'markup' => $model->markup,
                 'price_for_sale' => $model->price_for_sale,
                 'dollar_exchange_rate' => $model->dollar_exchange_rate,
+                'is_price_manual' => $model->is_price_manual,
                 'type' => $model->type,
                 'unit' => UnitConvertor::UNIT_LABELS[$model->unit],
             ]);

@@ -6,6 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @method priceNotManual
+ * @method saleType
+ * @method compositeType
+ * @method hasPriceForSale
+ */
 class Nomenclature extends Model
 {
     use HasFactory, SoftDeletes;
@@ -17,7 +23,8 @@ class Nomenclature extends Model
         'price_for_sale',
         'markup',
         'unit',
-        'dollar_exchange_rate'
+        'dollar_exchange_rate',
+        'is_price_manual'
     ];
 
     protected $casts = [
@@ -25,6 +32,7 @@ class Nomenclature extends Model
         'price_for_sale' => 'double',
         'markup' => 'double',
         'dollar_exchange_rate' => 'double',
+        'is_price_manual' => 'bool'
     ];
 
     public const TYPE_SALE = 1; // продажа
@@ -55,13 +63,17 @@ class Nomenclature extends Model
 
     public function scopeHasPriceForSale($q)
     {
-        $q->where('price', '>', 0)
-            ->where('price_for_sale', '>', 0);
+        $q->where('price', '>', 0);
     }
 
     public function scopeCompositeType($q)
     {
         $q->whereType(self::TYPE_COMPOSITE);
+    }
+
+    public function scopePriceNotManual($q)
+    {
+        return $q->where('is_price_manual', false);
     }
 
     public function mixtureComposition()

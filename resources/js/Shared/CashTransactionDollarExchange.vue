@@ -21,7 +21,8 @@
     </div>
 
     <div v-if="!isEdit" @click="isEdit = !isEdit">
-        ${{ numberFormat(cashTransaction.amount_in_dollar) }}, <small>по курсу {{numberFormat(cashTransaction.dollar_exchange_rate)}}</small>
+        ${{ numberFormat(cashTransaction.amount_in_dollar) }}
+        <small v-if="cashTransaction.amount_in_dollar">, по курсу {{numberFormat(cashTransaction.dollar_exchange_rate)}}</small>
     </div>
 </template>
 

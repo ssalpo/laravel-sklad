@@ -43,6 +43,7 @@
                                 <th>Сумма</th>
                                 <th colspan="2">Статус</th>
                                 <th>Прибыль</th>
+                                <th width="100">Остаток долга</th>
                                 <th>Дата отправки</th>
                                 <th>Дата создания</th>
                                 <th></th>
@@ -68,15 +69,11 @@
                                     />
                                 </td>
                                 <td>{{ numberFormat(order.profit) }} сом.</td>
+                                <td>{{ orderDebtAmounts[order.id] !== undefined ? `${numberFormat(orderDebtAmounts[order.id])} сом.` : '-' }}</td>
                                 <td>{{ order.send_at }}</td>
                                 <td>{{ order.created_at }}</td>
-                                <td width="150">
+                                <td width="100">
                                     <button :class="[!this.invoices.includes(order.id) ? 'btn-outline-primary' : 'btn-outline-success']" class="btn btn-sm mr-1" @click="toggleInvoice(order.id)">Накладная</button>
-
-                                    <Link
-                                        :href="route('client.debts.create', {client: order.client.id, order: order.id})"
-                                        class="btn btn-sm btn-outline-primary mr-1">Добавить долг
-                                    </Link>
                                 </td>
                             </tr>
                             </tbody>
@@ -111,9 +108,10 @@ import Pagination from "@/Shared/Pagination.vue";
 import OrderChangeStatusBtn from "@/Shared/OrderChangeStatusBtn.vue";
 import Filters from "./Filters.vue";
 import size from "lodash/size";
+import {numberFormat} from "../../functions";
 export default {
     components: {Filters, OrderChangeStatusBtn, Pagination, Head, Link},
-    props: ['orders', 'filterParams'],
+    props: ['orders', 'filterParams', 'orderDebtAmounts'],
     data() {
         return {
             isFilterShow: false,
@@ -128,6 +126,7 @@ export default {
         this.isFilterShow = size(this.filterParams);
     },
     methods: {
+        numberFormat,
         toggleInvoice(id) {
             let index = this.invoices.indexOf(id);
 

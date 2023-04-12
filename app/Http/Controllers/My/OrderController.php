@@ -53,7 +53,7 @@ class OrderController extends Controller
 
     public function show(int $id): Response|ResponseFactory
     {
-        $order = Order::with(['user', 'client'])
+        $order = Order::with(['user', 'client', 'debt'])
             ->my()
             ->findOrFail($id);
 
@@ -92,6 +92,7 @@ class OrderController extends Controller
                 'user' => $order->user->name,
                 'client' => $order->client->name,
                 'amount' => $order->amount,
+                'debt' => !is_null($order->debt),
                 'status' => $order->status,
             ],
             'orderItems' => $orderItems,

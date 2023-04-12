@@ -3,8 +3,11 @@
 namespace App\Services;
 
 use App\Models\ClientDebt;
+use App\Models\ClientDebtPayment;
 use App\Models\Order;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\DB;
 
 class ClientDebtService extends BaseService
 {
@@ -20,9 +23,10 @@ class ClientDebtService extends BaseService
     public function store(array $data)
     {
         $order = Order::relatedToMe($this->isRelatedToMe)
+            ->whereDoesntHave('debt')
             ->findOrFail($data['order_id']);
 
-        return $order->debts()->create($data + [
+        return $order->debt()->create($data + [
                 'client_id' => $order->client_id,
                 'created_by' => auth()->id()
             ]);
@@ -44,5 +48,21 @@ class ClientDebtService extends BaseService
         $debt->delete();
 
         return $debt;
+    }
+
+    public function getOrderDebts(array|int $id): array
+    {
+        $ids = !is_array($id) ? (array)$id : $id;
+
+
+        return ClientDebt::whereIn('order_id', $ids)
+            ->withSum('payments', 'amount')
+            ->get()
+            ->transform(fn($m) => [
+                'order_id' => $m->order_id,
+                'amountDebts' => $m->amount - $m->payments_sum_amount,
+            ])
+            ->pluck('amountDebts', 'order_id')
+            ->toArray();
     }
 }

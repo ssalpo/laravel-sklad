@@ -9,6 +9,7 @@ use App\Models\Nomenclature;
 use App\Models\NomenclatureOperation;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\ClientDebtService;
 use App\Services\NomenclatureOperationService;
 use App\Services\OrderService;
 use App\Services\TelegramNotificationService;
@@ -22,6 +23,7 @@ class OrderController extends Controller
 {
     public function __construct(
         public OrderService $orderService,
+        public ClientDebtService $clientDebtService,
         public TelegramNotificationService $telegramNotificationService
     )
     {
@@ -31,7 +33,7 @@ class OrderController extends Controller
     {
         $filterParams = request()?->collect()->except(['page'])->all();
 
-        $orders = Order::with(['user', 'client'])
+        $orders = Order::with(['user', 'client', 'debt'])
             ->filter($filterParams)
             ->orderBy('created_at', 'DESC')
             ->paginate()
@@ -46,11 +48,14 @@ class OrderController extends Controller
                 'amount' => $m->amount,
                 'profit' => $m->profit,
                 'status' => $m->status,
+                'has_debt' => !is_null($m->debt),
                 'send_at' => $m->send_at?->format('d-m-Y H:i'),
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('Orders/Index', compact('orders', 'filterParams'));
+        $orderDebtAmounts = $this->clientDebtService->getOrderDebts($orders->pluck('id')->toArray());
+
+        return inertia('Orders/Index', compact('orders', 'filterParams', 'orderDebtAmounts'));
     }
 
     public function create(): Response
@@ -107,7 +112,7 @@ class OrderController extends Controller
             ->toArray();
 
         $orderRefunds = NomenclatureOperation::typeRefund()
-            ->with('nomenclature')
+            ->with('nomenclature', 'debt')
             ->whereOrderId($order->id)
             ->get()
             ->transform(fn($m) => [
@@ -125,6 +130,7 @@ class OrderController extends Controller
                 'user' => $order->user->name,
                 'client_id' => $order->client->id,
                 'client' => $order->client->name,
+                'has_debt' => !is_null($order->debt),
                 'amount' => number_format($order->amount, 2, '.', ''),
                 'status' => $order->status,
             ],

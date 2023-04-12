@@ -26,7 +26,9 @@
                         </div>
                     </div>
 
-                    <Link class="btn btn-sm btn-outline-primary mt-2" :href="route('my.order-debts.create', order.id)">
+                    <Link
+                        v-if="!order.has_debt"
+                        class="btn btn-sm btn-outline-primary mt-2" :href="route('my.order-debts.create', order.id)">
                         Добавить долг
                     </Link>
 

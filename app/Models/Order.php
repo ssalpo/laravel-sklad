@@ -97,9 +97,9 @@ class Order extends Model
         return $this->hasMany(OrderItem::class);
     }
 
-    public function debts()
+    public function debt()
     {
-        return $this->hasMany(ClientDebt::class);
+        return $this->hasOne(ClientDebt::class);
     }
 
     public function nomenclatureOperations()

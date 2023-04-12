@@ -152,8 +152,7 @@ class OrderService extends BaseService
         return $order->cashTransaction()->create([
             'type' => CashTransaction::TYPE_DEBIT,
             'amount' => $order->amount,
-            'comment' => sprintf('Заявка №%s', $order->id),
-            'created_by' => auth()->id()
+            'comment' => sprintf('Заявка №%s', $order->id)
         ]);
     }
 

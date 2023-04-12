@@ -32,9 +32,12 @@ class AutocompleteController extends Controller
 
     public function orders()
     {
-        return Order::when(request('q'), fn($q, $v) => $q->whereId($v))->get()->transform(fn($m) => [
-            'id' => $m->id,
-            'name' => 'Заявка №' . $m->id
-        ]);
+        return Order::when(request('q'), fn($q, $v) => $q->whereId($v))
+            ->when(\request()?->has('without_debt'), fn($q) => $q->whereDoesntHave('debt'))
+            ->get()
+            ->transform(fn($m) => [
+                'id' => $m->id,
+                'name' => 'Заявка №' . $m->id
+            ]);
     }
 }

@@ -27,6 +27,7 @@
                     </div>
 
                     <Link
+                        v-if="!order.has_debt"
                         :href="route('client.debts.create', {client: order.client_id, order: order.id})"
                         class="btn btn-sm btn-outline-primary mr-1 mt-2">Добавить долг
                     </Link>

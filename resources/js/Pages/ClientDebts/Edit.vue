@@ -22,10 +22,11 @@
 
                                 <select2-orders
                                     :is-invalid="errors.order_id !== undefined"
+                                    :params="{without_debt: 1}"
                                     v-model="form.order_id"
                                 />
 
-                                <div v-if="errors.order_id" class="error invalid-feedback">
+                                <div v-if="errors.order_id" class="error invalid-feedback-simple">
                                     {{ errors.order_id }}
                                 </div>
                             </div>

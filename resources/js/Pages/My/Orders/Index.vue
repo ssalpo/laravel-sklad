@@ -57,7 +57,9 @@
                                 История долгов
                             </Link>
 
-                            <Link class="btn btn-xs btn-outline-primary mr-2" :href="route('my.order-debts.create', order.id)">
+                            <Link
+                                v-if="!order.has_debt"
+                                class="btn btn-xs btn-outline-primary mr-2" :href="route('my.order-debts.create', order.id)">
                                 Добавить долг
                             </Link>
                         </td>

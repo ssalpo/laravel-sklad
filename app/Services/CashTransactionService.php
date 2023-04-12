@@ -25,9 +25,7 @@ class CashTransactionService
 
     public function destroy(int $id): CashTransaction
     {
-        $cashTransaction = CashTransaction::whereNull('order_id')
-            ->whereNull('nomenclature_operation_id')
-            ->findOrFail($id);
+        $cashTransaction = CashTransaction::haveNotEditableRelations()->findOrFail($id);
 
         $cashTransaction->delete();
 

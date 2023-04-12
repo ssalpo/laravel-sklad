@@ -54,6 +54,7 @@
                                 <td>{{ cashTransaction.comment }}</td>
                                 <td>
                                     <cash-transaction-modal
+                                        v-if="!cashTransaction.order_id && !cashTransaction.nomenclature_operation_id"
                                         btn-class="mr-2"
                                         :key="cashTransaction.id"
                                         :transaction="cashTransaction"

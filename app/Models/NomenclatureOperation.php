@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 
+/**
+ * @property CashTransaction $cashTransaction
+ */
 class NomenclatureOperation extends Model
 {
     use HasFactory, SoftDeletes;
@@ -23,6 +26,7 @@ class NomenclatureOperation extends Model
     ];
 
     protected $casts = [
+        'type' => 'int',
         'price' => 'double',
         'price_for_sale' => 'double',
     ];
@@ -35,15 +39,6 @@ class NomenclatureOperation extends Model
         self::OPERATION_TYPE_WITHDRAW => 'Списание',
         self::OPERATION_TYPE_REFUND => 'Возврат',
     ];
-
-    public static function boot()
-    {
-        parent::boot();
-
-        static::deleting(static function ($m) {
-            $m->cashTransaction()->delete();
-        });
-    }
 
     public function nomenclature()
     {

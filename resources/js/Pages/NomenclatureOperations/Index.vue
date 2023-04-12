@@ -33,7 +33,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="(nomenclatureOperation, index) in nomenclatureOperations.data">
-                                <td :data-id="nomenclatureOperation.id">{{ ((nomenclatureOperations.current_page - 1) * nomenclatureOperations.per_page) + index + 1 }}</td>
+                                <td>{{ nomenclatureOperation.id }}</td>
                                 <td>{{nomenclatureOperation.nomenclature.name}}</td>
                                 <td>{{nomenclatureOperation.quantity}} {{nomenclatureOperation.nomenclature.unit}}</td>
                                 <td class="text-center">
@@ -64,10 +64,11 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
+import Pagination from "@/Shared/Pagination.vue";
+import DeleteBtn from "@/Shared/DeleteBtn.vue";
 
 export default {
-    components: {Pagination, Head, Link},
+    components: {DeleteBtn, Pagination, Head, Link},
     props: ['backRoute', 'currentType', 'nomenclatureOperations'],
     data(){
         return {

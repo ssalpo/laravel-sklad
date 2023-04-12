@@ -25,15 +25,9 @@ class CashTransactionRequest extends FormRequest
     public function rules()
     {
         return [
-            'created_by' => 'required',
             'type' => 'required|in:' . implode(',', array_keys(CashTransaction::TYPE_LABELS)),
             'amount' => 'required|gt:0|regex:/^\d+(\.\d{1,3})?$/',
             'comment' => 'nullable'
         ];
-    }
-
-    protected function prepareForValidation()
-    {
-        return $this->merge(['created_by' => auth()->id()]);
     }
 }

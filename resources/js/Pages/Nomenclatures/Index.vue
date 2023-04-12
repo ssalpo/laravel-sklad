@@ -51,7 +51,10 @@
                                     {{ ((nomenclatures.current_page - 1) * nomenclatures.per_page) + index + 1 }}
                                 </td>
                                 <td>{{ nomenclature.name }}</td>
-                                <td>{{ numberFormat(nomenclature.price) }} сом.</td>
+                                <td>
+                                    {{ numberFormat(nomenclature.price) }} сом.
+                                    <span v-if="nomenclature.is_price_manual" class="text-danger">(расчет вручную)</span>
+                                </td>
                                 <td>{{ numberFormat(nomenclature.dollar_exchange_rate) }}</td>
                                 <td>{{ $page.props.shared.nomenclatureTypes[nomenclature.type] }}</td>
                                 <td class="text-center">{{ nomenclature.unit }}</td>

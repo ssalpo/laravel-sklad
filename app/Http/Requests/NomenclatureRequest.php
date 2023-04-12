@@ -27,8 +27,17 @@ class NomenclatureRequest extends FormRequest
     {
         return [
             'name' => 'required|min:2|max:255',
+            'is_price_manual' => 'required|boolean',
+            'price' => 'required_if:is_price_manual,true|regex:/^\d+(\.\d{1,3})?$/|gt:0',
             'type' => 'required|in:' . implode(',', array_keys(Nomenclature::TYPES_LIST)),
             'unit' => 'required|int:'. implode(',', array_keys(UnitConvertor::UNIT_LABELS)),
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'price.required_if' => 'Обязательно для заполнения, когда включено ручное заполнение.'
         ];
     }
 }

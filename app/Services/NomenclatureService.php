@@ -23,8 +23,9 @@ class NomenclatureService
 
     public function changeMarkups(float $dollarExchangeRate)
     {
-        $nomenclatures = Nomenclature::with('mixtureComposition.mixtureCompositionItems')
+        $nomenclatures = Nomenclature::priceNotManual()
             ->saleType()
+            ->with('mixtureComposition.mixtureCompositionItems')
             ->get();
 
         foreach ($nomenclatures as $nomenclature) {

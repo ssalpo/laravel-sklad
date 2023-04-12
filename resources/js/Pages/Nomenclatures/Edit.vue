@@ -42,6 +42,31 @@
                             </div>
 
                             <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="priceManual" v-model="form.is_price_manual"
+                                           type="checkbox"/>
+
+                                    <label for="priceManual" class="custom-control-label">
+                                        Указать себестоимость вручную?
+                                    </label>
+                                </div>
+
+                                <div v-if="errors.is_price_manual" class="invalid-feedback-simple">
+                                    {{ errors.is_price_manual }}
+                                </div>
+                            </div>
+
+                            <div class="form-group" v-if="form.is_price_manual">
+                                <label class="form-asterisk">Себестоимость</label>
+                                <numeric-field :precision="4" type="text" class="form-control"
+                                               :class="{'is-invalid': errors.price}"
+                                               v-model.number="form.price" />
+                                <div v-if="errors.price" class="error invalid-feedback">
+                                    {{ errors.price }}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="form-asterisk">Единица измерения</label>
                                 <select class="form-control"
                                         :class="{'is-invalid': errors.unit}"
@@ -91,21 +116,21 @@ export default {
             form: useForm({
                 name: this.nomenclature?.name,
                 category_id: this.nomenclature?.category_id,
-                price: this.nomenclature?.price || 0,
-                dollar_exchange_rate: this.nomenclature?.dollar_exchange_rate || 0,
-                price_for_sale: this.nomenclature?.price_for_sale || 0,
+                is_price_manual: this.nomenclature?.is_price_manual || false,
+                price: this.nomenclature?.price || undefined,
+                dollar_exchange_rate: this.nomenclature?.dollar_exchange_rate,
+                price_for_sale: this.nomenclature?.price_for_sale,
                 type: this.nomenclature?.type,
                 unit: this.nomenclature?.unit || 7,
             }),
         }
     },
-    computed: {
-        showForSaleType() {
-            return !this.form.type || this.form.type === 1;
-        }
-    },
     methods: {
         submit() {
+            if(!this.form.is_price_manual) {
+                this.form.price = undefined;
+            }
+
             if (!this.nomenclature?.id) {
                 this.form.post(route('nomenclatures.store'));
                 return;

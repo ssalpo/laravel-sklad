@@ -117,7 +117,13 @@ class OrderService extends BaseService
                     $this->cashTransaction($order);
                 }
 
-                return $order->update(['status' => Order::STATUS_SEND]);
+                $data = ['status' => Order::STATUS_SEND];
+
+                if(!$isRollback) {
+                    $data['send_at'] = now();
+                }
+
+                return $order->update($data);
             });
         }
 

@@ -44,6 +44,7 @@ class OrderController extends Controller
                 'client_name' => $m->client->name,
                 'amount' => $m->amount,
                 'status' => $m->status,
+                'send_at' => $m->send_at?->format('d-m-Y H:i'),
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 

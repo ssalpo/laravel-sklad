@@ -13,7 +13,8 @@
         Уход
     </button>
 
-    <button v-if="transaction?.id" class="btn btn-sm btn-outline-primary" :class="[btnSize, btnClass]" data-toggle="modal"
+    <button v-if="transaction?.id" class="btn btn-sm btn-outline-primary" :class="[btnSize, btnClass]"
+            data-toggle="modal"
             :data-target="`#${uid}`">
         <span class="fa fa-pen"></span>
     </button>
@@ -25,7 +26,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h4 class="modal-title">
-                            {{transaction?.id ? `Редактирование операции №${transaction.id}` : `Новый ${typeLabels[this.form.type]}`}}
+                            {{ transaction?.id ? `Редактирование операции №${transaction.id}` : `Новый ${typeLabels[this.form.type]}` }}
                         </h4>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
@@ -45,6 +46,21 @@
                                 </div>
                             </div>
 
+                            <div class="form-group" v-if="form.type === 2">
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input" id="irrevocably" v-model="form.is_irrevocably"
+                                           type="checkbox"/>
+
+                                    <label for="irrevocably" class="custom-control-label">
+                                        Безвозвратный?
+                                    </label>
+                                </div>
+
+                                <div v-if="form.errors.is_irrevocably" class="invalid-feedback-simple">
+                                    {{ form.errors.is_irrevocably }}
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label>Комментарий</label>
                                 <input type="text" class="form-control"
@@ -60,10 +76,10 @@
                             <button :disabled="form.processing"
                                     type="submit" class="btn btn-primary">
                                 <span v-if="form.processing">
-                                    <i class="fas fa-spinner fa-spin"></i> {{transaction?.id ? 'Сохранение' : 'Создание'}}...
+                                    <i class="fas fa-spinner fa-spin"></i> {{ transaction?.id ? 'Сохранение' : 'Создание' }}...
                                 </span>
                                 <span v-else>
-                                    {{transaction?.id ? 'Изменить' : 'Создать'}}
+                                    {{ transaction?.id ? 'Изменить' : 'Создать' }}
                                 </span>
                             </button>
                         </div>
@@ -103,6 +119,7 @@ export default {
             form: useForm({
                 type: this.transaction?.type,
                 amount: this.transaction?.amount,
+                is_irrevocably: this.transaction?.is_irrevocably,
                 comment: this.transaction?.comment
             }),
             typeLabels: {
@@ -116,7 +133,10 @@ export default {
             let options = {
                 onSuccess: () => {
                     $(`#${this.uid}`).modal('hide');
-                    this.form.reset();
+
+                    if (!this.transaction?.id) {
+                        this.form.reset();
+                    }
                 },
                 preserveScroll: true,
                 preserveState: true

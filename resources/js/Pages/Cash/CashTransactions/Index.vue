@@ -31,6 +31,7 @@
                                 <th width="150" class="text-center">Сумма</th>
                                 <th width="150" class="text-center">Сумма в $$$</th>
                                 <th width="150" class="text-center">Статус</th>
+                                <th width="150" class="text-center">Безвозвратный</th>
                                 <th width="100">Дата</th>
                                 <th>Комментарий</th>
                                 <th width="100">Действия</th>
@@ -56,6 +57,7 @@
                                     />
                                 </td>
                                 <td class="text-center" :class="{'text-success': cashTransaction.status === 1}">{{cashTransaction.status_label}}</td>
+                                <td class="text-center" :class="{'table-danger': cashTransaction.is_irrevocably}">{{ cashTransaction.is_irrevocably ? 'ДА' : 'НЕТ' }}</td>
                                 <td>{{ cashTransaction.created_at }}</td>
                                 <td>{{ cashTransaction.comment }}</td>
                                 <td>

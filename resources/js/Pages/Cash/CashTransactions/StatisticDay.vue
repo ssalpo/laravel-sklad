@@ -16,7 +16,7 @@
                     <filters :filter-params="filterParams" />
 
                     <div class="row">
-                        <div class="col-lg-4 col-sm-4 col-12">
+                        <div class="col-12 col-sm-3">
                             <div class="small-box bg-success">
                                 <div class="inner">
                                     <h3>{{ numberFormat(lastMonthDebitAmount + (currentMontTotalAmounts.debit - currentMontTotalAmounts.credit)) }} с.</h3>
@@ -28,7 +28,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-sm-4 col-12">
+                        <div class="col-12 col-sm-3">
 
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -41,11 +41,23 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-sm-4 col-12">
+                        <div class="col-12 col-sm-3">
                             <div class="small-box bg-danger">
                                 <div class="inner">
                                     <h3>{{ numberFormat(currentMontTotalAmounts.credit) }} с.</h3>
                                     <p>Уход</p>
+                                </div>
+                                <div class="icon">
+                                    <i class="fa fa-chart-line"></i>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-sm-3">
+                            <div class="small-box bg-dark">
+                                <div class="inner">
+                                    <h3>{{ numberFormat(currentMontTotalAmounts.irrevocably) }} с.</h3>
+                                    <p>Безвозвратных</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fa fa-chart-line"></i>

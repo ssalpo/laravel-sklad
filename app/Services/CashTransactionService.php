@@ -39,9 +39,8 @@ class CashTransactionService
         $result = CashTransaction::select(
             'type',
             \DB::raw('SUM(amount) amount')
-        )->whereMonth('created_at', $date->format('m'))
+        )->onlyMonth($date)
             ->completed()
-            ->whereYear('created_at', $date->format('Y'))
             ->groupBy('type')
             ->get();
 
@@ -56,15 +55,20 @@ class CashTransactionService
         $transactions = CashTransaction::select(
             'type',
             \DB::raw('SUM(amount) amount')
-        )->whereMonth('created_at', $date->format('m'))
+        )->onlyMonth($date)
             ->completed()
-            ->whereYear('created_at', $date->format('Y'))
             ->groupBy('type')
             ->get();
+
+        $irrevocablyAmount = CashTransaction::onlyMonth($date)
+            ->irrevocable()
+            ->typeCredit()
+            ->sum('amount');
 
         return [
             'debit' => $transactions->where('type', CashTransaction::TYPE_DEBIT)->sum('amount'),
             'credit' => $transactions->where('type', CashTransaction::TYPE_CREDIT)->sum('amount'),
+            'irrevocably' => $irrevocablyAmount
         ];
     }
 
@@ -75,8 +79,7 @@ class CashTransactionService
 
         $transactions = CashTransaction::orderBy('created_at', 'ASC')
             ->completed()
-            ->whereMonth('created_at', $currentDate->format('m'))
-            ->whereYear('created_at', $currentDate->format('Y'))
+            ->onlyMonth($currentDate)
             ->get()
             ->groupBy(fn($m) => $m->created_at->format('d-m-Y'))
             ->map(function (Collection $items, $key) use (&$lastAmount) {

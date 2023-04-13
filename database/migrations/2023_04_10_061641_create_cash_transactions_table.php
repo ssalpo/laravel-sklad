@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->double('amount');
             $table->double('amount_in_dollar')->default(0);
             $table->double('dollar_exchange_rate')->default(0);
+            $table->boolean('is_irrevocably')->default(false)->comment('Безвозвратный тип операции');
             $table->text('comment')->nullable();
             $table->foreignId('created_by')->constrained('users');
             $table->foreignId('order_id')->nullable()->constrained();

@@ -27,7 +27,8 @@ class CashTransactionRequest extends FormRequest
         return [
             'type' => 'required|in:' . implode(',', array_keys(CashTransaction::TYPE_LABELS)),
             'amount' => 'required|gt:0|regex:/^\d+(\.\d{1,3})?$/',
-            'comment' => 'nullable'
+            'is_irrevocably' => 'nullable|bool',
+            'comment' => 'nullable',
         ];
     }
 }

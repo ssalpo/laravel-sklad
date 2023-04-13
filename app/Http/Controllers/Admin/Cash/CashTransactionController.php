@@ -36,6 +36,7 @@ class CashTransactionController extends Controller
                 'dollar_exchange_rate' => $model->dollar_exchange_rate,
                 'comment' => $model->comment,
                 'status' => $model->status,
+                'is_irrevocably' => $model->is_irrevocably,
                 'order_id' => $model->order_id,
                 'nomenclature_operation_id' => $model->nomenclature_operation_id,
                 'client_debt_id' => $model->client_debt_id,
@@ -60,7 +61,7 @@ class CashTransactionController extends Controller
     {
         $this->cashTransactionService->update($cashTransaction, $request->validated());
 
-        Toast::success('Новая транзакция успешно создана.');
+        Toast::success('Данные успешно обновлены.');
 
         return to_route('cash-transactions.index');
     }

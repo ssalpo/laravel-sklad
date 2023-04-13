@@ -13,7 +13,11 @@ use Illuminate\Support\Arr;
  * @property NomenclatureOperation $nomenclatureOperation
  * @method static completed()
  * @method static canceled()
+ * @method static irrevocable()
+ * @method static typeDebit()
+ * @method static typeCredit()
  * @method static cancel()
+ * @method static onlyMonth(Carbon $date)
  * @method static haveNotEditableRelations()
  */
 class CashTransaction extends Model
@@ -32,12 +36,14 @@ class CashTransaction extends Model
         'order_id',
         'nomenclature_operation_id',
         'client_debt_payment_id',
+        'is_irrevocably'
     ];
 
     protected $casts = [
         'amount' => 'double',
         'amount_in_dollar' => 'double',
         'dollar_exchange_rate' => 'double',
+        'is_irrevocably' => 'bool'
     ];
 
     public const TYPE_DEBIT = 1;
@@ -65,6 +71,16 @@ class CashTransaction extends Model
         });
     }
 
+    public function scopeTypeDebit($q)
+    {
+        $q->whereType(self::TYPE_DEBIT);
+    }
+
+    public function scopeTypeCredit($q)
+    {
+        $q->whereType(self::TYPE_CREDIT);
+    }
+
     public function scopeCompleted($q)
     {
         $q->whereStatus(self::STATUS_COMPLETED);
@@ -75,6 +91,11 @@ class CashTransaction extends Model
         $q->whereStatus(self::STATUS_CANCELED);
     }
 
+    public function scopeIrrevocable($q): void
+    {
+        $q->where('is_irrevocably', true);
+    }
+
     public function scopeFilter($q, array $data)
     {
         $q->when(Arr::get($data, 'status'), fn($q, $v) => $q->whereStatus($v));
@@ -82,6 +103,12 @@ class CashTransaction extends Model
         $q->when(Arr::get($data, 'date'), fn($q, $v) => $q->whereDate('created_at', Carbon::parse($v)));
 
         $q->when(Arr::get($data, 'type'), fn($q, $v) => $q->where('type', $v));
+    }
+
+    public function scopeOnlyMonth($q, Carbon $date): void
+    {
+        $q->whereMonth('created_at', $date->format('m'))
+            ->whereYear('created_at', $date->format('Y'));
     }
 
     public function scopeHaveNotEditableRelations($q): void

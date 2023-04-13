@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="search">
         <div class="row mb-3">
-            <div class="col-12 col-sm-3 mb-2 mb-sm-0">
+            <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-2 mb-sm-0">
                 <VueDatePicker
                     placeholder="Выберите месяц"
                     class="date-picker-sm"
@@ -14,7 +14,7 @@
                 />
             </div>
 
-            <div class="col-12 col-sm-3">
+            <div class="col-2 col-sm-6 col-md-4 col-lg-3">
                 <button class="btn btn-sm btn-primary mr-1" type="submit">
                     <span class="fa fa-search"></span>
                 </button>

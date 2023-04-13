@@ -1,11 +1,12 @@
 <template>
     <div class="row main-wrapper">
         <div class="col-12">
-            <input type="text"
+            <numeric-field
                    v-model="form.amount"
+                   @keydown.enter="submit"
                    :class="{'is-invalid': form.errors.amount}"
                    class="form-control form-control-sm"
-                   placeholder="сумма"/>
+                   placeholder="сумма" />
         </div>
         <div class="col-12 mt-1 btn-group">
             <button @click="submit" class="btn btn-xs btn-success">
@@ -20,8 +21,10 @@
 
 <script>
 import {useForm} from "@inertiajs/inertia-vue3";
+import NumericField from "./NumericField.vue";
 
 export default {
+    components: {NumericField},
     props: {
         submitUrl: String,
         maxAmount: Number

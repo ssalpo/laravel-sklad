@@ -31,6 +31,7 @@ class CashTransaction extends Model
         'order_id',
         'order_id',
         'nomenclature_operation_id',
+        'client_debt_payment_id',
     ];
 
     protected $casts = [
@@ -86,7 +87,8 @@ class CashTransaction extends Model
     public function scopeHaveNotEditableRelations($q): void
     {
         $q->whereNull('order_id')
-            ->whereNull('nomenclature_operation_id');
+            ->whereNull('nomenclature_operation_id')
+            ->whereNull('client_debt_id');
     }
 
     public function order()

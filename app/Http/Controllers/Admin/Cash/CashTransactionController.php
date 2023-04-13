@@ -38,6 +38,8 @@ class CashTransactionController extends Controller
                 'status' => $model->status,
                 'order_id' => $model->order_id,
                 'nomenclature_operation_id' => $model->nomenclature_operation_id,
+                'client_debt_id' => $model->client_debt_id,
+                'client_debt_payment_id' => $model->client_debt_payment_id,
                 'status_label' => CashTransaction::STATUS_LABELS[$model->status],
                 'created_at' => $model->created_at->format('d-m-Y H:i')
             ]);

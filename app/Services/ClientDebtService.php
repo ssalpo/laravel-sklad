@@ -2,10 +2,10 @@
 
 namespace App\Services;
 
+use App\Models\CashTransaction;
 use App\Models\ClientDebt;
-use App\Models\ClientDebtPayment;
 use App\Models\Order;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
@@ -26,22 +26,35 @@ class ClientDebtService extends BaseService
             ->whereDoesntHave('debt')
             ->findOrFail($data['order_id']);
 
-        return $order->debt()->create($data + [
-                'client_id' => $order->client_id,
-                'created_by' => auth()->id()
-            ]);
+
+        return DB::transaction(function () use ($order, $data) {
+            /** @var ClientDebt $debt */
+            $debt = $order->debt()->create($data + [
+                    'client_id' => $order->client_id,
+                    'created_by' => auth()->id()
+                ]);
+
+            $this->cashTransaction($debt);
+
+            return $debt;
+        });
     }
 
-    public function update(int $id, array $data)
+    public function update(int $id, array $data): ClientDebt
     {
         $debt = ClientDebt::whereClientId($data['client_id'])->findOrFail($id);
 
-        $debt->update(Arr::only($data, ['amount', 'comment']));
+        return DB::transaction(function () use ($debt, $data) {
+            $debt->update(Arr::only($data, ['amount', 'comment']));
 
-        return $debt;
+            // При изменении цены так же обновляем сумму в кассе
+            $this->cashTransaction($debt);
+
+            return $debt;
+        });
     }
 
-    public function destroy(int $clientId, int $id)
+    public function destroy(int $clientId, int $id): ClientDebt
     {
         $debt = ClientDebt::whereClientId($clientId)->findOrFail($id);
 
@@ -64,5 +77,20 @@ class ClientDebtService extends BaseService
             ])
             ->pluck('amountDebts', 'order_id')
             ->toArray();
+    }
+
+    public function cashTransaction(ClientDebt $clientDebt): Model|CashTransaction
+    {
+        $comment = sprintf(
+            'Долг по заявке №%s на сумму %s сом.',
+            $clientDebt->order_id,
+            $clientDebt->amount
+        );
+
+        return $clientDebt->cashTransaction()->updateOrCreate(['client_debt_id' => $clientDebt->id], [
+            'type' => CashTransaction::TYPE_CREDIT,
+            'amount' => $clientDebt->amount,
+            'comment' => $comment
+        ]);
     }
 }

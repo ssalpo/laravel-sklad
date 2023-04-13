@@ -60,14 +60,14 @@
                                 <td>{{ cashTransaction.comment }}</td>
                                 <td>
                                     <cash-transaction-modal
-                                        v-if="!cashTransaction.order_id && !cashTransaction.nomenclature_operation_id"
+                                        v-if="!cashTransaction.order_id && !cashTransaction.nomenclature_operation_id && !cashTransaction.client_debt_id && !cashTransaction.client_debt_payment_id"
                                         btn-class="mr-2"
                                         :key="cashTransaction.id"
                                         :transaction="cashTransaction"
                                     />
 
                                     <delete-btn
-                                        v-if="!cashTransaction.order_id && !cashTransaction.nomenclature_operation_id"
+                                        v-if="!cashTransaction.order_id && !cashTransaction.nomenclature_operation_id && !cashTransaction.client_debt_id && !cashTransaction.client_debt_payment_id"
                                         :url="route('cash-transactions.destroy', cashTransaction.id)"
                                     />
                                 </td>

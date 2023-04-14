@@ -72,7 +72,7 @@ class NomenclatureOperation extends Model
 
     public function getCanEditAttribute()
     {
-        return now()->diffInDays($this->created_at) <= 0;
+        return now()->diffInDays($this->created_at) < 1;
     }
 
     public function scopeFilter($q, array $data = [])

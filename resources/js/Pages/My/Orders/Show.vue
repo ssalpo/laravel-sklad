@@ -83,7 +83,7 @@
                                 <td>
                                     <order-refund-modal
                                         for-profile
-                                        v-if="(!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity'])) && orderIsSend(order.status)"
+                                        v-if="(!order.has_debt && !order.has_cash_transaction) && orderIsSend(order.status) && (!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity'])) && orderIsSend(order.status)"
                                         :order-id="order.id"
                                         :order-item-id="orderItem.id"
                                         :nomenclature-id="orderItem.nomenclature_id"

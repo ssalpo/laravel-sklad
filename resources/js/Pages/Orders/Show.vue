@@ -35,7 +35,7 @@
                         </Link>
 
                         <order-do-payment-btn
-                            v-if="!order.has_cash_transaction"
+                            v-if="!order.has_cash_transaction && orderIsSend(order.status)"
                             :order-id="order.id"
                             :already-has-debt="order.has_debt === true"
                         />
@@ -99,7 +99,7 @@
                                 </td>
                                 <td>
                                     <order-refund-modal
-                                        v-if="orderIsSend(order.status) && (!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity']))"
+                                        v-if="(!order.has_debt && !order.has_cash_transaction) && orderIsSend(order.status) && (!orderTotalRefunds[orderItem.nomenclature_id] || (orderTotalRefunds[orderItem.nomenclature_id] && orderItem.quantity > orderTotalRefunds[orderItem.nomenclature_id]['quantity']))"
                                         :order-id="order.id"
                                         :order-item-id="orderItem.id"
                                         :nomenclature-id="orderItem.nomenclature_id"
@@ -123,6 +123,7 @@
                                     <th>Цена за единицу</th>
                                     <th>Общая сумма</th>
                                     <th>Комментарий</th>
+                                    <td>Действия</td>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -132,6 +133,12 @@
                                         <td>{{item.price_for_sale}} сом.</td>
                                         <td>{{item.price_for_sale * item.quantity}} сом.</td>
                                         <td>{{item.comment}}</td>
+                                        <td width="100" class="text-center">
+                                            <delete-btn
+                                                v-if="!order.has_debt && !order.has_cash_transaction"
+                                                :url="route('nomenclature-operations.destroy', {nomenclature_operation: item.id})"
+                                            />
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -151,10 +158,11 @@ import OrderRefundModal from "@/Shared/OrderRefundModal.vue";
 import {orderIsCancel, orderIsSend} from "@/Constants/order";
 import {numberFormat} from "../../functions";
 import OrderDoPaymentBtn from "@/Shared/OrderDoPaymentBtn.vue";
+import DeleteBtn from "../../Shared/DeleteBtn.vue";
 
 export default {
     methods: {numberFormat, orderIsSend, orderIsCancel},
-    components: {OrderDoPaymentBtn, OrderRefundModal, OrderChangeStatusBtn, Head, Link},
+    components: {DeleteBtn, OrderDoPaymentBtn, OrderRefundModal, OrderChangeStatusBtn, Head, Link},
     props: ['order', 'orderItems', 'orderTotalRefunds', 'orderRefunds'],
 }
 </script>

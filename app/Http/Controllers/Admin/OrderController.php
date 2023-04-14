@@ -117,6 +117,7 @@ class OrderController extends Controller
             ->whereOrderId($order->id)
             ->get()
             ->transform(fn($m) => [
+                'id' => $m->id,
                 'nomenclature' => $m->nomenclature->name,
                 'nomenclature_unit' => UnitConvertor::UNIT_LABELS[$m->nomenclature->unit],
                 'quantity' => $m->quantity,

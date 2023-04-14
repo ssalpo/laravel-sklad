@@ -60,12 +60,19 @@ class NomenclatureOperationService extends BaseService
 
     public function delete(int $id): NomenclatureOperation
     {
-        $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
+        $nomenclatureOperation = NomenclatureOperation::with(['order', 'orderItem'])->findOrFail($id);
 
         if ($nomenclatureOperation->can_edit) {
             DB::transaction(static function () use ($nomenclatureOperation) {
                 if ($nomenclatureOperation->type === NomenclatureOperation::OPERATION_TYPE_WITHDRAW) {
                     $nomenclatureOperation->cashTransaction?->cancel();
+                }
+
+                if ($nomenclatureOperation->type === NomenclatureOperation::OPERATION_TYPE_REFUND) {
+                    $nomenclatureOperation->order->update([
+                        'amount' => $nomenclatureOperation->order->amount + ($nomenclatureOperation->quantity * $nomenclatureOperation->orderItem->price_for_sale),
+                        'profit' => $nomenclatureOperation->order->profit + ($nomenclatureOperation->quantity * ($nomenclatureOperation->orderItem->price_for_sale - $nomenclatureOperation->orderItem->price))
+                    ]);
                 }
 
                 $nomenclatureOperation->delete();
@@ -80,6 +87,8 @@ class NomenclatureOperationService extends BaseService
         $orderItem = OrderItem::whereOrderId($data['order_id'])
             ->whereHas(
                 'order', fn($q) => $q->statusSend()
+                ->whereDoesntHave('debt')
+                ->whereDoesntHave('cashTransaction')
                 ->when($this->relatedToMe, fn($q) => $q->my())
             )
             ->whereNomenclatureId($data['nomenclature_id'])

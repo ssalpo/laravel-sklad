@@ -17,9 +17,9 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label class="form-asterisk">Количество</label>
-                            <numeric-field type="text" class="form-control"
+                            <numeric-field class="form-control"
                                            :class="{'is-invalid': form.errors.quantity || isMaxQuantityError}"
-                                           v-model.number="form.quantity"/>
+                                           v-model="form.quantity"/>
 
                             <div v-if="form.errors.quantity" class="error invalid-feedback">
                                 {{ form.errors.quantity }}

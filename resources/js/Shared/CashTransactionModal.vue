@@ -39,7 +39,7 @@
                                 <label class="form-asterisk">Сумма</label>
                                 <numeric-field class="form-control"
                                                :class="{'is-invalid': form.errors.amount}"
-                                               v-model.number="form.amount"/>
+                                               v-model="form.amount"/>
 
                                 <div v-if="form.errors.amount" class="error invalid-feedback">
                                     {{ form.errors.amount }}

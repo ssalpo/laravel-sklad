@@ -35,9 +35,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Количество</label>
-                                <numeric-field type="text" class="form-control"
+                                <numeric-field class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
-                                       v-model.number="form.quantity" />
+                                       v-model="form.quantity" />
                                 <div v-if="errors.quantity" class="error invalid-feedback">
                                     {{ errors.quantity }}
                                 </div>
@@ -62,9 +62,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма</label>
-                                <numeric-field :precision="4" type="text" class="form-control"
+                                <numeric-field :precision="4" class="form-control"
                                        :class="{'is-invalid': errors.price}"
-                                       v-model.number="form.price" />
+                                       v-model="form.price" />
                                 <div v-if="errors.price" class="error invalid-feedback">
                                     {{ errors.price }}
                                 </div>

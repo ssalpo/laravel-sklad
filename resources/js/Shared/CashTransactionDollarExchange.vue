@@ -6,7 +6,7 @@
                            class="form-control form-control-sm"
                            :class="{'is-invalid': form.errors.dollar_exchange_rate}"
                            placeholder="Курс 11.15"
-                           v-model.number="form.dollar_exchange_rate" />
+                           v-model="form.dollar_exchange_rate" />
         </div>
         <div class="col-12 mt-1 btn-group">
             <button @click="submit"

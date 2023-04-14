@@ -34,9 +34,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма скидки</label>
-                                <numeric-field type="text" class="form-control"
+                                <numeric-field class="form-control"
                                        :class="{'is-invalid': errors.discount}"
-                                       v-model.trim="form.discount" />
+                                       v-model="form.discount" />
 
                                 <div v-if="errors.discount" class="error invalid-feedback">
                                     {{ errors.discount }}

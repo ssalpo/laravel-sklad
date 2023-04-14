@@ -1,7 +1,7 @@
 <template>
     <div class="row">
         <div class="col-8 col-sm-6 col-md-5">
-            <numeric-field :precision="3" type="text" placeholder="Курс, прим: 11.15" v-model="dollarExchangeRate" class="form-control form-control-sm" />
+            <numeric-field :precision="3" placeholder="Курс, прим: 11.15" v-model="dollarExchangeRate" class="form-control form-control-sm" />
         </div>
         <div class="col-4 col-sm-6 col-md-7">
             <button :disabled="dollarExchangeRate === null || dollarExchangeRate <= 0 || isMarkupChanging" class="btn btn-sm btn-outline-info" @click="changeMarkup">

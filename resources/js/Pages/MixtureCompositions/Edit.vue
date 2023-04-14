@@ -35,9 +35,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Масса продукта</label>
-                                <numeric-field type="text" class="form-control"
+                                <numeric-field class="form-control"
                                        :class="{'is-invalid': errors.weight}"
-                                       v-model.number="form.weight" />
+                                       v-model="form.weight" />
                                 <div v-if="errors.weight" class="error invalid-feedback">
                                     {{ errors.weight }}
                                 </div>
@@ -58,9 +58,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Кол-во воды</label>
-                                <numeric-field type="number" class="form-control"
+                                <numeric-field class="form-control"
                                        :class="{'is-invalid': errors.water}"
-                                       v-model.number="form.water" />
+                                       v-model="form.water" />
                                 <div v-if="errors.water" class="error invalid-feedback">
                                     {{ errors.water }}
                                 </div>
@@ -81,9 +81,9 @@
 
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма оплаты работника</label>
-                                <numeric-field :precision="4" type="text" class="form-control"
+                                <numeric-field :precision="4" class="form-control"
                                        :class="{'is-invalid': errors.worker_price}"
-                                       v-model.number="form.worker_price" />
+                                       v-model="form.worker_price" />
                                 <div v-if="errors.worker_price" class="error invalid-feedback">
                                     {{ errors.worker_price }}
                                 </div>

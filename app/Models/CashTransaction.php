@@ -33,7 +33,6 @@ class CashTransaction extends Model
         'comment',
         'created_by',
         'order_id',
-        'order_id',
         'nomenclature_operation_id',
         'client_debt_payment_id',
         'is_irrevocably'

@@ -33,6 +33,7 @@ Route::resource('orders', OrderController::class);
 Route::post('orders/{order}/toggle-status', [OrderController::class, 'toggleStatus'])->name('orders.toggle-status');
 Route::post('/orders/{order}/mark-as-send', [OrderController::class, 'markAsSend'])->name('orders.mark-as-send');
 Route::post('/orders/{order}/mark-as-cancel', [OrderController::class, 'markAsCancel'])->name('orders.mark-as-cancel');
+Route::post('/orders/{order}/do-payment', [OrderController::class, 'doPayment'])->name('orders.do-payment');
 Route::get('order-invoices', [OrderController::class, 'invoices'])->name('order-invoices');
 
 // Clients

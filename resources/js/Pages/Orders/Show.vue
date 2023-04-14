@@ -26,11 +26,20 @@
                         </div>
                     </div>
 
-                    <Link
-                        v-if="!order.has_debt"
-                        :href="route('client.debts.create', {client: order.client_id, order: order.id})"
-                        class="btn btn-sm btn-outline-primary mr-1 mt-2">Добавить долг
-                    </Link>
+                    <div class="mt-2">
+                        <Link
+                            v-if="!order.has_debt"
+                            :href="route('client.debts.create', {client: order.client_id, order: order.id})"
+                            class="btn btn-sm btn-outline-primary mr-1">
+                            Добавить долг
+                        </Link>
+
+                        <order-do-payment-btn
+                            v-if="!order.has_cash_transaction"
+                            :order-id="order.id"
+                            :already-has-debt="order.has_debt === true"
+                        />
+                    </div>
 
                     <div class="table-responsive mb-4 mt-3">
                         <table class="table table-bordered table-hover" style="max-width: 450px;">
@@ -137,14 +146,15 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import OrderChangeStatusBtn from "../../Shared/OrderChangeStatusBtn.vue";
-import OrderRefundModal from "../../Shared/OrderRefundModal.vue";
-import {orderIsCancel, orderIsSend} from "../../Constants/order";
+import OrderChangeStatusBtn from "@/Shared/OrderChangeStatusBtn.vue";
+import OrderRefundModal from "@/Shared/OrderRefundModal.vue";
+import {orderIsCancel, orderIsSend} from "@/Constants/order";
 import {numberFormat} from "../../functions";
+import OrderDoPaymentBtn from "@/Shared/OrderDoPaymentBtn.vue";
 
 export default {
     methods: {numberFormat, orderIsSend, orderIsCancel},
-    components: {OrderRefundModal, OrderChangeStatusBtn, Head, Link},
+    components: {OrderDoPaymentBtn, OrderRefundModal, OrderChangeStatusBtn, Head, Link},
     props: ['order', 'orderItems', 'orderTotalRefunds', 'orderRefunds'],
 }
 </script>

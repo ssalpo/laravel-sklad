@@ -38,6 +38,10 @@ class ClientDebt extends Model
             $m->payments()->delete();
             $m->cashTransaction()->delete();
         });
+
+        self::creating(static function ($m) {
+            $m->created_by = $m->created_by ?? auth()->id();
+        });
     }
 
     public function scopeFilter($q, array $filterData = [])

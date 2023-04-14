@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderDoPaymentRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Client;
 use App\Models\Nomenclature;
@@ -92,7 +93,7 @@ class OrderController extends Controller
 
     public function show(Order $order): Response
     {
-        $order->load(['user', 'client']);
+        $order->load(['user', 'client', 'debt', 'cashTransaction']);
 
         $orderItems = OrderItem::with(['nomenclature'])
             ->whereOrderId($order->id)
@@ -112,7 +113,7 @@ class OrderController extends Controller
             ->toArray();
 
         $orderRefunds = NomenclatureOperation::typeRefund()
-            ->with('nomenclature', 'debt')
+            ->with('nomenclature')
             ->whereOrderId($order->id)
             ->get()
             ->transform(fn($m) => [
@@ -131,6 +132,7 @@ class OrderController extends Controller
                 'client_id' => $order->client->id,
                 'client' => $order->client->name,
                 'has_debt' => !is_null($order->debt),
+                'has_cash_transaction' => !is_null($order->cashTransaction),
                 'amount' => number_format($order->amount, 2, '.', ''),
                 'status' => $order->status,
             ],
@@ -187,6 +189,15 @@ class OrderController extends Controller
             ->orderStatusChanged($orderId, Order::STATUS_CANCELED);
 
         Toast::success('Статус заявки изменен на "Отменен".');
+
+        return back();
+    }
+
+    public function doPayment(int $orderId, OrderDoPaymentRequest $request): RedirectResponse
+    {
+        $this->orderService->doPayment($orderId, $request->get('amount', 0));
+
+        Toast::success('Платеж успешно проведен.');
 
         return back();
     }

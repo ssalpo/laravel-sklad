@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class ClientDebtService extends BaseService
 {
@@ -24,14 +25,14 @@ class ClientDebtService extends BaseService
     {
         $order = Order::relatedToMe($this->isRelatedToMe)
             ->whereDoesntHave('debt')
+            ->whereDoesntHave('cashTransaction')
             ->findOrFail($data['order_id']);
 
 
         return DB::transaction(function () use ($order, $data) {
             /** @var ClientDebt $debt */
             $debt = $order->debt()->create($data + [
-                    'client_id' => $order->client_id,
-                    'created_by' => auth()->id()
+                    'client_id' => $order->client_id
                 ]);
 
             $this->cashTransaction($debt);
@@ -42,10 +43,33 @@ class ClientDebtService extends BaseService
 
     public function update(int $id, array $data): ClientDebt
     {
-        $debt = ClientDebt::whereClientId($data['client_id'])->findOrFail($id);
+        $debt = ClientDebt::whereClientId($data['client_id'])
+            ->with('order.cashTransaction')
+            ->withSum('payments', 'amount')
+            ->findOrFail($id);
+
+        if ($data['amount'] < $debt->payments_sum_amount) {
+            $message = sprintf('У вас уже имеется погашение долга, и сумма не может быть меньше %s сом.', $debt->payments_sum_amount);
+
+            throw ValidationException::withMessages([
+                'amount' => $message
+            ]);
+        }
+
+        if ($data['amount'] >= $debt->order->amount) {
+            $message = sprintf('Сумма долга не должно быть ваше %s сом., так как на эту сумму была полечена заявка.', $debt->order->amount);
+
+            throw ValidationException::withMessages([
+                'amount' => $message
+            ]);
+        }
 
         return DB::transaction(function () use ($debt, $data) {
             $debt->update(Arr::only($data, ['amount', 'comment']));
+
+            if(!is_null($debt->order?->cashTransaction)) {
+                (new OrderService)->cashTransaction($debt->order, $debt->order->amount - $data['amount']);
+            }
 
             // При изменении цены так же обновляем сумму в кассе
             $this->cashTransaction($debt);

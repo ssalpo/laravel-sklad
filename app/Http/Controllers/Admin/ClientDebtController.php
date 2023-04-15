@@ -27,7 +27,7 @@ class ClientDebtController extends Controller
             DB::raw('clients.name AS client_name'),
             DB::raw('SUM(client_debts.amount) - SUM(client_debt_payments.amount) AS totalAmount'),
         )->join('clients', 'clients.id', '=', 'client_debts.client_id')
-            ->join('client_debt_payments', 'client_debt_payments.client_debt_id', '=', 'client_debts.id')
+            ->leftJoin('client_debt_payments', 'client_debt_payments.client_debt_id', '=', 'client_debts.id')
             ->when(request('client'), fn($q, $v) => $q->where('client_debts.client_id', $v))
             ->where('client_debts.is_paid', false)
             ->groupBy('client_debts.client_id')

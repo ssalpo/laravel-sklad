@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientDebtRequest;
 use App\Models\Client;
 use App\Models\ClientDebt;
+use App\Models\ClientDebtPayment;
 use App\Models\Order;
 use App\Services\ClientDebtService;
 use App\Services\Toast;
@@ -31,7 +32,7 @@ class ClientDebtController extends Controller
             ->groupBy('client_debts.client_id')
             ->get();
 
-        $totalDebts = ClientDebt::where('is_paid', false)->sum('amount');
+        $totalDebts = ClientDebt::sum('amount') - ClientDebtPayment::sum('amount');
 
         $clients = Client::all(['id', 'name']);
 

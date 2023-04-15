@@ -22,16 +22,33 @@ class ClientDebtController extends Controller
 
     public function allClientDebts()
     {
+        $debtPayments = ClientDebtPayment::select(
+            DB::raw('cd.client_id'),
+            DB::raw('SUM(client_debt_payments.amount) totalAmount'),
+        )
+            ->join(DB::raw('client_debts cd'), 'cd.id', '=', 'client_debt_payments.client_debt_id')
+            ->groupBy('cd.client_id')
+            ->pluck('totalAmount', 'client_id');
+
         $debts = ClientDebt::select(
             DB::raw('client_debts.client_id'),
             DB::raw('clients.name AS client_name'),
-            DB::raw('SUM(client_debts.amount) - SUM(client_debt_payments.amount) AS totalAmount'),
+            DB::raw('SUM(client_debts.amount) AS totalAmount'),
         )->join('clients', 'clients.id', '=', 'client_debts.client_id')
-            ->leftJoin('client_debt_payments', 'client_debt_payments.client_debt_id', '=', 'client_debts.id')
             ->when(request('client'), fn($q, $v) => $q->where('client_debts.client_id', $v))
             ->where('client_debts.is_paid', false)
             ->groupBy('client_debts.client_id')
-            ->get();
+            ->get()
+            ->transform(function ($m) use($debtPayments) {
+                $paymentAmount = $debtPayments[$m->client_id] ?? 0;
+
+                return [
+                    'client_id' => $m->client_id,
+                    'client_name' => $m->client_name,
+                    'totalAmount' => $m->totalAmount - $paymentAmount,
+                ];
+            });
+
 
         $totalDebts = ClientDebt::sum('amount') - ClientDebtPayment::sum('amount');
 

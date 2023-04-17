@@ -22,10 +22,11 @@
 
                                 <select2-orders
                                     :is-invalid="errors.order_id !== undefined"
+                                    :params="{without_debt: 1}"
                                     v-model="form.order_id"
                                 />
 
-                                <div v-if="errors.order_id" class="error invalid-feedback">
+                                <div v-if="errors.order_id" class="error invalid-feedback-simple">
                                     {{ errors.order_id }}
                                 </div>
                             </div>
@@ -34,9 +35,9 @@
                         <div class="mx-auto col col-md-6">
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма</label>
-                                <numeric-field :precision="4" type="text" class="form-control"
+                                <numeric-field :precision="4" class="form-control"
                                        :class="{'is-invalid': errors.amount}"
-                                       v-model.trim="form.amount" />
+                                       v-model="form.amount" />
 
                                 <div v-if="errors.amount" class="error invalid-feedback">
                                     {{ errors.amount }}

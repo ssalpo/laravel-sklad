@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AnalyticController;
+use App\Http\Controllers\Admin\Cash\CashTransactionController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientDebtController;
 use App\Http\Controllers\Admin\ClientDebtPaymentController;
@@ -23,11 +24,16 @@ Route::get('analytics-in-range', [AnalyticController::class, 'range'])->name('an
 
 Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
 
+Route::get('cash-transactions/day-statistics', [CashTransactionController::class, 'dayStatistics'])->name('cash-transaction.day-statistics');
+Route::resource('cash-transactions', CashTransactionController::class);
+Route::post('cash-transactions/{cash_transaction}/dollar-exchange', [CashTransactionController::class, 'dollarExchange'])->name('cash-transaction.dollar-exchange');
+
 // Orders
 Route::resource('orders', OrderController::class);
 Route::post('orders/{order}/toggle-status', [OrderController::class, 'toggleStatus'])->name('orders.toggle-status');
 Route::post('/orders/{order}/mark-as-send', [OrderController::class, 'markAsSend'])->name('orders.mark-as-send');
 Route::post('/orders/{order}/mark-as-cancel', [OrderController::class, 'markAsCancel'])->name('orders.mark-as-cancel');
+Route::post('/orders/{order}/do-payment', [OrderController::class, 'doPayment'])->name('orders.do-payment');
 Route::get('order-invoices', [OrderController::class, 'invoices'])->name('order-invoices');
 
 // Clients

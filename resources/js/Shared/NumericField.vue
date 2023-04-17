@@ -26,7 +26,7 @@ export default {
             let alreadyHasDots = event.target.value.search(/\./) !== -1;
 
             // allowed left,right and backspace buttons
-            let isAllowed = [37, 39, 8, 46].includes(key)
+            let isAllowed = [37, 39, 8, 9, 13, 46].includes(key)
 
             let values = (event.target.value + "").split(".");
 
@@ -34,7 +34,7 @@ export default {
 
             if(this.onlyInteger && !isIntegerValue && !isAllowed) event.preventDefault();
 
-            if ((values[1] && values[1].length > this.precision - 1) && ![8, 46].includes(key)) {
+            if ((values[1] && values[1].length > this.precision - 1) && ![8, 9, 46, 13].includes(key)) {
                 event.preventDefault();
             }
 

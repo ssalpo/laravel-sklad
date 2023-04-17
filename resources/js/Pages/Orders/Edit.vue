@@ -65,7 +65,7 @@
                                                         placeholder="Кол-во"
                                                         :class="{'is-invalid': errors['orderItems.' + index + '.quantity']}"
                                                         class="form-control form-control-sm"
-                                                        v-model.trim="orderItem.quantity"/>
+                                                        v-model="orderItem.quantity"/>
                                                 </div>
 
                                                 <div class="col-6">
@@ -74,7 +74,7 @@
                                                         placeholder="Сумма"
                                                         :class="{'is-invalid': errors['orderItems.' + index + '.price_for_sale']}"
                                                         class="form-control form-control-sm"
-                                                        v-model.trim="orderItem.price_for_sale"/>
+                                                        v-model="orderItem.price_for_sale"/>
                                                 </div>
                                             </div>
                                         </div>

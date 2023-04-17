@@ -33,7 +33,7 @@
                             </thead>
                             <tbody>
                             <tr v-for="(nomenclatureOperation, index) in nomenclatureOperations.data">
-                                <td :data-id="nomenclatureOperation.id">{{ ((nomenclatureOperations.current_page - 1) * nomenclatureOperations.per_page) + index + 1 }}</td>
+                                <td>{{ nomenclatureOperation.id }}</td>
                                 <td>{{nomenclatureOperation.nomenclature.name}}</td>
                                 <td>{{nomenclatureOperation.quantity}} {{nomenclatureOperation.nomenclature.unit}}</td>
                                 <td class="text-center">
@@ -43,15 +43,10 @@
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
 
-                                    <Link method="delete" as="button"
-                                          v-if="nomenclatureOperation.can_edit"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('nomenclature-operations.destroy', {nomenclature_operation: nomenclatureOperation.id, type: currentType})"
-                                          class="btn btn-sm btn-outline-danger">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </Link>
+                                    <delete-btn
+                                        v-if="nomenclatureOperation.can_edit"
+                                        :url="route('nomenclature-operations.destroy', {nomenclature_operation: nomenclatureOperation.id, type: currentType})"
+                                    />
                                 </td>
                             </tr>
                             </tbody>
@@ -69,10 +64,11 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
+import Pagination from "@/Shared/Pagination.vue";
+import DeleteBtn from "@/Shared/DeleteBtn.vue";
 
 export default {
-    components: {Pagination, Head, Link},
+    components: {DeleteBtn, Pagination, Head, Link},
     props: ['backRoute', 'currentType', 'nomenclatureOperations'],
     data(){
         return {

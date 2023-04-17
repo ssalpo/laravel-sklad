@@ -18,9 +18,9 @@
                         <div class="mx-auto col col-md-6">
                             <div class="form-group">
                                 <label class="form-asterisk">Сумма</label>
-                                <numeric-field type="text" class="form-control"
+                                <numeric-field class="form-control"
                                        :class="{'is-invalid': errors.amount}"
-                                       v-model.trim="form.amount" />
+                                       v-model="form.amount" />
 
                                 <div v-if="errors.amount" class="error invalid-feedback">
                                     {{ errors.amount }}

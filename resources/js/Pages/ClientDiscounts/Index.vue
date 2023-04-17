@@ -41,14 +41,9 @@
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
 
-                                    <Link method="delete" as="button"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('client-discounts.destroy', {client: client.id, client_discount: clientDiscount.id})"
-                                          class="btn btn-sm btn-outline-danger">
-                                        <i class="fa fa-trash-alt"></i>
-                                    </Link>
+                                    <delete-btn
+                                        :url="route('client-discounts.destroy', {client: client.id, client_discount: clientDiscount.id})"
+                                    />
                                 </td>
                             </tr>
                             </tbody>
@@ -66,10 +61,11 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
+import Pagination from "@/Shared/Pagination.vue";
+import DeleteBtn from "@/Shared/DeleteBtn.vue";
 
 export default {
-    components: {Pagination, Head, Link},
+    components: {DeleteBtn, Pagination, Head, Link},
     props: ['client', 'clientDiscounts'],
 }
 </script>

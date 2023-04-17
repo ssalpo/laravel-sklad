@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ClientDebtPayment extends Model
@@ -20,12 +22,26 @@ class ClientDebtPayment extends Model
         'amount' => 'double'
     ];
 
-    public function clientDebt()
+    public static function boot()
+    {
+        parent::boot();
+
+        static::deleting(static function (ClientDebtPayment $m) {
+            $m->cashTransaction()->delete();
+        });
+    }
+
+    public function clientDebt(): BelongsTo
     {
         return $this->belongsTo(ClientDebt::class);
     }
 
-    public function author()
+    public function cashTransaction(): HasOne
+    {
+        return $this->hasOne(CashTransaction::class);
+    }
+
+    public function author(): BelongsTo
     {
         return $this->belongsTo(User::class, 'created_by');
     }

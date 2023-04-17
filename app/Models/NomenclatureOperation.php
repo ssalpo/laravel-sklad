@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 
+/**
+ * @property CashTransaction $cashTransaction
+ */
 class NomenclatureOperation extends Model
 {
     use HasFactory, SoftDeletes;
@@ -23,6 +26,7 @@ class NomenclatureOperation extends Model
     ];
 
     protected $casts = [
+        'type' => 'int',
         'price' => 'double',
         'price_for_sale' => 'double',
     ];
@@ -51,6 +55,11 @@ class NomenclatureOperation extends Model
         return $this->belongsTo(OrderItem::class);
     }
 
+    public function cashTransaction()
+    {
+        return $this->hasOne(CashTransaction::class);
+    }
+
     public function scopeTypeWithdraw($q)
     {
         return $q->whereType(self::OPERATION_TYPE_WITHDRAW);
@@ -63,7 +72,7 @@ class NomenclatureOperation extends Model
 
     public function getCanEditAttribute()
     {
-        return now()->diffInDays($this->created_at) <= 0;
+        return now()->diffInDays($this->created_at) < 1;
     }
 
     public function scopeFilter($q, array $data = [])

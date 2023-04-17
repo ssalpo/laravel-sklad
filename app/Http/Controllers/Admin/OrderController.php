@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OrderDoPaymentRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Client;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureOperation;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Services\ClientDebtService;
 use App\Services\NomenclatureOperationService;
 use App\Services\OrderService;
 use App\Services\TelegramNotificationService;
@@ -22,6 +24,7 @@ class OrderController extends Controller
 {
     public function __construct(
         public OrderService $orderService,
+        public ClientDebtService $clientDebtService,
         public TelegramNotificationService $telegramNotificationService
     )
     {
@@ -31,7 +34,7 @@ class OrderController extends Controller
     {
         $filterParams = request()?->collect()->except(['page'])->all();
 
-        $orders = Order::with(['user', 'client'])
+        $orders = Order::with(['user', 'client', 'debt'])
             ->filter($filterParams)
             ->orderBy('created_at', 'DESC')
             ->paginate()
@@ -46,11 +49,14 @@ class OrderController extends Controller
                 'amount' => $m->amount,
                 'profit' => $m->profit,
                 'status' => $m->status,
+                'has_debt' => !is_null($m->debt),
                 'send_at' => $m->send_at?->format('d-m-Y H:i'),
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('Orders/Index', compact('orders', 'filterParams'));
+        $orderDebtAmounts = $this->clientDebtService->getOrderDebts($orders->pluck('id')->toArray());
+
+        return inertia('Orders/Index', compact('orders', 'filterParams', 'orderDebtAmounts'));
     }
 
     public function create(): Response
@@ -87,7 +93,7 @@ class OrderController extends Controller
 
     public function show(Order $order): Response
     {
-        $order->load(['user', 'client']);
+        $order->load(['user', 'client', 'debt', 'cashTransaction']);
 
         $orderItems = OrderItem::with(['nomenclature'])
             ->whereOrderId($order->id)
@@ -111,6 +117,7 @@ class OrderController extends Controller
             ->whereOrderId($order->id)
             ->get()
             ->transform(fn($m) => [
+                'id' => $m->id,
                 'nomenclature' => $m->nomenclature->name,
                 'nomenclature_unit' => UnitConvertor::UNIT_LABELS[$m->nomenclature->unit],
                 'quantity' => $m->quantity,
@@ -125,6 +132,8 @@ class OrderController extends Controller
                 'user' => $order->user->name,
                 'client_id' => $order->client->id,
                 'client' => $order->client->name,
+                'has_debt' => !is_null($order->debt),
+                'has_cash_transaction' => !is_null($order->cashTransaction),
                 'amount' => number_format($order->amount, 2, '.', ''),
                 'status' => $order->status,
             ],
@@ -181,6 +190,15 @@ class OrderController extends Controller
             ->orderStatusChanged($orderId, Order::STATUS_CANCELED);
 
         Toast::success('Статус заявки изменен на "Отменен".');
+
+        return back();
+    }
+
+    public function doPayment(int $orderId, OrderDoPaymentRequest $request): RedirectResponse
+    {
+        $this->orderService->doPayment($orderId, $request->get('amount', 0));
+
+        Toast::success('Платеж успешно проведен.');
 
         return back();
     }

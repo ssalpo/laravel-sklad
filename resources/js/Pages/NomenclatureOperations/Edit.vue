@@ -36,7 +36,7 @@
                                 <label class="form-asterisk">Количество поступления</label>
                                 <numeric-field type="number" class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
-                                       v-model.number="form.quantity" />
+                                       v-model="form.quantity" />
 
                                 <div v-if="errors.quantity" class="error invalid-feedback">
                                     {{ errors.quantity }}

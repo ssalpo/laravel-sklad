@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CashTransaction;
 use App\Models\ClientDiscount;
 use App\Models\Nomenclature;
 use App\Models\Order;
@@ -10,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class OrderService extends BaseService
 {
@@ -109,13 +111,19 @@ class OrderService extends BaseService
             $order->status === Order::STATUS_NEW ||
             ($isRollback && $order->status === Order::STATUS_CANCELED)
         ) {
-            $data = ['status' => Order::STATUS_SEND];
+            return DB::transaction(function () use ($order, $isRollback) {
+                if ($isRollback) {
+                    $this->rollbackCashTransaction($order);
+                }
 
-            if(!$isRollback) {
-                $data['send_at'] = now();
-            }
+                $data = ['status' => Order::STATUS_SEND];
 
-            return $order->update($data);
+                if (!$isRollback) {
+                    $data['send_at'] = now();
+                }
+
+                return $order->update($data);
+            });
         }
 
         return false;
@@ -126,9 +134,64 @@ class OrderService extends BaseService
         $order = Order::when($this->relatedToMe, static fn($o) => $o->relatedToMe(true))->findOrFail($orderId);
 
         if ($order->status === Order::STATUS_SEND) {
-            return $order->update(['status' => Order::STATUS_CANCELED]);
+            return DB::transaction(function () use ($order) {
+                return $order->update(['status' => Order::STATUS_CANCELED]);
+            });
         }
 
         return false;
+    }
+
+    public function doPayment(int $orderId, float $debtAmount = 0): void
+    {
+        $order = Order::with('debt')->findOrFail($orderId);
+
+        if ($debtAmount > $order->amount) {
+            throw ValidationException::withMessages(['amount' => sprintf('Максимальная сумма для ввода %s сом.', $order->amount)]);
+        }
+
+        DB::transaction(function () use ($order, $debtAmount) {
+            if (is_null($order->debt) && $debtAmount > 0 && $order->amount > $debtAmount) {
+                $clientDebt = $order->debt()->create([
+                    'client_id' => $order->client_id,
+                    'amount' => $debtAmount
+                ]);
+
+                (new ClientDebtService)->cashTransaction($clientDebt);
+            }
+
+            if(!is_null($order->debt)) {
+                $debtAmount = $order->debt->amount;
+            }
+
+            $this->cashTransaction($order, $debtAmount > 0 ? $order->amount - $debtAmount : $order->amount);
+        });
+    }
+
+
+    public function cashTransaction(Order $order, float $amount): Model
+    {
+
+        $comment = sprintf(
+            'Оплата по заявке №%s на сумму %s сом.',
+            $order->id,
+            $amount
+        );
+
+        return $order->cashTransaction()->updateOrCreate(['order_id' => $order->id], [
+            'type' => CashTransaction::TYPE_CREDIT,
+            'amount' => $amount,
+            'comment' => $comment
+        ]);
+    }
+
+    public function cancelCashTransaction(Order $order): ?bool
+    {
+        return $order->cashTransaction?->update(['status' => CashTransaction::STATUS_CANCELED]);
+    }
+
+    public function rollbackCashTransaction(Order $order): ?bool
+    {
+        return $order->cashTransaction?->update(['status' => CashTransaction::STATUS_COMPLETED]);
     }
 }

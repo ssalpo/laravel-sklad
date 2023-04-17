@@ -57,21 +57,19 @@
                                 История долгов
                             </Link>
 
-                            <Link class="btn btn-xs btn-outline-primary mr-2" :href="route('my.order-debts.create', order.id)">
+                            <Link
+                                v-if="!order.has_debt"
+                                class="btn btn-xs btn-outline-primary mr-2" :href="route('my.order-debts.create', order.id)">
                                 Добавить долг
                             </Link>
                         </td>
                         <td>{{order.send_at}}</td>
                         <td>{{order.created_at}}</td>
                         <td class="text-center">
-                            <Link v-if="order.status === 1" method="delete" as="button"
-                                  type="button"
-                                  preserve-sscroll
-                                  preserve-state
-                                  :href="route('my.orders.destroy', order.id)"
-                                  class="btn btn-sm btn-outline-danger">
-                                <i class="fa fa-trash-alt"></i>
-                            </Link>
+                            <delete-btn
+                                v-if="order.status === 1"
+                                :url="route('my.orders.destroy', order.id)"
+                            />
                         </td>
                     </tr>
                     </tbody>
@@ -91,9 +89,10 @@ import Pagination from "@/Shared/Pagination.vue";
 import OrderChangeStatusBtn from "@/Shared/OrderChangeStatusBtn.vue";
 import Filters from "./Filters.vue";
 import size from "lodash/size";
+import DeleteBtn from "@/Shared/DeleteBtn.vue";
 
 export default {
-    components: {Filters, OrderChangeStatusBtn, Pagination, Head, Link},
+    components: {DeleteBtn, Filters, OrderChangeStatusBtn, Pagination, Head, Link},
     props: ['orders', 'filterParams'],
     data: () => ({
         isFilterShow: true

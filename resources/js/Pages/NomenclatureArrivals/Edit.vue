@@ -36,14 +36,14 @@
                                 <label class="form-asterisk">Расчет по количеству коробок</label>
                                 <div class="row">
                                     <div class="col">
-                                        <numeric-field type="number" class="form-control"
+                                        <numeric-field class="form-control"
                                                placeholder="К-во коробок"
-                                               v-model.number="box.quantity" />
+                                               v-model="box.quantity" />
                                     </div>
                                     <div class="col">
-                                        <numeric-field type="number" class="form-control"
+                                        <numeric-field class="form-control"
                                                placeholder="К-во в одной коробке"
-                                               v-model.number="box.quantityInSingleBox" />
+                                               v-model="box.quantityInSingleBox" />
                                     </div>
                                 </div>
                             </div>
@@ -53,7 +53,7 @@
                                 <numeric-field  type="number"
                                        class="form-control"
                                        :class="{'is-invalid': errors.quantity}"
-                                       v-model.number="form.quantity" />
+                                       v-model="form.quantity" />
 
                                 <div v-if="errors.quantity" class="error invalid-feedback">
                                     {{ errors.quantity }}

@@ -71,14 +71,10 @@
                                     <Link class="btn btn-sm btn-link" :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
-                                    <Link method="delete" as="button"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('mixture-composition-items.destroy', { 'mixture_composition': this.mixtureComposition.id, 'mixture_composition_item': mixtureCompositionItem.id })"
-                                          class="btn btn-sm btn-link">
-                                        <i class="fa fa-trash-alt text-danger"></i>
-                                    </Link>
+
+                                    <delete-btn
+                                        :url="route('mixture-composition-items.destroy', { 'mixture_composition': this.mixtureComposition.id, 'mixture_composition_item': mixtureCompositionItem.id })"
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -114,17 +110,13 @@
                                 <td>{{mixtureCompositionItem.quantity}} {{mixtureCompositionItem.unit}}</td>
                                 <td>${{numberFormat(mixtureCompositionItem.price, 3)}}</td>
                                 <td class="text-center">
-                                    <Link class="btn btn-sm btn-link" :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
+                                    <Link class="btn btn-sm btn-link mr-1" :href="route('mixture-composition-items.edit', {'mixture_composition' : mixtureComposition.id, 'mixture_composition_item' : mixtureCompositionItem.id})">
                                         <i class="fa fa-pencil-alt"></i>
                                     </Link>
-                                    <Link method="delete" as="button"
-                                          type="button"
-                                          preserve-sscroll
-                                          preserve-state
-                                          :href="route('mixture-composition-items.destroy', { 'mixture_composition': this.mixtureComposition.id, 'mixture_composition_item': mixtureCompositionItem.id })"
-                                          class="btn btn-sm btn-link">
-                                        <i class="fa fa-trash-alt text-danger"></i>
-                                    </Link>
+
+                                    <delete-btn
+                                        :url="route('mixture-composition-items.destroy', { 'mixture_composition': this.mixtureComposition.id, 'mixture_composition_item': mixtureCompositionItem.id })"
+                                    />
                                 </td>
                             </tr>
                             <tr>
@@ -143,10 +135,11 @@
 </template>
 <script>
 import {Head, Link} from "@inertiajs/inertia-vue3";
-import Pagination from "../../Shared/Pagination.vue";
+import Pagination from "@/Shared/Pagination.vue";
+import DeleteBtn from "@/Shared/DeleteBtn.vue";
 
 export default {
-    components: {Pagination, Head, Link},
+    components: {DeleteBtn, Pagination, Head, Link},
     props: ['totalSum', 'mixtureComposition'],
     computed: {
         mixtureCompositionItemsNotEndResults() {

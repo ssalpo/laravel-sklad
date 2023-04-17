@@ -4,9 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 
+/**
+ * @property CashTransaction $cashTransaction
+ */
 class ClientDebt extends Model
 {
     use HasFactory, SoftDeletes;
@@ -18,6 +23,7 @@ class ClientDebt extends Model
         'comment',
         'created_by',
         'is_paid',
+        'client_debt_id'
     ];
 
     protected $casts = [
@@ -28,8 +34,13 @@ class ClientDebt extends Model
     {
         parent::boot();
 
-        static::deleting(static function ($m) {
+        static::deleting(static function (ClientDebt $m) {
             $m->payments()->delete();
+            $m->cashTransaction()->delete();
+        });
+
+        self::creating(static function ($m) {
+            $m->created_by = $m->created_by ?? auth()->id();
         });
     }
 
@@ -58,6 +69,11 @@ class ClientDebt extends Model
     public function order()
     {
         return $this->belongsTo(Order::class);
+    }
+
+    public function cashTransaction(): HasOne
+    {
+        return $this->hasOne(CashTransaction::class);
     }
 
     public function payments()

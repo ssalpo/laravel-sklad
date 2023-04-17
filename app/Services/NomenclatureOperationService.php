@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\CashTransaction;
 use App\Models\NomenclatureOperation;
 use App\Models\OrderItem;
 use Illuminate\Database\Eloquent\Collection;
@@ -9,40 +10,73 @@ use Illuminate\Support\Facades\DB;
 
 class NomenclatureOperationService extends BaseService
 {
-    private $relatedToMe = false;
+    private bool $relatedToMe = false;
 
-    public function store(array $data)
+    public function store(array $data): NomenclatureOperation
     {
-        return NomenclatureOperation::create(
-            NomenclatureService::mergeNomenclaturePrices(
-                $data['nomenclature_id'],
-                $data
-            )
-        );
-    }
-
-    public function update(int $id, array $data)
-    {
-        $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
-
-        if ($nomenclatureOperation->can_edit) {
-            $nomenclatureOperation->update(
+        return DB::transaction(function () use ($data) {
+            $nomenclatureOperation = NomenclatureOperation::create(
                 NomenclatureService::mergeNomenclaturePrices(
                     $data['nomenclature_id'],
                     $data
                 )
             );
+
+            // Записываем в кассу только если была проведена операция списания
+            if ($nomenclatureOperation->type === NomenclatureOperation::OPERATION_TYPE_WITHDRAW) {
+                $nomenclatureOperation->cashTransaction()->create(
+                    $this->getCashTransactionData($nomenclatureOperation)
+                );
+            }
+
+            return $nomenclatureOperation;
+        });
+    }
+
+    public function update(int $id, array $data): NomenclatureOperation
+    {
+        $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
+
+        if ($nomenclatureOperation->can_edit) {
+            DB::transaction(function () use ($nomenclatureOperation, $data) {
+                $nomenclatureOperation->update(
+                    NomenclatureService::mergeNomenclaturePrices(
+                        $data['nomenclature_id'],
+                        $data
+                    )
+                );
+
+                // Записываем в кассу только если была проведена операция списания
+                if ($nomenclatureOperation->type === NomenclatureOperation::OPERATION_TYPE_WITHDRAW) {
+                    $nomenclatureOperation->cashTransaction->update(
+                        $this->getCashTransactionData($nomenclatureOperation)
+                    );
+                }
+            });
         }
 
         return $nomenclatureOperation;
     }
 
-    public function delete(int $id)
+    public function delete(int $id): NomenclatureOperation
     {
-        $nomenclatureOperation = NomenclatureOperation::findOrFail($id);
+        $nomenclatureOperation = NomenclatureOperation::with(['order', 'orderItem'])->findOrFail($id);
 
         if ($nomenclatureOperation->can_edit) {
-            $nomenclatureOperation->delete();
+            DB::transaction(static function () use ($nomenclatureOperation) {
+                if ($nomenclatureOperation->type === NomenclatureOperation::OPERATION_TYPE_WITHDRAW) {
+                    $nomenclatureOperation->cashTransaction?->cancel();
+                }
+
+                if ($nomenclatureOperation->type === NomenclatureOperation::OPERATION_TYPE_REFUND) {
+                    $nomenclatureOperation->order->update([
+                        'amount' => $nomenclatureOperation->order->amount + ($nomenclatureOperation->quantity * $nomenclatureOperation->orderItem->price_for_sale),
+                        'profit' => $nomenclatureOperation->order->profit + ($nomenclatureOperation->quantity * ($nomenclatureOperation->orderItem->price_for_sale - $nomenclatureOperation->orderItem->price))
+                    ]);
+                }
+
+                $nomenclatureOperation->delete();
+            });
         }
 
         return $nomenclatureOperation;
@@ -53,6 +87,8 @@ class NomenclatureOperationService extends BaseService
         $orderItem = OrderItem::whereOrderId($data['order_id'])
             ->whereHas(
                 'order', fn($q) => $q->statusSend()
+                ->whereDoesntHave('debt')
+                ->whereDoesntHave('cashTransaction')
                 ->when($this->relatedToMe, fn($q) => $q->my())
             )
             ->whereNomenclatureId($data['nomenclature_id'])
@@ -92,7 +128,22 @@ class NomenclatureOperationService extends BaseService
             ->get();
     }
 
-    public function setRelatedToMe()
+    private function getCashTransactionData($nomenclatureOperation): array
+    {
+        // Списание по номенклатуре №1, кол-во: 2 шт.
+        $nomenclature = $nomenclatureOperation->nomenclature;
+
+        return [
+            'type' => CashTransaction::TYPE_CREDIT,
+            'amount' => $nomenclatureOperation->quantity * $nomenclatureOperation->price,
+            'comment' => sprintf(
+                'Списание по номенклатуре №%s, кол-во: %s %s',
+                $nomenclature->id, $nomenclatureOperation->quantity, UnitConvertor::UNIT_LABELS[$nomenclature->unit]
+            )
+        ];
+    }
+
+    public function setRelatedToMe(): static
     {
         $this->relatedToMe = true;
 

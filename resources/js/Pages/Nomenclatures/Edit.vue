@@ -58,9 +58,9 @@
 
                             <div class="form-group" v-if="form.is_price_manual">
                                 <label class="form-asterisk">Себестоимость</label>
-                                <numeric-field :precision="4" type="text" class="form-control"
+                                <numeric-field :precision="4" class="form-control"
                                                :class="{'is-invalid': errors.price}"
-                                               v-model.number="form.price" />
+                                               v-model="form.price" />
                                 <div v-if="errors.price" class="error invalid-feedback">
                                     {{ errors.price }}
                                 </div>

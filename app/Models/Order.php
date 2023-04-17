@@ -5,6 +5,9 @@ namespace App\Models;
 use App\Models\Traits\CurrentUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Arr;
 
@@ -37,7 +40,7 @@ class Order extends Model
         self::STATUS_CANCELED => 'Отменен',
     ];
 
-    public static function boot()
+    public static function boot(): void
     {
         parent::boot();
 
@@ -45,10 +48,11 @@ class Order extends Model
             $m->orderItems()->delete();
             $m->debts()->delete();
             $m->nomenclatureOperations()->delete();
+            $m->cashTransaction()->delete();
         });
     }
 
-    public function scopeFilter($q, $data)
+    public function scopeFilter($q, $data): void
     {
         $q->when(
             Arr::get($data, 'client'),
@@ -66,43 +70,48 @@ class Order extends Model
         );
     }
 
-    public function scopeStatusNew($q)
+    public function scopeStatusNew($q): void
     {
         $q->whereStatus(self::STATUS_NEW);
     }
 
-    public function scopeStatusSend($q)
+    public function scopeStatusSend($q): void
     {
         $q->whereStatus(self::STATUS_SEND);
     }
 
-    public function scopeRelatedToMe($q, $check)
+    public function scopeRelatedToMe($q, $check): void
     {
         $q->when($check, static fn($q) => $q->my());
     }
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function client()
+    public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }
 
-    public function orderItems()
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }
 
-    public function debts()
+    public function debt(): HasOne
     {
-        return $this->hasMany(ClientDebt::class);
+        return $this->hasOne(ClientDebt::class);
     }
 
-    public function nomenclatureOperations()
+    public function nomenclatureOperations(): HasMany
     {
         return $this->hasMany(NomenclatureOperation::class);
+    }
+
+    public function cashTransaction(): HasOne
+    {
+        return $this->hasOne(CashTransaction::class);
     }
 }

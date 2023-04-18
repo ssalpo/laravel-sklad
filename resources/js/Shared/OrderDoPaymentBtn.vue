@@ -68,13 +68,11 @@ export default {
     methods: {
         submit() {
             this.form.post(route('orders.do-payment', this.orderId), {
-                onSuccess: () => {
-                    this.isModalOpen = false;
-                    this.form.reset();
-                },
                 preserveScroll: true,
                 preserveState: true
             })
+
+            this.isModalOpen = false;
         },
         toggleModal() {
             if (this.alreadyHasDebt) {

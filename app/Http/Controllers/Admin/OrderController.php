@@ -197,7 +197,7 @@ class OrderController extends Controller
 
     public function doPayment(int $orderId, OrderDoPaymentRequest $request): RedirectResponse
     {
-        $this->orderService->doPayment($orderId, $request->get('amount', 0));
+        $this->orderService->doPayment($orderId, $request->get('amount') ?? 0);
 
         Toast::success('Платеж успешно проведен.');
 

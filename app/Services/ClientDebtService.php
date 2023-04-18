@@ -35,7 +35,7 @@ class ClientDebtService extends BaseService
                     'client_id' => $order->client_id
                 ]);
 
-            $this->cashTransaction($debt);
+            // $this->cashTransaction($debt);
 
             return $debt;
         });
@@ -67,12 +67,12 @@ class ClientDebtService extends BaseService
         return DB::transaction(function () use ($debt, $data) {
             $debt->update(Arr::only($data, ['amount', 'comment']));
 
-            if(!is_null($debt->order?->cashTransaction)) {
-                (new OrderService)->cashTransaction($debt->order, $debt->order->amount - $data['amount']);
-            }
-
-            // При изменении цены так же обновляем сумму в кассе
-            $this->cashTransaction($debt);
+//            if(!is_null($debt->order?->cashTransaction)) {
+//                (new OrderService)->cashTransaction($debt->order, $debt->order->amount - $data['amount']);
+//            }
+//
+//            // При изменении цены так же обновляем сумму в кассе
+//            $this->cashTransaction($debt);
 
             return $debt;
         });
@@ -112,7 +112,7 @@ class ClientDebtService extends BaseService
         );
 
         return $clientDebt->cashTransaction()->updateOrCreate(['client_debt_id' => $clientDebt->id], [
-            'type' => CashTransaction::TYPE_CREDIT,
+            'type' => CashTransaction::TYPE_DEBIT,
             'amount' => $clientDebt->amount,
             'comment' => $comment
         ]);

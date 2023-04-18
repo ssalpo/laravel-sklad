@@ -179,7 +179,7 @@ class OrderService extends BaseService
         );
 
         return $order->cashTransaction()->updateOrCreate(['order_id' => $order->id], [
-            'type' => CashTransaction::TYPE_CREDIT,
+            'type' => CashTransaction::TYPE_DEBIT,
             'amount' => $amount,
             'comment' => $comment
         ]);

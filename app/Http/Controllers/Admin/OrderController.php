@@ -34,7 +34,7 @@ class OrderController extends Controller
     {
         $filterParams = request()?->collect()->except(['page'])->all();
 
-        $orders = Order::with(['user', 'client', 'debt'])
+        $orders = Order::with(['user', 'client', 'debt', 'cashTransaction'])
             ->filter($filterParams)
             ->orderBy('created_at', 'DESC')
             ->paginate()
@@ -46,6 +46,7 @@ class OrderController extends Controller
                     'id' => $m->client->id,
                     'name' => $m->client->name,
                 ],
+                'has_cash_transaction' => !is_null($m->cashTransaction),
                 'amount' => $m->amount,
                 'profit' => $m->profit,
                 'status' => $m->status,

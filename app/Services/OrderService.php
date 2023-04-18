@@ -135,6 +135,9 @@ class OrderService extends BaseService
 
         if ($order->status === Order::STATUS_SEND) {
             return DB::transaction(function () use ($order) {
+
+                $this->cancelCashTransaction($order);
+
                 return $order->update(['status' => Order::STATUS_CANCELED]);
             });
         }
@@ -185,12 +188,12 @@ class OrderService extends BaseService
         ]);
     }
 
-    public function cancelCashTransaction(Order $order): ?bool
+    private function cancelCashTransaction(Order $order): ?bool
     {
         return $order->cashTransaction?->update(['status' => CashTransaction::STATUS_CANCELED]);
     }
 
-    public function rollbackCashTransaction(Order $order): ?bool
+    private function rollbackCashTransaction(Order $order): ?bool
     {
         return $order->cashTransaction?->update(['status' => CashTransaction::STATUS_COMPLETED]);
     }

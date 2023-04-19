@@ -28,6 +28,7 @@
                                 <th style="width: 10px">#</th>
                                 <th>Номенклатура</th>
                                 <th>Кол-во</th>
+                                <th>Дата создания</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
@@ -36,6 +37,7 @@
                                 <td>{{ nomenclatureOperation.id }}</td>
                                 <td>{{nomenclatureOperation.nomenclature.name}}</td>
                                 <td>{{nomenclatureOperation.quantity}} {{nomenclatureOperation.nomenclature.unit}}</td>
+                                <td>{{nomenclatureOperation.created_at}}</td>
                                 <td class="text-center">
                                     <Link class="btn btn-sm btn-outline-primary mr-1"
                                           v-if="nomenclatureOperation.can_edit"

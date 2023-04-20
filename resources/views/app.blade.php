@@ -21,6 +21,9 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/external/admin-lte/css/adminlte.min.css">
 
+    <link rel="manifest" href="/build/manifest.webmanifest">
+    <script src="/build/registerSW.js"></script>
+
     @routes
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @inertiaHead

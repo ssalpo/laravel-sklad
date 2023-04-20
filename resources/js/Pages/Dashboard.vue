@@ -16,7 +16,7 @@
                     <h5 class="mb-3 mt-2">Прибыль</h5>
 
                     <div class="row">
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-6 col-sm-6 col-12">
 
                             <div class="small-box bg-info">
                                 <div class="inner">
@@ -29,7 +29,7 @@
                             </div>
                         </div>
 
-                        <div class="col-lg-4 col-sm-6 col-12">
+                        <div class="col-lg-6 col-sm-6 col-12">
 
                             <div class="small-box bg-success">
                                 <div class="inner">

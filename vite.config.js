@@ -29,11 +29,10 @@ export default defineConfig({
         }),
         VitePWA({
             registerType: 'autoUpdate',
-            devOptions: {
-                enabled: true,
-                type: "module"
-            },
+            scope: "/",
+            base: "/",
             manifest: {
+                scope: "/",
                 id: "/",
                 start_url: '/',
                 name: "Склад",

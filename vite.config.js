@@ -29,8 +29,6 @@ export default defineConfig({
         }),
         VitePWA({
             registerType: 'autoUpdate',
-            scope: "/",
-            base: "/",
             manifest: {
                 scope: "/",
                 id: "/",

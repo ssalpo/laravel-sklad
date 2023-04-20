@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AutocompleteController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PwaController;
 use Illuminate\Support\Facades\Route;
 
 // Admin routes
@@ -31,4 +32,7 @@ Route::group(['prefix' => 'autocomplete', 'as' => 'autocomplete.'], static funct
     Route::get('users', [AutocompleteController::class, 'users'])->name('users');
 })->middleware(['auth:sanctum', 'user.activity.check']);
 
+Route::group(['prefix' => 'pwa', 'as' => 'pwa.'], static function () {
+    Route::get('manifest', [PwaController::class, 'manifest'])->name('manifest');
+});
 

@@ -21,7 +21,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="/external/admin-lte/css/adminlte.min.css">
 
-    <link rel="manifest" href="/build/manifest.webmanifest">
+    <link rel="manifest" href="/pwa/manifest">
     <script src="/build/registerSW.js"></script>
 
     @routes

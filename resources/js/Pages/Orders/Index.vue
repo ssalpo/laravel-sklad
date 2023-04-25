@@ -50,7 +50,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="order in orders.data" :class="{'table-warning': !order.has_cash_transaction}">
+                            <tr v-for="order in orders.data" :class="{'table-warning': !order.is_order_paid}">
                                 <td>{{ order.id }}</td>
                                 <td>
                                     <Link :href="route('orders.show', order.id)">{{ order.user }}</Link>

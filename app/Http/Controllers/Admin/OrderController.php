@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderDoPaymentRequest;
 use App\Http\Requests\OrderRequest;
 use App\Models\Client;
+use App\Models\ClientDebt;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureOperation;
 use App\Models\Order;
@@ -23,8 +24,8 @@ use Inertia\Response;
 class OrderController extends Controller
 {
     public function __construct(
-        public OrderService $orderService,
-        public ClientDebtService $clientDebtService,
+        public OrderService                $orderService,
+        public ClientDebtService           $clientDebtService,
         public TelegramNotificationService $telegramNotificationService
     )
     {
@@ -39,21 +40,27 @@ class OrderController extends Controller
             ->orderBy('created_at', 'DESC')
             ->paginate()
             ->withQueryString()
-            ->through(fn($m) => [
-                'id' => $m->id,
-                'user' => $m->user->name,
-                'client' => [
-                    'id' => $m->client->id,
-                    'name' => $m->client->name,
-                ],
-                'has_cash_transaction' => !is_null($m->cashTransaction),
-                'amount' => $m->amount,
-                'profit' => $m->profit,
-                'status' => $m->status,
-                'has_debt' => !is_null($m->debt),
-                'send_at' => $m->send_at?->format('d-m-Y H:i'),
-                'created_at' => $m->created_at->format('d-m-Y H:i'),
-            ]);
+            ->through(function ($m) {
+
+                $paidCashTransactionAmount = $m->cashTransaction?->amount ?? 0;
+                $paidDebtsAmount = !is_null($m->debt) && $m->debt->is_paid ? $m->debt->amount : 0;
+
+                return [
+                    'id' => $m->id,
+                    'user' => $m->user->name,
+                    'client' => [
+                        'id' => $m->client->id,
+                        'name' => $m->client->name,
+                    ],
+                    'is_order_paid' => ($paidCashTransactionAmount + $paidDebtsAmount) === $m->amount,
+                    'amount' => $m->amount,
+                    'profit' => $m->profit,
+                    'status' => $m->status,
+                    'has_debt' => !is_null($m->debt),
+                    'send_at' => $m->send_at?->format('d-m-Y H:i'),
+                    'created_at' => $m->created_at->format('d-m-Y H:i'),
+                ];
+            });
 
         $orderDebtAmounts = $this->clientDebtService->getOrderDebts($orders->pluck('id')->toArray());
 

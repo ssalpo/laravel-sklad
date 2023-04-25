@@ -35,7 +35,7 @@
                         </Link>
 
                         <order-do-payment-btn
-                            v-if="!order.has_cash_transaction && orderIsSend(order.status)"
+                            v-if="!order.has_cash_transaction && orderIsSend(order.status) && order.debt.amount < order.amount"
                             :order-id="order.id"
                             :already-has-debt="order.has_debt === true"
                         />

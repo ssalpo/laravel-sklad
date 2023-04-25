@@ -154,7 +154,7 @@ class OrderService extends BaseService
         }
 
         DB::transaction(function () use ($order, $debtAmount) {
-            if (is_null($order->debt) && $debtAmount > 0 && $order->amount > $debtAmount) {
+            if (is_null($order->debt) && $debtAmount > 0 && $debtAmount <= $order->amount) {
                 $clientDebt = $order->debt()->create([
                     'client_id' => $order->client_id,
                     'amount' => $debtAmount
@@ -167,7 +167,9 @@ class OrderService extends BaseService
                 $debtAmount = $order->debt->amount;
             }
 
-            $this->cashTransaction($order, $debtAmount > 0 ? $order->amount - $debtAmount : $order->amount);
+            if($debtAmount < $order->amount) {
+                $this->cashTransaction($order, $debtAmount > 0 ? $order->amount - $debtAmount : $order->amount);
+            }
         });
     }
 

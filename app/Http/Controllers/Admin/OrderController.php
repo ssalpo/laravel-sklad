@@ -135,6 +135,9 @@ class OrderController extends Controller
                 'client' => $order->client->name,
                 'has_debt' => !is_null($order->debt),
                 'has_cash_transaction' => !is_null($order->cashTransaction),
+                'debt' => [
+                    'amount' => $order->debt?->amount ?? 0
+                ],
                 'amount' => number_format($order->amount, 2, '.', ''),
                 'status' => $order->status,
             ],

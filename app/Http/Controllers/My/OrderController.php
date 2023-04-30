@@ -37,6 +37,7 @@ class OrderController extends Controller
             ->filter($filterParams)
             ->orderBy('created_at', 'DESC')
             ->paginate()
+            ->onEachSide(0)
             ->withQueryString()
             ->through(fn($m) => [
                 'id' => $m->id,

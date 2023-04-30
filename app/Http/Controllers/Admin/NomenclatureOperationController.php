@@ -35,6 +35,7 @@ class NomenclatureOperationController extends Controller
         $nomenclatureOperations = NomenclatureOperation::with('nomenclature')
             ->typeWithdraw()
             ->paginate()
+            ->onEachSide(0)
             ->through(fn($m) => [
                 'id' => $m->id,
                 'nomenclature' => [

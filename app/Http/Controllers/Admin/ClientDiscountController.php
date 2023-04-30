@@ -17,6 +17,7 @@ class ClientDiscountController extends Controller
         $clientDiscounts = ClientDiscount::with(['nomenclature'])
             ->whereClientId($client->id)
             ->paginate()
+            ->onEachSide(0)
             ->through(fn($model) => [
                 'id' => $model->id,
                 'nomenclature' => $model->nomenclature->name,

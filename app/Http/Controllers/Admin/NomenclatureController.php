@@ -25,6 +25,7 @@ class NomenclatureController extends Controller
         $nomenclatures = Nomenclature::orderBy('type', 'ASC')
             ->orderBy('created_at', 'DESC')
             ->paginate(100)
+            ->onEachSide(0)
             ->through(fn($model) => [
                 'id' => $model->id,
                 'name' => $model->name,

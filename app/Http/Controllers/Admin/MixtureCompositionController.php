@@ -23,6 +23,7 @@ class MixtureCompositionController extends Controller
         $mixtureCompositions = MixtureComposition::with(['nomenclature'])
             ->orderBy('created_at', 'DESC')
             ->paginate()
+            ->onEachSide(0)
             ->through(fn($model) => [
                 'id' => $model->id,
                 'nomenclature' => $model->nomenclature->name,

@@ -26,6 +26,7 @@ class CashTransactionController extends Controller
         $cashTransactions = CashTransaction::orderBy('created_at', 'DESC')
             ->filter($filterParams)
             ->paginate(100)
+            ->onEachSide(0)
             ->withQueryString()
             ->through(fn($model) => [
                 'id' => $model->id,

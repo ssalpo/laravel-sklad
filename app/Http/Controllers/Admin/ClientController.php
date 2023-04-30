@@ -13,6 +13,7 @@ class ClientController extends Controller
     {
         $clients = Client::orderBy('created_at', 'DESC')
             ->paginate()
+            ->onEachSide(0)
             ->through(fn($m) => [
                 'id' => $m->id,
                 'name' => $m->name,

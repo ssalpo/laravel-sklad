@@ -13,6 +13,7 @@ class UserController extends Controller
     {
         $users = User::orderBy('created_at', 'DESC')
             ->paginate(100)
+            ->onEachSide(0)
             ->through(fn($user) => [
                 'id' => $user->id,
                 'name' => $user->name,

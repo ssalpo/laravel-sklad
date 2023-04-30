@@ -17,6 +17,7 @@ class NomenclatureRefundController extends Controller
             ->filter($filterParams)
             ->with(['order', 'nomenclature'])
             ->paginate()
+            ->onEachSide(0)
             ->withQueryString()
             ->through(fn($m) => [
                 'id' => $m->id,

@@ -159,8 +159,6 @@ class OrderService extends BaseService
                     'client_id' => $order->client_id,
                     'amount' => $debtAmount
                 ]);
-
-                (new ClientDebtService)->cashTransaction($clientDebt);
             }
 
             if(!is_null($order->debt)) {

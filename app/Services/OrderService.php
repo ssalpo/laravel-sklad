@@ -178,7 +178,7 @@ class OrderService extends BaseService
         $comment = sprintf(
             'Оплата по заявке №%s на сумму %s сом.',
             $order->id,
-            $amount
+            number_format($amount, 2, '.', '')
         );
 
         return $order->cashTransaction()->updateOrCreate(['order_id' => $order->id], [

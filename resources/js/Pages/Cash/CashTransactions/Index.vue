@@ -50,7 +50,7 @@
                                         {{ cashTransaction.type_label }}
                                     </div>
                                 </td>
-                                <td class="text-center">{{ cashTransaction.amount }} сом.</td>
+                                <td class="text-center">{{ numberFormat(cashTransaction.amount) }} сом.</td>
                                 <td class="text-center">
                                     <cash-transaction-dollar-exchange
                                         :cash-transaction="cashTransaction"
@@ -94,8 +94,10 @@ import CashTransactionModal from "@/Shared/CashTransactionModal.vue";
 import Filters from "./Filters.vue";
 import DeleteBtn from "../../../Shared/DeleteBtn.vue";
 import CashTransactionDollarExchange from "../../../Shared/CashTransactionDollarExchange.vue";
+import {numberFormat} from "../../../functions";
 
 export default {
+    methods: {numberFormat},
     components: {CashTransactionDollarExchange, DeleteBtn, Filters, CashTransactionModal, Pagination, Head, Link},
     props: ['cashTransactions', 'filterParams']
 }

@@ -81,8 +81,8 @@ class CashTransactionController extends Controller
         $filterParams = request()?->all();
 
         $date = request('date')
-            ? Carbon::createFromFormat('n-Y', implode('-', array_values(request('date'))))->addMonth()
-            : now();
+            ? Carbon::createFromFormat('d-n-Y', implode('-', array_values(['01', request('date.month') + 1, request('date.year')])))
+            : now()->startOfMonth();
 
         $currentMontTotalAmounts = $this->cashTransactionService->getMonthAmounts($date);
 

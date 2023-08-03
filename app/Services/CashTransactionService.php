@@ -74,7 +74,12 @@ class CashTransactionService
 
     public function getStructuredTransactions(Carbon $currentDate): array
     {
-        $lastMonthDebitAmount = $this->getLastMonthDebit($currentDate->clone());
+        $lastMonthDebitAmountSum = $this->getLastMonthDebit($currentDate->clone());
+        $lastTwoMonthDebitAmountSum = $this->getLastMonthDebit($currentDate->clone()->subMonth());
+        $lastMonthDebitAmount = $lastTwoMonthDebitAmountSum > 0
+            ? $lastTwoMonthDebitAmountSum - abs($lastMonthDebitAmountSum)
+            : $lastMonthDebitAmountSum;
+
         $lastAmount = $lastMonthDebitAmount;
 
         $transactions = CashTransaction::orderBy('created_at', 'ASC')

@@ -11,16 +11,29 @@
 
     <div class="content">
         <div class="container-fluid">
+            <div class="row" v-if="totalDebits > 0">
+                <div class="col-lg-4 col-sm-6 col-12">
+                    <div class="small-box bg-info">
+                        <div class="inner"><h3>$ {{totalDebits}}</h3>
+                            <p>Остаток для погашения</p></div>
+                        <div class="icon"><i class="fa fa-chart-bar"></i></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
-                <div class="card-header">
+                <div class="card-header" v-if="totalDebits > 0">
                     <div class="card-tools">
-                        <Link :href="route('raw-materials.raw-material-payments.create', rawMaterialId)" class="btn btn-success btn-sm px-3">
+                        <Link :href="route('raw-materials.raw-material-payments.create', rawMaterial.id)" class="btn btn-success btn-sm px-3">
                             Добавить
                         </Link>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+
+
+
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
@@ -69,6 +82,6 @@ import DeleteBtn from "../../Shared/DeleteBtn.vue";
 
 export default {
     components: { DeleteBtn, Pagination, Head, Link},
-    props: ['rawMaterialId', 'rawMaterialPayments']
+    props: ['rawMaterial', 'rawMaterialPayments', 'totalDebits']
 }
 </script>

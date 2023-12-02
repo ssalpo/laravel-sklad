@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RawMaterial\RawMaterialRequest;
 use App\Models\Nomenclature;
 use App\Models\RawMaterial;
+use App\Models\RawMaterialPayment;
 use App\Services\RawMaterialService;
 use App\Services\Toast;
 use Illuminate\Http\RedirectResponse;
@@ -20,6 +21,9 @@ class RawMaterialController extends Controller
 
     public function index()
     {
+        $totalPaid = RawMaterial::sum('total_amount');
+        $totalDebits = $totalPaid - RawMaterialPayment::sum('amount');
+
         $rawMaterials = RawMaterial::with('nomenclature')
             ->withSum('payments', 'amount')
             ->orderBy('created_at', 'DESC')
@@ -38,12 +42,12 @@ class RawMaterialController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('RawMaterials/Index', compact('rawMaterials'));
+        return inertia('RawMaterials/Index', compact('rawMaterials', 'totalPaid', 'totalDebits'));
     }
 
     public function create()
     {
-        $nomenclatures = Nomenclature::saleType()
+        $nomenclatures = Nomenclature::compositeType()
             ->get()
             ->transform(fn($model) => [
                 'id' => $model->id,
@@ -65,7 +69,7 @@ class RawMaterialController extends Controller
 
     public function edit(RawMaterial $rawMaterial)
     {
-        $nomenclatures = Nomenclature::saleType()
+        $nomenclatures = Nomenclature::compositeType()
             ->get()
             ->transform(fn($model) => [
                 'id' => $model->id,

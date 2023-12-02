@@ -20,9 +20,12 @@ class RawMaterialPaymentController extends Controller
     {
     }
 
-    public function index(int $rawMaterialId)
+    public function index(RawMaterial $rawMaterial)
     {
+        $totalDebits = $rawMaterial->total_amount - $rawMaterial->payments()->sum('amount');
+
         $rawMaterialPayments = RawMaterialPayment::orderBy('created_at', 'DESC')
+            ->where('raw_material_id', $rawMaterial->id)
             ->paginate()
             ->onEachSide(0)
             ->through(fn($m) => [
@@ -33,7 +36,7 @@ class RawMaterialPaymentController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('RawMaterialPayments/Index', compact('rawMaterialId', 'rawMaterialPayments'));
+        return inertia('RawMaterialPayments/Index', compact('rawMaterial', 'rawMaterialPayments', 'totalDebits'));
     }
 
     public function create(int $rawMaterialId)

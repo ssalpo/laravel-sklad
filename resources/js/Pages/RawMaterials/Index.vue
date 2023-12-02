@@ -11,6 +11,25 @@
 
     <div class="content">
         <div class="container-fluid">
+
+            <div class="row" v-if="totalPaid > 0 || totalDebits > 0">
+                <div class="col-lg-4 col-sm-6 col-12" v-if="totalPaid > 0">
+                    <div class="small-box bg-info">
+                        <div class="inner"><h3>$ {{totalPaid}}</h3>
+                            <p>Общая сумма покупок сырья</p></div>
+                        <div class="icon"><i class="fa fa-chart-bar"></i></div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-sm-6 col-12" v-if="totalDebits > 0">
+                    <div class="small-box bg-danger">
+                        <div class="inner"><h3>$ {{totalDebits}}</h3>
+                            <p>Общий остаток для погашения</p></div>
+                        <div class="icon"><i class="fa fa-chart-bar"></i></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="card">
                 <div class="card-header">
                     <div class="card-tools">
@@ -79,6 +98,6 @@ import DeleteBtn from "../../Shared/DeleteBtn.vue";
 
 export default {
     components: { DeleteBtn, Pagination, Head, Link},
-    props: ['rawMaterials']
+    props: ['rawMaterials', 'totalDebits', 'totalPaid']
 }
 </script>

@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('employee_id')->constrained();
             $table->double('amount');
-            $table->text('comment');
+            $table->text('comment')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

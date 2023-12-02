@@ -5,7 +5,7 @@
 
     <div class="content-header">
         <div class="container-fluid">
-            <h1 class="m-0">{{ rawMaterial?.id ? 'Обновление данных клиента' : 'Новый клиент' }}</h1>
+            <h1 class="m-0">{{ rawMaterial?.id ? 'Обновление данных' : 'Новый клиент' }}</h1>
         </div>
     </div>
 

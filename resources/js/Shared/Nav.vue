@@ -142,7 +142,7 @@
 
                             <li>
                                 <Link :href="route('users.index')" class="dropdown-item">
-                                    Сотрудники
+                                    Пользователи
                                 </Link>
                             </li>
 
@@ -154,7 +154,7 @@
 
                             <li>
                                 <Link :href="route('employees.index')" class="dropdown-item">
-                                    Работники
+                                    Сотрудники
                                 </Link>
                             </li>
                         </ul>

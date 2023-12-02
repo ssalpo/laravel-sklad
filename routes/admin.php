@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ClientDebtPaymentController;
 use App\Http\Controllers\Admin\ClientDiscountController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Employee\EmployeeController;
+use App\Http\Controllers\Admin\Employee\EmployeeSalaryController;
 use App\Http\Controllers\Admin\MixtureCompositionController;
 use App\Http\Controllers\Admin\MixtureCompositionItemController;
 use App\Http\Controllers\Admin\NomenclatureArrivalController;
@@ -85,4 +86,4 @@ Route::resource('raw-materials.raw-material-payments', RawMaterialPaymentControl
 Route::resource('employees', EmployeeController::class);
 
 // Employee Salary
-Route::resource('employees.employee-salaries', EmployeeController::class);
+Route::resource('employees.employee-salaries', EmployeeSalaryController::class);

@@ -1,11 +1,11 @@
 <template>
     <Head>
-        <title>{{rawMaterialPayment?.id ? 'Обновление данных' : 'Новое погашение'}}</title>
+        <title>{{employeeSalary?.id ? 'Обновление данных' : 'Выдать зарплату'}}</title>
     </Head>
 
     <div class="content-header">
         <div class="container-fluid">
-            <h1 class="m-0">{{ rawMaterialPayment?.id ? 'Обновление данных' : 'Новый клиент' }}</h1>
+            <h1 class="m-0">{{ employeeSalary?.id ? 'Обновление данных' : 'Выдать зарплату' }}</h1>
         </div>
     </div>
 
@@ -16,7 +16,7 @@
                 <form @submit.prevent="submit">
                     <div class="card-body">
                         <div class="form-group">
-                            <label class="form-asterisk">Сумма погашения</label>
+                            <label class="form-asterisk">Сумма зарплаты</label>
                             <numeric-field :precision="2" class="form-control"
                                            :class="{'is-invalid': errors.amount}"
                                            v-model="form.amount" />
@@ -43,10 +43,10 @@
                             <span v-if="form.processing">
                                 <i class="fas fa-spinner fa-spin"></i> Сохранение...
                             </span>
-                            <span v-else>{{ rawMaterialPayment?.id ? 'Сохранить' : 'Добавить' }}</span>
+                            <span v-else>{{ employeeSalary?.id ? 'Сохранить' : 'Добавить' }}</span>
                         </button>
 
-                        <Link :href="route('raw-materials.raw-material-payments.index', this.rawMaterialId)" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
+                        <Link :href="route('employees.employee-salaries.index', this.employeeId)" :class="{disabled: form.processing}" class="btn btn-default ml-2">Отменить</Link>
                     </div>
                 </form>
             </div>
@@ -59,28 +59,28 @@ import { vMaska } from "maska";
 import NumericField from "../../Shared/NumericField.vue";
 
 export default {
-    props: ['rawMaterialId', 'rawMaterialPayment', 'rawMaterials', 'errors'],
+    props: ['employeeId', 'employeeSalary', 'errors'],
     components: {NumericField, Head, Link},
     directives: { maska: vMaska },
     data() {
         return {
             form: useForm({
-                raw_material_id: this.rawMaterialId,
-                amount: this.rawMaterialPayment?.amount,
-                comment: this.rawMaterialPayment?.comment,
+                employee_id: this.employeeId,
+                amount: this.employeeSalary?.amount,
+                comment: this.employeeSalary?.comment,
             }),
         }
     },
     methods: {
         submit() {
-            if (!this.rawMaterialPayment?.id) {
-                this.form.post(route('raw-materials.raw-material-payments.store', this.rawMaterialId));
+            if (!this.employeeSalary?.id) {
+                this.form.post(route('employees.employee-salaries.store', {employee: this.employeeId}));
                 return;
             }
 
-            this.form.put(route('raw-materials.raw-material-payments.update', {
-                'raw_material': this.rawMaterialId,
-                'raw_material_payment': this.rawMaterialPayment.id
+            this.form.put(route('employees.employee-salaries.update', {
+                employee: this.employeeId,
+                employee_salary: this.employeeSalary.id
             }))
         }
     }

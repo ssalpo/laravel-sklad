@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Employee\EmployeeSalaryRequest;
-use App\Models\Employee;
 use App\Models\EmployeeSalary;
 use App\Services\EmployeeSalaryService;
 use App\Services\Toast;
@@ -18,7 +17,7 @@ class EmployeeSalaryController extends Controller
     {
     }
 
-    public function index(Employee $employee)
+    public function index(int $employeeId)
     {
         $employeeSalaries = EmployeeSalary::orderBy('created_at', 'DESC')
             ->paginate()
@@ -30,43 +29,43 @@ class EmployeeSalaryController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('EmployeeSalaries/Index', compact('employee', 'employeeSalaries'));
+        return inertia('EmployeeSalaries/Index', compact('employeeId', 'employeeSalaries'));
     }
 
-    public function create()
+    public function create(int $employeeId)
     {
-        return inertia('EmployeeSalaries/Edit');
+        return inertia('EmployeeSalaries/Edit', compact('employeeId'));
     }
 
-    public function store(EmployeeSalaryRequest $request)
+    public function store(int $employeeId, EmployeeSalaryRequest $request)
     {
         $this->employeeSalaryService->store($request->validated());
 
         Toast::success('Успешно добавлено.');
 
-        return to_route('employees.index');
+        return to_route('employees.employee-salaries.index', $employeeId);
     }
 
-    public function edit(Employee $employee)
+    public function edit(int $employeeId, EmployeeSalary $employeeSalary)
     {
-        return inertia('EmployeeSalaries/Edit', compact('employee'));
+        return inertia('EmployeeSalaries/Edit', compact('employeeId', 'employeeSalary'));
     }
 
-    public function update(int $id, EmployeeSalaryRequest $request): RedirectResponse
+    public function update(int $employeeId, int $id, EmployeeSalaryRequest $request): RedirectResponse
     {
         $this->employeeSalaryService->update($id, $request->validated());
 
         Toast::success('Данные успешно изменены.');
 
-        return to_route('employees.index');
+        return to_route('employees.employee-salaries.index', $employeeId);
     }
 
-    public function destroy(int $id): RedirectResponse
+    public function destroy(int $employeeId, int $id): RedirectResponse
     {
         $this->employeeSalaryService->delete($id);
 
         Toast::success('Успешно удалено.');
 
-        return to_route('employees.index');
+        return to_route('employees.employee-salaries.index', $employeeId);
     }
 }

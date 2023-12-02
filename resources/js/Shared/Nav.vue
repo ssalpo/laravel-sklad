@@ -145,6 +145,18 @@
                                     Сотрудники
                                 </Link>
                             </li>
+
+                            <li>
+                                <Link :href="route('raw-materials.index')" class="dropdown-item">
+                                    Покупка сырья
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link :href="route('employees.index')" class="dropdown-item">
+                                    Работники
+                                </Link>
+                            </li>
                         </ul>
                     </li>
                 </ul>

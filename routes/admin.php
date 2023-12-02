@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ClientDebtController;
 use App\Http\Controllers\Admin\ClientDebtPaymentController;
 use App\Http\Controllers\Admin\ClientDiscountController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\Employee\EmployeeController;
 use App\Http\Controllers\Admin\MixtureCompositionController;
 use App\Http\Controllers\Admin\MixtureCompositionItemController;
 use App\Http\Controllers\Admin\NomenclatureArrivalController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\Admin\NomenclatureController;
 use App\Http\Controllers\Admin\NomenclatureOperationController;
 use App\Http\Controllers\Admin\NomenclatureRefundController;
 use App\Http\Controllers\Admin\OrderController;
+use App\Http\Controllers\Admin\RawMaterial\RawMaterialController;
+use App\Http\Controllers\Admin\RawMaterial\RawMaterialPaymentController;
 use App\Http\Controllers\Admin\StorehouseController;
 use App\Http\Controllers\Admin\TelegramNotificationController;
 use App\Http\Controllers\Admin\UserController;
@@ -72,3 +75,14 @@ Route::get('/users/{user}/telegram-notifications', [TelegramNotificationControll
 Route::post('/users/{user}/telegram-notifications/toggle', [TelegramNotificationController::class, 'toggle'])->name('users.telegram-notifications.toggle');
 Route::resource('users', UserController::class);
 
+// Raw Materials
+Route::resource('raw-materials', RawMaterialController::class);
+
+// Raw Material Payments
+Route::resource('raw-materials.raw-material-payments', RawMaterialPaymentController::class);
+
+// Employee
+Route::resource('employees', EmployeeController::class);
+
+// Employee Salary
+Route::resource('employees.employee-salaries', EmployeeController::class);

@@ -21,6 +21,12 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+
+                    <filters
+                        :employee-id="employeeId"
+                        :filter-params="filterParams"
+                    />
+
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
@@ -65,9 +71,10 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "../../Shared/Pagination.vue";
 import DeleteBtn from "../../Shared/DeleteBtn.vue";
+import Filters from "./Filters.vue";
 
 export default {
-    components: {DeleteBtn, Pagination, Head, Link},
-    props: ['employeeSalaries', 'employeeId'],
+    components: {Filters, DeleteBtn, Pagination, Head, Link},
+    props: ['employeeSalaries', 'employeeId', 'filterParams'],
 }
 </script>

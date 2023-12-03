@@ -19,9 +19,13 @@ class EmployeeSalaryController extends Controller
 
     public function index(int $employeeId)
     {
+        $filterParams = request()?->collect()->except(['page'])->all();
+
         $employeeSalaries = EmployeeSalary::orderBy('created_at', 'DESC')
-            ->paginate()
+            ->filter($filterParams)
+            ->paginate(1)
             ->onEachSide(0)
+            ->withQueryString()
             ->through(fn($m) => [
                 'id' => $m->id,
                 'amount' => $m->amount,
@@ -29,7 +33,7 @@ class EmployeeSalaryController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('EmployeeSalaries/Index', compact('employeeId', 'employeeSalaries'));
+        return inertia('EmployeeSalaries/Index', compact('filterParams', 'employeeId', 'employeeSalaries'));
     }
 
     public function create(int $employeeId)

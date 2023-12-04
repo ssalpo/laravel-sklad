@@ -22,6 +22,7 @@ class EmployeeSalaryController extends Controller
         $filterParams = request()?->collect()->except(['page'])->all();
 
         $employeeSalaries = EmployeeSalary::orderBy('created_at', 'DESC')
+            ->where('employee_id', $employeeId)
             ->filter($filterParams)
             ->paginate(1)
             ->onEachSide(0)

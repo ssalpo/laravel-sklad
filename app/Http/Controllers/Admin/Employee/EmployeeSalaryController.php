@@ -24,7 +24,7 @@ class EmployeeSalaryController extends Controller
         $employeeSalaries = EmployeeSalary::orderBy('created_at', 'DESC')
             ->where('employee_id', $employeeId)
             ->filter($filterParams)
-            ->paginate(1)
+            ->paginate(100)
             ->onEachSide(0)
             ->withQueryString()
             ->through(fn($m) => [

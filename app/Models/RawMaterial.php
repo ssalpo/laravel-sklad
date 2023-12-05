@@ -21,11 +21,17 @@ class RawMaterial extends Model
     ];
 
     protected $fillable = [
+        'client_id',
         'nomenclature_id',
         'quantity',
         'price',
         'total_amount',
     ];
+
+    public function client(): BelongsTo
+    {
+        return $this->belongsTo(Client::class);
+    }
 
     public function payments(): HasMany
     {
@@ -35,12 +41,5 @@ class RawMaterial extends Model
     public function nomenclature(): BelongsTo
     {
         return $this->belongsTo(Nomenclature::class);
-    }
-
-    public function fullName(): Attribute
-    {
-        return Attribute::get(
-            fn() => sprintf('Номенклатуры [%s] от [%s] на сумму [$%s]', $this->nomenclature->name, $this->created_at->format('d.m.Y'), $this->total_amount)
-        );
     }
 }

@@ -24,6 +24,7 @@ class RawMaterialRequest extends FormRequest
     public function rules()
     {
         return [
+            'client_id' => 'required|exists:clients,id',
             'nomenclature_id' => 'required|exists:nomenclatures,id',
             'quantity' => 'required|numeric',
             'price' => 'required|numeric',

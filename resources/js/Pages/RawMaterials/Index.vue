@@ -45,6 +45,7 @@
                             <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
+                                <th>Клиент</th>
                                 <th>Номенклатура</th>
                                 <th>Кол-во</th>
                                 <th>Цена</th>
@@ -57,6 +58,7 @@
                             <tbody>
                             <tr :class="{'table-warning': rawMaterial.total_amount > rawMaterial.payments_sum_amount}" v-for="(rawMaterial, index) in rawMaterials.data">
                                 <td>{{ ((rawMaterials.current_page - 1) * rawMaterials.per_page) + index + 1 }}</td>
+                                <td>{{ rawMaterial.client.name }}</td>
                                 <td>
                                     <Link :href="route('raw-materials.raw-material-payments.index', rawMaterial.id)">
                                         {{ rawMaterial.nomenclature.name }}

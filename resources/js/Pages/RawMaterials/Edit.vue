@@ -16,15 +16,29 @@
                 <form @submit.prevent="submit">
                     <div class="card-body">
                         <div class="form-group">
+                            <label class="form-asterisk">Клиент</label>
+
+                            <select2-clients
+                                :prefetch="true"
+                                class="form-control-sm"
+                                :is-invalid="errors.client_id !== undefined"
+                                v-model.number="form.client_id"
+                            />
+
+                            <div v-if="errors.client_id" class="error invalid-feedback">
+                                {{ errors.client_id }}
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="form-asterisk">Номенклатура</label>
-                            <custom-select
-                                full
-                                searchable
-                                :class="{'is-invalid': errors.nomenclature_id}"
-                                :options="nomenclatures"
+
+                            <select2-nomenclatures
+                                :prefetch="true"
+                                class="form-control-sm"
+                                :is-invalid="errors.nomenclature_id !== undefined"
                                 v-model.number="form.nomenclature_id"
-                                :value="form.nomenclature_id"
-                                label-key="name" />
+                            />
 
                             <div v-if="errors.nomenclature_id" class="error invalid-feedback">
                                 {{ errors.nomenclature_id }}
@@ -93,14 +107,17 @@ import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import CustomSelect from "../../Shared/CustomSelect.vue";
 import { vMaska } from "maska";
 import NumericField from "../../Shared/NumericField.vue";
+import Select2Clients from "../../Shared/Select2Clients.vue";
+import Select2Nomenclatures from "../../Shared/Select2Nomenclatures.vue";
 
 export default {
-    props: ['rawMaterial', 'nomenclatures', 'errors'],
-    components: {NumericField, CustomSelect, Head, Link},
+    props: ['rawMaterial', 'errors'],
+    components: {Select2Clients, Select2Nomenclatures, NumericField, CustomSelect, Head, Link},
     directives: { maska: vMaska },
     data() {
         return {
             form: useForm({
+                client_id: this.rawMaterial?.client_id,
                 nomenclature_id: this.rawMaterial?.nomenclature_id,
                 quantity: this.rawMaterial?.quantity || 0,
                 price: this.rawMaterial?.price || 0,

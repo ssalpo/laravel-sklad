@@ -42,4 +42,14 @@ class RawMaterial extends Model
     {
         return $this->belongsTo(Nomenclature::class);
     }
+
+    public function scopeFilter($q, array $data)
+    {
+        $q->when(isset($data['date'][0], $data['date'][1]), function ($q) use ($data) {
+            $q->whereDate('created_at', '>=', $data['date'][0])
+                ->whereDate('created_at', '<=', $data['date'][1]);
+        });
+
+        $q->when(\Arr::get($data, 'client'), fn($q, $v) => $q->where('client_id', $v));
+    }
 }

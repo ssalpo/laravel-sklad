@@ -20,14 +20,18 @@ class RawMaterialController extends Controller
 
     public function index()
     {
+        $filterParams = request()?->collect()->except(['page'])->all();
+
         $totalPaid = RawMaterial::sum('total_amount');
         $totalDebits = $totalPaid - RawMaterialPayment::sum('amount');
 
         $rawMaterials = RawMaterial::with('nomenclature', 'client')
             ->withSum('payments', 'amount')
             ->orderBy('created_at', 'DESC')
+            ->filter($filterParams)
             ->paginate()
             ->onEachSide(0)
+            ->withQueryString()
             ->through(fn($m) => [
                 'id' => $m->id,
                 'client' => [
@@ -45,7 +49,7 @@ class RawMaterialController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('RawMaterials/Index', compact('rawMaterials', 'totalPaid', 'totalDebits'));
+        return inertia('RawMaterials/Index', compact('filterParams', 'rawMaterials', 'totalPaid', 'totalDebits'));
     }
 
     public function create()

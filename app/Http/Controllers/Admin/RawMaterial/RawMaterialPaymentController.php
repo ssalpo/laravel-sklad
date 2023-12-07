@@ -26,7 +26,7 @@ class RawMaterialPaymentController extends Controller
 
         $rawMaterialPayments = RawMaterialPayment::orderBy('created_at', 'DESC')
             ->where('raw_material_id', $rawMaterial->id)
-            ->paginate()
+            ->paginate(100)
             ->onEachSide(0)
             ->through(fn($m) => [
                 'id' => $m->id,

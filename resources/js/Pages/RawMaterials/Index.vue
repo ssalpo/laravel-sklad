@@ -40,13 +40,18 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
+                    <filters
+                        :employee-id="employeeId"
+                        :filter-params="filterParams"
+                    />
+
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
                             <tr>
                                 <th style="width: 10px">#</th>
-                                <th>Клиент</th>
                                 <th>Номенклатура</th>
+                                <th>Клиент</th>
                                 <th>Кол-во</th>
                                 <th>Цена</th>
                                 <th>Сумма покупки</th>
@@ -58,12 +63,12 @@
                             <tbody>
                             <tr :class="{'table-warning': rawMaterial.total_amount > rawMaterial.payments_sum_amount}" v-for="(rawMaterial, index) in rawMaterials.data">
                                 <td>{{ ((rawMaterials.current_page - 1) * rawMaterials.per_page) + index + 1 }}</td>
-                                <td>{{ rawMaterial.client.name }}</td>
                                 <td>
                                     <Link :href="route('raw-materials.raw-material-payments.index', rawMaterial.id)">
                                         {{ rawMaterial.nomenclature.name }}
                                     </Link>
                                 </td>
+                                <td>{{ rawMaterial.client.name }}</td>
                                 <td>{{ rawMaterial.quantity }}</td>
                                 <td>${{ rawMaterial.price }}</td>
                                 <td>${{ rawMaterial.total_amount }}</td>
@@ -97,9 +102,10 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "../../Shared/Pagination.vue";
 import DeleteBtn from "../../Shared/DeleteBtn.vue";
+import Filters from "./Filters.vue";
 
 export default {
-    components: { DeleteBtn, Pagination, Head, Link},
-    props: ['rawMaterials', 'totalDebits', 'totalPaid']
+    components: {Filters, DeleteBtn, Pagination, Head, Link},
+    props: ['rawMaterials', 'totalDebits', 'totalPaid', 'filterParams']
 }
 </script>

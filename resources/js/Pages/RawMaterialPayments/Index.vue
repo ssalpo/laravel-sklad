@@ -23,7 +23,10 @@
 
             <div class="card">
                 <div class="card-header" v-if="totalDebits > 0">
-                    <div class="card-tools">
+                    <div class="float-left">
+                        <back-btn :href="route('raw-materials.index')" />
+                    </div>
+                    <div class="float-right">
                         <Link :href="route('raw-materials.raw-material-payments.create', rawMaterial.id)" class="btn btn-success btn-sm px-3">
                             Добавить
                         </Link>
@@ -31,9 +34,6 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-
-
-
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
@@ -79,9 +79,10 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import Pagination from "../../Shared/Pagination.vue";
 import DeleteBtn from "../../Shared/DeleteBtn.vue";
+import BackBtn from "../../Shared/BackBtn.vue";
 
 export default {
-    components: { DeleteBtn, Pagination, Head, Link},
+    components: {BackBtn, DeleteBtn, Pagination, Head, Link},
     props: ['rawMaterial', 'rawMaterialPayments', 'totalDebits']
 }
 </script>

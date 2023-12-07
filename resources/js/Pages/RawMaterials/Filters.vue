@@ -43,7 +43,7 @@ import Select2Clients from "../../Shared/Select2Clients.vue";
 
 export default {
     components: {Select2Clients, VueDatePicker},
-    props: ['filterParams', 'rawMaterialId'],
+    props: ['filterParams'],
     data() {
         return {
             filter: useForm({
@@ -59,10 +59,10 @@ export default {
     },
     methods: {
         search() {
-            this.filter.get(route('raw-materials.index', {raw_material: this.rawMaterialId}))
+            this.filter.get(route('raw-materials.index'))
         },
         reset() {
-            this.$inertia.visit(route('raw-materials.index', {raw_material: this.rawMaterialId}));
+            this.$inertia.visit(route('raw-materials.index'));
         }
     }
 }

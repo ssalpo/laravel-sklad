@@ -41,7 +41,6 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <filters
-                        :employee-id="employeeId"
                         :filter-params="filterParams"
                     />
 

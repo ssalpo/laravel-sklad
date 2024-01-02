@@ -36,18 +36,14 @@ class CashTransactionService
     {
         $date = $currentDate->subMonth();
 
-        $result = CashTransaction::select(
-            'type',
-            \DB::raw('SUM(amount) amount')
-        )->onlyMonth($date)
+        return (float) CashTransaction::query()
+            ->select(
+                \DB::raw('SUM(CASE WHEN type = 1 THEN amount ELSE 0 END) - SUM(CASE WHEN type = 2 THEN amount ELSE 0 END) as balance')
+            )
+            ->whereMonth('created_at', '<=', $date->format('m'))
+            ->whereYear('created_at', '<=', $date->format('Y'))
             ->completed()
-            ->groupBy('type')
-            ->get();
-
-        $lastDebit = $result->where('type', CashTransaction::TYPE_DEBIT)->sum('amount');
-        $lastCredit = $result->where('type', CashTransaction::TYPE_CREDIT)->sum('amount');
-
-        return $lastDebit - $lastCredit;
+            ->first()?->balance;
     }
 
     public function getMonthAmounts(Carbon $date)
@@ -74,11 +70,7 @@ class CashTransactionService
 
     public function getStructuredTransactions(Carbon $currentDate): array
     {
-        $lastMonthDebitAmountSum = $this->getLastMonthDebit($currentDate->clone());
-        $lastTwoMonthDebitAmountSum = $this->getLastMonthDebit($currentDate->clone()->subMonth());
-        $lastMonthDebitAmount = $lastTwoMonthDebitAmountSum > 0
-            ? $lastTwoMonthDebitAmountSum - abs($lastMonthDebitAmountSum)
-            : $lastMonthDebitAmountSum;
+        $lastMonthDebitAmount = $this->getLastMonthDebit($currentDate->clone());
 
         $lastAmount = $lastMonthDebitAmount;
 

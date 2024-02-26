@@ -68,7 +68,7 @@ class ClientDebtController extends Controller
                 'order_id' => $m->order_id,
                 'amount' => $m->amount,
                 'comment' => $m->comment,
-                'last_payment_date' => $m->lastPayment?->created_at->format('Y-m-d H:i'),
+                'last_payment_date' => $m->lastPayment?->created_at->format('d-m-Y H:i'),
                 'payments_sum_amount' => $m->payments_sum_amount,
                 'is_paid' => $m->is_paid,
             ]);

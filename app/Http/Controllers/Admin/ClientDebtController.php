@@ -61,13 +61,14 @@ class ClientDebtController extends Controller
     public function index(Client $client)
     {
         $debts = ClientDebt::whereClientId($client->id)
-            ->withSum('payments', 'amount')
+            ->withSum('payments', 'amount', 'lastPayment')
             ->get()
             ->transform(fn($m) => [
                 'id' => $m->id,
                 'order_id' => $m->order_id,
                 'amount' => $m->amount,
                 'comment' => $m->comment,
+                'last_payment_date' => $m->lastPayment?->created_at->format('Y-m-d H:i'),
                 'payments_sum_amount' => $m->payments_sum_amount,
                 'is_paid' => $m->is_paid,
             ]);

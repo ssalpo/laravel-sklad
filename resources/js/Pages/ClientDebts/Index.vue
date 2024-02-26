@@ -68,6 +68,7 @@
                                 <th>Остаток</th>
                                 <th>Комментарий</th>
                                 <th>Статус</th>
+                                <th>Последний платеж</th>
                                 <th width="40" colspan="3">Действия</th>
                             </tr>
                             </thead>
@@ -80,6 +81,9 @@
                                 <td>{{numberFormat(debt.amount - debt.payments_sum_amount)}} сом.</td>
                                 <td>{{debt.comment}}</td>
                                 <td :class="[debt.is_paid ? 'text-success' : 'text-danger']">{{debt.is_paid ? 'Оплачено' : 'Не оплачено'}}</td>
+                                <td width="75">
+                                    {{debt.last_payment_date}}
+                                </td>
                                 <td width="75">
                                     <Link :href="route('client.debts.payments.index', {client: client.id, debt: debt.id})" class="btn btn-sm btn-outline-primary mr-1">История погашений</Link>
                                 </td>

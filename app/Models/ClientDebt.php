@@ -81,6 +81,11 @@ class ClientDebt extends Model
         return $this->hasMany(ClientDebtPayment::class);
     }
 
+    public function lastPayment(): HasOne
+    {
+        return $this->hasOne(ClientDebtPayment::class)->latestOfMany('created_at');
+    }
+
     public function markAsPaid()
     {
         return $this->update(['is_paid' => true]);

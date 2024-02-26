@@ -76,4 +76,14 @@ class ClientDebtPaymentService
 
         return $this;
     }
+
+    public function updateComment(int $clientDebtId, int $clientDebtPaymentId, string $comment): ClientDebtPayment
+    {
+        $payment = ClientDebtPayment::whereClientDebtId($clientDebtId)
+            ->findOrFail($clientDebtPaymentId);
+
+        $payment->update(['comment' => $comment]);
+
+        return $payment;
+    }
 }

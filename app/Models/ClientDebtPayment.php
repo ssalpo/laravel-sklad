@@ -15,7 +15,8 @@ class ClientDebtPayment extends Model
     protected $fillable = [
         'client_debt_id',
         'created_by',
-        'amount'
+        'amount',
+        'comment',
     ];
 
     protected $casts = [

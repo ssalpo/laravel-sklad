@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientDebtPaymentRequest;
+use App\Http\Requests\ClientDebtPaymentUpdateCommentRequest;
 use App\Models\ClientDebt;
 use App\Services\ClientDebtPaymentService;
 use App\Services\Toast;
@@ -25,10 +26,13 @@ class ClientDebtPaymentController extends Controller
         $queryParams = ['client' => $clientId, 'debt' => $debtId];
 
         $debt = [
+            'id' => $clientDebt->id,
+            'client_id' => $clientDebt->client_id,
             'order' => $clientDebt->order_id,
             'payments' => $clientDebt->payments->transform(fn($m) => [
                 'id' => $m->id,
                 'amount' => $m->amount,
+                'comment' => $m->comment,
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ])
         ];
@@ -55,5 +59,12 @@ class ClientDebtPaymentController extends Controller
         Toast::success('Успешно удалено.');
 
         return back();
+    }
+
+    public function updateComment(int $clientId, int $clientDebt, int $clientDebtPaymentId, ClientDebtPaymentUpdateCommentRequest $request)
+    {
+        $this->clientDebtPaymentService->updateComment($clientDebt, $clientDebtPaymentId, $request->comment);
+
+        return response()->noContent();
     }
 }

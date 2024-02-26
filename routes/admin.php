@@ -47,6 +47,7 @@ Route::resource('clients/{client}/client-discounts', ClientDiscountController::c
 // Client Debts
 Route::get('all-client-debts', [ClientDebtController::class, 'allClientDebts'])->name('all-client-debts');
 Route::resource('/clients/{client}/debts', ClientDebtController::class, ['as' => 'client']);
+Route::put('/clients/{client}/debts/{debt}/payments/{payment}/update-comment', [ClientDebtPaymentController::class, 'updateComment'])->name('client.debts.payments.change-comment');
 Route::resource('/clients/{client}/debts/{debt}/payments', ClientDebtPaymentController::class, ['as' => 'client.debts']);
 
 // Nomenclatures

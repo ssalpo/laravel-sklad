@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -49,6 +50,11 @@ class ClientDebt extends Model
         $q->when(Arr::get($filterData, 'client'), fn($q, $v) => $q->whereClientId($v));
 
         $q->when(Arr::get($filterData, 'order'), fn($q, $v) => $q->whereOrderId($v));
+
+        $q->when(
+            Arr::get($filterData, 'payment_date'),
+            fn($q, $v) => $q->whereHas('payments', fn($q) => $q->whereDate('created_at', Carbon::parse($v)))
+        );
     }
 
     public function scopeRelatedToMe($q)

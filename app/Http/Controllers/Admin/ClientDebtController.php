@@ -60,7 +60,10 @@ class ClientDebtController extends Controller
 
     public function index(Client $client)
     {
+        $filterParams = request()?->collect()->except(['page'])->all();
+
         $debts = ClientDebt::whereClientId($client->id)
+            ->filter(request()->all())
             ->withSum('payments', 'amount')
             ->with( 'lastPayment')
             ->get()
@@ -78,6 +81,7 @@ class ClientDebtController extends Controller
         $totalPayments = $debts->sum('payments_sum_amount');
 
         return inertia('ClientDebts/Index', [
+            'filterParams' => $filterParams,
             'totalDebts' => $totalDebts,
             'totalPayments' => $totalPayments,
             'client' => [

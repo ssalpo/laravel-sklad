@@ -59,6 +59,8 @@
                 <!-- /.card-header -->
 
                 <div class="card-body">
+                    <index-filters :filter-params="filterParams" :debt-client-id="client.id" />
+
                     <div class="table-responsive">
                         <table class="table table-bordered  text-nowrap">
                             <thead>
@@ -126,10 +128,11 @@
 import {Head, Link} from "@inertiajs/inertia-vue3";
 import ClientDebtPaymentAdd from "../../Shared/ClientDebtPaymentAdd.vue";
 import DeleteBtn from "@/Shared/DeleteBtn.vue";
+import IndexFilters from "./IndexFilters.vue";
 
 export default {
-    components: {DeleteBtn, ClientDebtPaymentAdd, Head, Link},
-    props: ['client', 'debts', 'totalDebts', 'totalPayments'],
+    components: {IndexFilters, DeleteBtn, ClientDebtPaymentAdd, Head, Link},
+    props: ['client', 'debts', 'totalDebts', 'totalPayments', 'filterParams'],
     data: () => ({
         currentPayIndex: null
     })

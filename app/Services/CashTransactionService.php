@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\CashTransaction;
+use App\Models\CashTransactionSaldo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -34,16 +35,9 @@ class CashTransactionService
 
     public function getLastMonthDebit(Carbon $currentDate): float
     {
-        $date = $currentDate->subMonth();
-
-        return (float) CashTransaction::query()
-            ->select(
-                \DB::raw('SUM(CASE WHEN type = 1 THEN amount ELSE 0 END) - SUM(CASE WHEN type = 2 THEN amount ELSE 0 END) as balance')
-            )
-            ->whereMonth('created_at', '<=', $date->format('m'))
-            ->whereYear('created_at', '<=', $date->format('Y'))
-            ->completed()
-            ->first()?->balance;
+        return CashTransactionSaldo::orderByDesc('period')
+            ->whereDate('period', '<', $currentDate)
+            ->value('balance') ?? 0;
     }
 
     public function getMonthAmounts(Carbon $date)

@@ -6,7 +6,6 @@ use App\Models\CashTransaction;
 use App\Models\CashTransactionSaldo;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class CashTransactionService
 {

@@ -42,7 +42,7 @@ class RecalculatePrevMonthSaldo extends Command
             ->groupBy('month_year')
             ->first()?->balance ?? 0;
 
-        $prevMonthBalance = $cashTransactionService->getLastMonthDebit($prevMonthDate->subMonth());
+        $prevMonthBalance = $cashTransactionService->getLastMonthDebit($prevMonthDate);
 
         CashTransactionSaldo::create([
             'period' => $prevMonthDate->format('Y-m-01'),

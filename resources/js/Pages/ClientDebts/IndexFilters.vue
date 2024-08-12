@@ -3,14 +3,15 @@
         <div class="row mb-3">
             <div class="col-12 col-sm-3 col-md-3 mb-2 mb-sm-0">
                 <VueDatePicker
-                    placeholder="Выберите дату"
+                    placeholder="Выберите даты"
                     class="date-picker-sm"
                     cancel-text="Отменить"
                     select-text="Выбрать"
                     v-model="filter.payment_date"
-                    :enable-time-picker="false"
                     locale="ru-RU"
                     format="dd-MM-yyyy"
+                    :enable-time-picker="false"
+                    range
                 />
             </div>
 

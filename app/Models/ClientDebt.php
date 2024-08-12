@@ -53,7 +53,12 @@ class ClientDebt extends Model
 
         $q->when(
             Arr::get($filterData, 'payment_date'),
-            fn($q, $v) => $q->whereHas('payments', fn($q) => $q->whereDate('created_at', Carbon::parse($v)))
+            function($q, $v) {
+                $dateFrom = Carbon::parse($v[0])->startOfDay();
+                $dateTo = Carbon::parse($v[1])->endOfDay();
+
+                $q->whereHas('payments', fn($q) => $q->whereBetween('created_at', [$dateFrom, $dateTo]));
+            }
         );
     }
 

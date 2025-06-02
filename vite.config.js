@@ -29,6 +29,13 @@ export default defineConfig({
         }),
         VitePWA({
             registerType: 'autoUpdate',
+            devOptions: {
+                enabled: true
+            },
+            // workbox: {
+            //     clientsClaim: true,
+            //     skipWaiting: true
+            // },
             manifest: {
                 scope: "/",
                 id: "/",

@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
+use App\Models\CashTransaction;
 use App\Models\CashTransactionSaldo;
 use App\Services\CashTransactionService;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
 
 class RecalculatePrevMonthSaldo extends Command
 {
@@ -32,15 +32,15 @@ class RecalculatePrevMonthSaldo extends Command
     {
         $prevMonthDate = now()->subMonth();
 
-        $balance = DB::table('cash_transactions')
-            ->select(
-                DB::raw("DATE_FORMAT(created_at, '%Y-%m-01') AS month_year"),
-                DB::raw("ROUND(SUM(CASE WHEN type = 1 THEN amount ELSE 0 END) - SUM(CASE WHEN type = 2 THEN amount ELSE 0 END), 2) AS balance")
-            )
-            ->whereYear('created_at', $prevMonthDate->format('Y'))
-            ->whereMonth('created_at', $prevMonthDate->format('m'))
-            ->groupBy('month_year')
-            ->first()?->balance ?? 0;
+        $transactions = CashTransaction::select(
+            'type',
+            \DB::raw('SUM(amount) amount')
+        )->onlyMonth($prevMonthDate)
+            ->completed()
+            ->groupBy('type')
+            ->get();
+
+        $balance = $transactions->where('type', CashTransaction::TYPE_DEBIT)->sum('amount') - $transactions->where('type', CashTransaction::TYPE_CREDIT)->sum('amount');
 
         $prevMonthBalance = $cashTransactionService->getLastMonthDebit($prevMonthDate);
 

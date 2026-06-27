@@ -3,11 +3,9 @@
 namespace App\Services;
 
 use App\Models\CashTransaction;
-use App\Models\ClientDiscount;
 use App\Models\Nomenclature;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Collection as ModelCollection;
-use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -32,11 +30,7 @@ class OrderService extends BaseService
                 Arr::pluck($data['orderItems'], 'nomenclature_id')
             )->saleType()->get();
 
-            $clientDiscounts = ClientDiscount::whereClientId($data['client_id'])
-                ->whereIn('nomenclature_id', $nomenclatures->pluck('id'))
-                ->pluck('discount', 'nomenclature_id');
-
-            $totals = $this->calculateTotals($data, $nomenclatures, $clientDiscounts);
+            $totals = $this->calculateTotals($data, $nomenclatures);
 
             $order = Order::create(array_merge(
                 [
@@ -49,12 +43,11 @@ class OrderService extends BaseService
 
             foreach ($data['orderItems'] as $item) {
                 $nomenclature = $nomenclatures->where('id', $item['nomenclature_id'])->first();
-                $discount = Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
 
                 $item['price'] = $nomenclature->price;
-                $item['price_for_sale'] = $item['price_for_sale'] - $discount;
+                $item['price_for_sale'] = $item['price_for_sale'];
                 $item['unit'] = $nomenclature->unit;
-                $item['discount'] = $discount;
+                $item['discount'] = max($nomenclature->price_for_sale - $item['price_for_sale'], 0);
 
                 $order->orderItems()->create($item);
             }
@@ -63,7 +56,7 @@ class OrderService extends BaseService
         });
     }
 
-    public function calculateTotals(array $data, ModelCollection $nomenclatures, Collection $clientDiscounts): array
+    public function calculateTotals(array $data, ModelCollection $nomenclatures): array
     {
         $amount = 0;
         $profit = 0;
@@ -71,7 +64,7 @@ class OrderService extends BaseService
         foreach ($data['orderItems'] as $item) {
             $nomenclature = $nomenclatures->where('id', $item['nomenclature_id'])->first();
 
-            $priceForSale = $item['price_for_sale'] - Arr::get($clientDiscounts, $item['nomenclature_id'], 0);
+            $priceForSale = $item['price_for_sale'];
 
             if (!$nomenclature) {
                 continue;

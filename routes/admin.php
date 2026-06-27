@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\ClientDebtController;
 use App\Http\Controllers\Admin\ClientDebtPaymentController;
 use App\Http\Controllers\Admin\ClientDiscountController;
+use App\Http\Controllers\Admin\ClientPriceTemplateController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\Employee\EmployeeController;
 use App\Http\Controllers\Admin\Employee\EmployeeSalaryController;
@@ -43,6 +44,8 @@ Route::get('order-invoices', [OrderController::class, 'invoices'])->name('order-
 // Clients
 Route::resource('clients', ClientController::class);
 Route::resource('clients/{client}/client-discounts', ClientDiscountController::class);
+Route::resource('clients/{client}/client-price-templates', ClientPriceTemplateController::class)
+    ->only(['index', 'store', 'update', 'destroy']);
 
 // Client Debts
 Route::get('all-client-debts', [ClientDebtController::class, 'allClientDebts'])->name('all-client-debts');

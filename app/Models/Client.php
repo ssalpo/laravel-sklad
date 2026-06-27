@@ -21,6 +21,11 @@ class Client extends Model
         return $this->hasMany(ClientDiscount::class);
     }
 
+    public function priceTemplates()
+    {
+        return $this->hasMany(ClientPriceTemplate::class);
+    }
+
     public function debts()
     {
         return $this->hasMany(ClientDebt::class);

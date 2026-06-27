@@ -53,7 +53,8 @@
                                                         class="form-control-sm"
                                                         :disabledValues="selectedNomenclatures"
                                                         :is-invalid="errors['orderItems.' + index + '.nomenclature_id'] !== undefined"
-                                                        v-model.number="orderItem.nomenclature_id"
+                                                        :model-value="orderItem.nomenclature_id"
+                                                        @update:modelValue="selectOrderItemNomenclature(orderItem, $event)"
                                                     />
                                                 </div>
                                             </div>
@@ -171,17 +172,7 @@ export default {
             return this.form.orderItems.reduce((a, e) => {
                 if (!e.nomenclature_id) return a;
 
-                let nomenclature = this.groupedNomenclatures[e.nomenclature_id];
-
-                let discount = 0;
-
-                if (this.selectedClient?.id) {
-                    discount = get(this.selectedClient.discounts, e.nomenclature_id, 0);
-                }
-
-                let priceForSale = e.price_for_sale - discount;
-
-                return a + (priceForSale * parseInt(e.quantity) || 0);
+                return a + (e.price_for_sale * parseInt(e.quantity) || 0);
             }, 0)
         },
         groupedNomenclatures() {
@@ -211,11 +202,47 @@ export default {
         },
         removeOrderItem(index) {
             this.form.orderItems.splice(index, 1)
+        },
+        selectOrderItemNomenclature(orderItem, nomenclatureId) {
+            let id = parseInt(nomenclatureId);
+
+            orderItem.nomenclature_id = isNaN(id) ? null : id;
+            this.syncOrderItemPrice(orderItem);
+        },
+        syncOrderItemPrice(orderItem) {
+            if (!orderItem.nomenclature_id) {
+                orderItem.price_for_sale = null;
+
+                return;
+            }
+
+            orderItem.price_for_sale = this.getOrderItemPrice(orderItem.nomenclature_id);
+        },
+        syncOrderItemPrices() {
+            this.form.orderItems.forEach((orderItem) => this.syncOrderItemPrice(orderItem));
+        },
+        getOrderItemPrice(nomenclatureId) {
+            let nomenclature = this.groupedNomenclatures[nomenclatureId];
+
+            if (!nomenclature) return null;
+
+            if (this.selectedClient?.id) {
+                let templatePrice = get(this.selectedClient.priceTemplates, nomenclatureId, null);
+
+                if (templatePrice !== null) {
+                    return templatePrice;
+                }
+
+                return nomenclature.price_for_sale - get(this.selectedClient.discounts, nomenclatureId, 0);
+            }
+
+            return nomenclature.price_for_sale;
         }
     },
     watch: {
         ['form.client_id'](id) {
             this.selectedClient = find(this.clients, ['id', id])
+            this.syncOrderItemPrices();
         }
     }
 }

@@ -29,7 +29,8 @@
                                 <th>Наименование</th>
                                 <th>Телефон</th>
                                 <th>Дата создания</th>
-                                <th></th>
+                                <th>Скидки</th>
+                                <th>Цены</th>
                                 <th width="40"></th>
                             </tr>
                             </thead>
@@ -41,6 +42,9 @@
                                 <td>{{client.created_at}}</td>
                                 <td>
                                     <Link :href="route('client-discounts.index', client.id)">Скидки</Link>
+                                </td>
+                                <td>
+                                    <Link :href="route('client-price-templates.index', client.id)">Цены</Link>
                                 </td>
                                 <td class="text-center">
                                     <Link :href="route('clients.edit', client.id)">

@@ -80,4 +80,9 @@ class Nomenclature extends Model
     {
         return $this->hasOne(MixtureComposition::class);
     }
+
+    public function clientPriceTemplates()
+    {
+        return $this->hasMany(ClientPriceTemplate::class);
+    }
 }

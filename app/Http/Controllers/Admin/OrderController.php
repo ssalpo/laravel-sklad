@@ -70,12 +70,13 @@ class OrderController extends Controller
 
     public function create(): Response
     {
-        $clients = Client::with('discounts')
+        $clients = Client::with(['discounts', 'priceTemplates'])
             ->get()
             ->transform(fn($m) => [
                 'id' => $m->id,
                 'name' => $m->name,
-                'discounts' => $m->discounts->pluck('discount', 'nomenclature_id')
+                'discounts' => $m->discounts->pluck('discount', 'nomenclature_id'),
+                'priceTemplates' => $m->priceTemplates->pluck('price', 'nomenclature_id'),
             ]);
 
         $selectedClientId = request('clientId');

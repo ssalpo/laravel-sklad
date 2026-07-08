@@ -13,10 +13,30 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-tools">
-                        <Link :href="route('clients.create')" class="btn btn-success btn-sm px-3">
-                            Новый клиент
-                        </Link>
+                    <div class="row align-items-center">
+                        <div class="col-12 col-sm-6 col-md-4 mb-2 mb-sm-0">
+                            <form @submit.prevent="search" class="d-flex">
+                                <input
+                                    v-model="filters.name"
+                                    type="text"
+                                    class="form-control form-control-sm mr-1"
+                                    placeholder="Имя клиента"
+                                />
+                                <button class="btn btn-sm btn-primary mr-1" type="submit">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                                <button v-if="isFiltered" type="button" class="btn btn-sm btn-danger" @click="reset">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-8">
+                            <div class="card-tools">
+                                <Link :href="route('clients.create')" class="btn btn-success btn-sm px-3">
+                                    Новый клиент
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- /.card-header -->
@@ -35,7 +55,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            <tr v-for="(client, index) in clients.data">
+                            <tr v-for="(client, index) in clients.data" :key="client.id">
                                 <td :data-id="client.id">{{ ((clients.current_page - 1) * clients.per_page) + index + 1 }}</td>
                                 <td>{{client.name}}</td>
                                 <td>{{client.phone}}</td>
@@ -66,11 +86,34 @@
     </div>
 </template>
 <script>
-import {Head, Link} from "@inertiajs/inertia-vue3";
+import {Head, Link, useForm} from "@inertiajs/inertia-vue3";
 import Pagination from "../../Shared/Pagination.vue";
+import size from "lodash/size";
 
 export default {
     components: {Pagination, Head, Link},
-    props: ['clients'],
+    props: ['clients', 'selectedFilter'],
+    data() {
+        return {
+            filters: useForm({
+                name: this.selectedFilter?.name,
+            }),
+        }
+    },
+    computed: {
+        isFiltered() {
+            return size(this.selectedFilter);
+        },
+    },
+    methods: {
+        search() {
+            this.filters.get(route('clients.index'));
+        },
+        reset() {
+            this.filters.reset();
+
+            this.$inertia.visit(route('clients.index'));
+        },
+    },
 }
 </script>

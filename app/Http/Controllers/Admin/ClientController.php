@@ -6,13 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\Client;
 use App\Services\Toast;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $selectedFilter = $request->filled('name') ? $request->only('name') : [];
+
         $clients = Client::orderBy('created_at', 'DESC')
+            ->when($request->input('name'), fn ($query, $name) => $query->where('name', 'like', '%' . $name . '%'))
             ->paginate()
+            ->withQueryString()
             ->onEachSide(0)
             ->through(fn($m) => [
                 'id' => $m->id,
@@ -21,7 +26,7 @@ class ClientController extends Controller
                 'created_at' => $m->created_at->format('d-m-Y H:i'),
             ]);
 
-        return inertia('Clients/Index', compact('clients'));
+        return inertia('Clients/Index', compact('clients', 'selectedFilter'));
     }
 
     public function create()

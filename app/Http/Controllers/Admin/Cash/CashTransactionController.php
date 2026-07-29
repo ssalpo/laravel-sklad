@@ -25,6 +25,10 @@ class CashTransactionController extends Controller
 
         $cashTransactions = CashTransaction::orderBy('created_at', 'DESC')
             ->filter($filterParams)
+            ->when(
+                data_get($filterParams, 'comment'),
+                fn ($query, $comment) => $query->where('comment', 'like', "%{$comment}%")
+            )
             ->paginate(100)
             ->onEachSide(0)
             ->withQueryString()

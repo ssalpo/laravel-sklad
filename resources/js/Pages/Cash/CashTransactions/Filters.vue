@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="search">
         <div class="row mb-3">
-            <div class="col-12 col-sm-3 mb-2 mb-sm-0">
+            <div class="col-12 col-sm-2 mb-2 mb-sm-0">
                 <VueDatePicker
                     placeholder="Выберите месяц"
                     class="date-picker-sm"
@@ -14,7 +14,7 @@
                 />
             </div>
 
-            <div class="col-12 col-sm-3 mb-2 mb-sm-0">
+            <div class="col-12 col-sm-2 mb-2 mb-sm-0">
                 <select2
                     v-model="filter.type"
                     :options="[{id: 1, name: 'Приход'}, {id: 2, name: 'Уход'},]"
@@ -23,14 +23,23 @@
                 />
             </div>
 
-            <div class="col-12 col-sm-3 mb-2 mb-sm-0">
+            <div class="col-12 col-sm-2 mb-2 mb-sm-0">
                 <select2-cash-transaction-status-list
                     v-model="filter.status"
                     class="form-control-sm"
                 />
             </div>
 
-            <div class="col-12 col-sm-3">
+            <div class="col-12 col-sm-4 mb-2 mb-sm-0">
+                <input
+                    v-model="filter.comment"
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="Комментарий"
+                >
+            </div>
+
+            <div class="col-12 col-sm-2">
                 <button class="btn btn-sm btn-primary mr-1" type="submit">
                     <span class="fa fa-search"></span>
                 </button>
@@ -59,6 +68,7 @@ export default {
                 date: this.filterParams?.date,
                 status: this.filterParams?.status,
                 type: this.filterParams?.type,
+                comment: this.filterParams?.comment,
             })
         }
     },

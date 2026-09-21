@@ -29,8 +29,12 @@ export default defineConfig({
         }),
         VitePWA({
             registerType: 'autoUpdate',
+            scope: '/',
             devOptions: {
                 enabled: true
+            },
+            workbox: {
+                navigateFallback: null,
             },
             // workbox: {
             //     clientsClaim: true,

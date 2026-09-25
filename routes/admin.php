@@ -21,6 +21,7 @@ use App\Http\Controllers\Admin\RawMaterial\RawMaterialController;
 use App\Http\Controllers\Admin\RawMaterial\RawMaterialPaymentController;
 use App\Http\Controllers\Admin\StorehouseController;
 use App\Http\Controllers\Admin\WarehouseMovementController;
+use App\Http\Controllers\Admin\WarehouseInventoryController;
 use App\Http\Controllers\Admin\TelegramNotificationController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +31,8 @@ Route::get('analytics-in-range', [AnalyticController::class, 'range'])->name('an
 
 Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
 Route::get('warehouse-movements', [WarehouseMovementController::class, 'index'])->name('warehouse-movements.index');
+Route::post('warehouse-inventories/{warehouse_inventory}/post', [WarehouseInventoryController::class, 'post'])->name('warehouse-inventories.post');
+Route::resource('warehouse-inventories', WarehouseInventoryController::class)->except(['show']);
 
 Route::get('cash-transactions/day-statistics', [CashTransactionController::class, 'dayStatistics'])->name('cash-transaction.day-statistics');
 Route::resource('cash-transactions', CashTransactionController::class);

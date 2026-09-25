@@ -6,6 +6,7 @@ use App\Enums\WarehouseMovementDirection;
 use App\Enums\WarehouseMovementType;
 use App\Http\Controllers\Controller;
 use App\Models\Nomenclature;
+use App\Models\WarehouseInventory;
 use App\Models\WarehouseMovement;
 use App\Services\UnitConvertor;
 
@@ -31,7 +32,9 @@ class WarehouseMovementController extends Controller
                 'type_label' => WarehouseMovementType::label($movement->type),
                 'direction' => $movement->direction,
                 'quantity' => $movement->quantity, 'comment' => $movement->comment,
-                'source' => $movement->order_id ? "Заказ #{$movement->order_id}" : null,
+                'source' => $movement->order_id
+                    ? "Заказ #{$movement->order_id}"
+                    : ($movement->source_type === WarehouseInventory::class ? "Инвентаризация #{$movement->source_id}" : null),
                 'created_by' => $movement->createdBy?->name,
             ]);
 

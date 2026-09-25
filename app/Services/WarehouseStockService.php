@@ -6,7 +6,7 @@ use App\Enums\WarehouseMovementDirection;
 use App\Models\Nomenclature;
 use App\Models\WarehouseMovement;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class WarehouseStockService
 {
@@ -21,7 +21,7 @@ class WarehouseStockService
     {
         $query = WarehouseMovement::query()
             ->select('nomenclature_id')
-            ->selectRaw("COALESCE(SUM(CASE WHEN direction = ? THEN quantity ELSE -quantity END), 0) AS balance", [WarehouseMovementDirection::IN])
+            ->selectRaw('COALESCE(SUM(CASE WHEN direction = ? THEN quantity ELSE -quantity END), 0) AS balance', [WarehouseMovementDirection::IN])
             ->groupBy('nomenclature_id');
 
         if ($nomenclatureIds !== null) {
@@ -50,6 +50,18 @@ class WarehouseStockService
             'outgoing' => $this->decimal($row->outgoing),
             'balance' => bcsub($this->decimal($row->incoming), $this->decimal($row->outgoing), 6),
         ]);
+    }
+
+    public function ensureAvailable(Nomenclature|int $nomenclature, string|int|float $quantity): void
+    {
+        $available = $this->getBalance($nomenclature);
+        $requested = $this->decimal($quantity);
+
+        if (bccomp($requested, $available, 6) === 1) {
+            throw ValidationException::withMessages([
+                'quantity' => "Недостаточно товара на складе. Доступно: {$available}.",
+            ]);
+        }
     }
 
     private function decimal(string|int|float|null $value): string

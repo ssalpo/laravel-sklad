@@ -102,6 +102,11 @@
                                     Журнал движений
                                 </Link>
                             </li>
+                            <li v-if="$page.props.shared.warehouseUsesMovements">
+                                <Link :href="route('warehouse-inventories.index')" class="dropdown-item">
+                                    Инвентаризации
+                                </Link>
+                            </li>
                             <li><div class="dropdown-divider"></div></li>
                             <li>
                                 <Link :href="route('nomenclature-arrivals.index')" class="dropdown-item">

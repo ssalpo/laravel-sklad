@@ -5,12 +5,15 @@ namespace App\Services;
 use App\Enums\WarehouseMovementDirection;
 use App\Enums\WarehouseMovementType;
 use App\Models\WarehouseMovement;
-use Carbon\CarbonInterface;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
 class WarehouseMovementService
 {
+    public function __construct(private WarehouseStockService $warehouseStock)
+    {
+    }
+
     public function income(array $attributes): WarehouseMovement
     {
         return $this->record($attributes, WarehouseMovementDirection::IN);
@@ -95,12 +98,17 @@ class WarehouseMovementService
             ->where('legacy_source_id', $attributes['legacy_source_id'])
             ->exists();
 
-        return $exists ? null : $this->record($attributes, $direction);
+        return $exists ? null : $this->record(array_merge($attributes, ['allow_negative_stock' => true]), $direction);
     }
 
     private function record(array $attributes, string $direction): WarehouseMovement
     {
         $attributes['quantity'] = $this->positiveQuantity($attributes['quantity']);
+
+        if ($direction === WarehouseMovementDirection::OUT && ! ($attributes['allow_negative_stock'] ?? false)) {
+            $this->warehouseStock->ensureAvailable($attributes['nomenclature_id'], $attributes['quantity']);
+        }
+
         $attributes['direction'] = $direction;
         $attributes['occurred_at'] = $attributes['occurred_at'] ?? now();
         $attributes['created_by'] = $attributes['created_by'] ?? auth()->id();

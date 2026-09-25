@@ -34,6 +34,7 @@ class CashTransaction extends Model
         'created_by',
         'order_id',
         'nomenclature_operation_id',
+        'warehouse_movement_id',
         'client_debt_payment_id',
         'is_irrevocably'
     ];
@@ -125,6 +126,11 @@ class CashTransaction extends Model
     public function nomenclatureOperation()
     {
         return $this->belongsTo(NomenclatureOperation::class);
+    }
+
+    public function warehouseMovement()
+    {
+        return $this->belongsTo(WarehouseMovement::class);
     }
 
     public function cancel()

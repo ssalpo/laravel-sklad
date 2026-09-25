@@ -7,6 +7,8 @@ use App\Http\Requests\NomenclatureOperationRequest;
 use App\Http\Requests\OrderRefundRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureOperation;
+use App\Models\WarehouseMovement;
+use App\Enums\WarehouseMovementType;
 use App\Services\NomenclatureOperationService;
 use App\Services\Toast;
 use App\Services\UnitConvertor;
@@ -32,6 +34,22 @@ class NomenclatureOperationController extends Controller
 
     public function withdrawIndex()
     {
+        if (config('warehouse.use_movements')) {
+            $nomenclatureOperations = WarehouseMovement::query()->where('type', WarehouseMovementType::WRITE_OFF)
+                ->with('nomenclature')->orderByDesc('occurred_at')->paginate()->onEachSide(0)
+                ->through(fn($m) => [
+                    'id' => $m->id,
+                    'nomenclature' => ['name' => $m->nomenclature->name, 'unit' => UnitConvertor::UNIT_LABELS[$m->nomenclature->unit]],
+                    'can_edit' => !$m->reversals()->exists(), 'quantity' => $m->quantity,
+                    'created_at' => $m->occurred_at->format('d-m-Y H:i'),
+                ]);
+
+            return inertia('NomenclatureOperations/Index', [
+                'type' => NomenclatureOperation::OPERATION_TYPE_WITHDRAW,
+                'nomenclatureOperations' => $nomenclatureOperations,
+            ]);
+        }
+
         $nomenclatureOperations = NomenclatureOperation::with('nomenclature')
             ->typeWithdraw()
             ->paginate()
@@ -59,7 +77,7 @@ class NomenclatureOperationController extends Controller
 
         $backRoute = Arr::get(self::TYPE_BACK_ROUTES, $currentType);
 
-        $nomenclatures = Nomenclature::saleType()->get(['id', 'name']);
+        $nomenclatures = Nomenclature::query()->get(['id', 'name']);
 
         return inertia('NomenclatureOperations/Edit', compact('nomenclatures', 'currentType', 'backRoute'));
     }
@@ -73,13 +91,19 @@ class NomenclatureOperationController extends Controller
         return to_route(self::TYPE_ROUTES[$request->type]);
     }
 
-    public function edit(NomenclatureOperation $nomenclatureOperation)
+    public function edit(int $nomenclatureOperation)
     {
         $currentType = \request('type');
 
-        $nomenclatures = Nomenclature::saleType()->get(['id', 'name']);
+        $nomenclatures = Nomenclature::query()->get(['id', 'name']);
 
         $backRoute = Arr::get(self::TYPE_BACK_ROUTES, $currentType);
+
+        if (config('warehouse.use_movements')) {
+            $nomenclatureOperation = WarehouseMovement::query()->where('type', WarehouseMovementType::WRITE_OFF)->findOrFail($nomenclatureOperation);
+        } else {
+            $nomenclatureOperation = NomenclatureOperation::findOrFail($nomenclatureOperation);
+        }
 
         return inertia('NomenclatureOperations/Edit', compact('nomenclatures',  'currentType', 'nomenclatureOperation', 'backRoute'));
     }

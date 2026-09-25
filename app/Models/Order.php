@@ -35,9 +35,9 @@ class Order extends Model
     public const STATUS_CANCELED = 3;
 
     public const STATUS_LABELS = [
-        self::STATUS_NEW => 'Новый',
-        self::STATUS_SEND => 'Отправлен',
-        self::STATUS_CANCELED => 'Отменен',
+        self::STATUS_NEW => 'Ожидает отгрузки',
+        self::STATUS_SEND => 'Отгружен',
+        self::STATUS_CANCELED => 'Отменена',
     ];
 
     public static function boot(): void

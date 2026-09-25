@@ -62,12 +62,6 @@
                     </li>
 
                     <li class="nav-item">
-                        <Link :href="route('storehouses.index')" class="nav-link">
-                            <i class="fa fa-warehouse d-md-none d-lg-inline-block"></i>  Остатки
-                        </Link>
-                    </li>
-
-                    <li class="nav-item">
                         <Link :href="route('all-client-debts')" class="nav-link">
                             <i class="fa fa-money-bill d-md-none d-lg-inline-block"></i> Долги
                         </Link>
@@ -94,10 +88,21 @@
 
                     <li class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
-                            Склад
+                            <i class="fa fa-warehouse d-md-none d-lg-inline-block"></i> Склад
                         </a>
 
                         <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li>
+                                <Link :href="route('storehouses.index')" class="dropdown-item">
+                                    Остатки
+                                </Link>
+                            </li>
+                            <li v-if="$page.props.shared.warehouseUsesMovements">
+                                <Link :href="route('warehouse-movements.index')" class="dropdown-item">
+                                    Журнал движений
+                                </Link>
+                            </li>
+                            <li><div class="dropdown-divider"></div></li>
                             <li>
                                 <Link :href="route('nomenclature-arrivals.index')" class="dropdown-item">
                                     Приход
@@ -112,7 +117,12 @@
 
                             <li>
                                 <Link :href="route('nomenclature-refunds.index')" class="dropdown-item">
-                                    Возврат
+                                    Возвраты
+                                </Link>
+                            </li>
+                            <li>
+                                <Link :href="route('raw-materials.index')" class="dropdown-item">
+                                    Покупка сырья
                                 </Link>
                             </li>
                         </ul>
@@ -143,12 +153,6 @@
                             <li>
                                 <Link :href="route('users.index')" class="dropdown-item">
                                     Пользователи
-                                </Link>
-                            </li>
-
-                            <li>
-                                <Link :href="route('raw-materials.index')" class="dropdown-item">
-                                    Покупка сырья
                                 </Link>
                             </li>
 

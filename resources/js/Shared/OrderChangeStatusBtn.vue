@@ -5,7 +5,7 @@
         type="button"
         :disabled="actionStarted"
         :class="[size]" class="btn btn-success mr-1"
-        title="Вернуть статус отправлено"
+        title="Вернуть статус «Отгружен»"
     >
         <span class="fa fa-reply-all"></span>
     </button>
@@ -21,7 +21,7 @@
         <i class="fa" :class="[orderIsNew(status) ? 'fa-paper-plane' : 'fa-times']"></i>
 
         <span class="d-none d-sm-inline-block ml-1">
-            {{ orderIsNew(status) ? 'Заказ отправлен' : 'Отменить заказ' }}
+            {{ orderIsNew(status) ? 'Отгрузить заказ' : 'Отменить заказ' }}
         </span>
     </button>
 </template>
@@ -83,14 +83,16 @@ export default {
 
             this.$inertia.post(
                 this.url,
-                {preserveState: true, preserveScroll: true},
+                {},
                 {
+                    preserveState: false,
+                    preserveScroll: true,
                     onFinish: () => this.actionStarted = false
                 }
             )
         },
         backStatusToSend() {
-            if (this.orderIsCancel(this.status) && !confirm('Вы уверены что хотите изменить статус на отправлено?')) {
+            if (this.orderIsCancel(this.status) && !confirm('Вернуть заявке статус «Отгружен» и снова создать складской расход?')) {
                 return;
             }
 
@@ -99,8 +101,9 @@ export default {
             this.$inertia.post(
                 this.url,
                 {rollback: true},
-                {preserveState: true, preserveScroll: true},
                 {
+                    preserveState: false,
+                    preserveScroll: true,
                     onFinish: () => this.actionStarted = false
                 }
             )

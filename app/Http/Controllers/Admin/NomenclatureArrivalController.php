@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\NomenclatureArrivalRequest;
 use App\Models\Nomenclature;
 use App\Models\NomenclatureArrival;
+use App\Models\WarehouseMovement;
+use App\Enums\WarehouseMovementType;
 use App\Services\NomenclatureArrivalService;
 use App\Services\Toast;
 use App\Services\UnitConvertor;
@@ -21,6 +23,21 @@ class NomenclatureArrivalController extends Controller
 
     public function index()
     {
+        if (config('warehouse.use_movements')) {
+            $nomenclatureArrivals = WarehouseMovement::query()->where('type', WarehouseMovementType::PURCHASE)
+                ->with('nomenclature')->orderByDesc('occurred_at')->paginate()->onEachSide(0)
+                ->through(fn($model) => [
+                    'id' => $model->id, 'nomenclature' => $model->nomenclature->name,
+                    'quantity' => $model->quantity, 'unit' => UnitConvertor::UNIT_LABELS[$model->nomenclature->unit],
+                    'price_for_sale' => $model->price_for_sale, 'comment' => $model->comment,
+                    'arrival_at' => $model->occurred_at->format('d.m.Y H:i'),
+                    'created_at' => $model->created_at->format('d.m.Y H:i'),
+                    'can_edit' => !$model->reversals()->exists(),
+                ]);
+
+            return inertia('NomenclatureArrivals/Index', compact('nomenclatureArrivals'));
+        }
+
         $nomenclatureArrivals = NomenclatureArrival::with(['nomenclature'])
             ->orderBy('created_at', 'DESC')
             ->paginate()
@@ -43,7 +60,7 @@ class NomenclatureArrivalController extends Controller
 
     public function create()
     {
-        $nomenclatures = Nomenclature::saleType()
+        $nomenclatures = Nomenclature::query()
             ->get()
             ->transform(fn($model) => [
                 'id' => $model->id,
@@ -65,9 +82,14 @@ class NomenclatureArrivalController extends Controller
         return to_route('nomenclature-arrivals.index');
     }
 
-    public function edit(NomenclatureArrival $nomenclatureArrival)
+    public function edit(int $nomenclatureArrival)
     {
-        $nomenclatures = Nomenclature::saleType()
+        if (config('warehouse.use_movements')) {
+            return $this->editWarehouseMovement($nomenclatureArrival);
+        }
+
+        $nomenclatureArrival = NomenclatureArrival::findOrFail($nomenclatureArrival);
+        $nomenclatures = Nomenclature::query()
             ->get()
             ->transform(fn($model) => [
                 'id' => $model->id,
@@ -101,6 +123,23 @@ class NomenclatureArrivalController extends Controller
         Toast::success('Данные по приходу успешно создан.');
 
         return to_route('nomenclature-arrivals.index');
+    }
+
+    public function editWarehouseMovement(int $id)
+    {
+        $movement = WarehouseMovement::query()->where('type', WarehouseMovementType::PURCHASE)->findOrFail($id);
+        $nomenclatures = Nomenclature::query()->get()->map(fn($model) => ['id' => $model->id, 'name' => $model->name, 'unit' => $model->unit]);
+
+        return inertia('NomenclatureArrivals/Edit', [
+            'currentDate' => now()->format('d.m.Y H:i'), 'nomenclatures' => $nomenclatures,
+            'nomenclatureArrival' => [
+                'id' => $movement->id, 'nomenclature_id' => $movement->nomenclature_id,
+                'quantity' => $movement->quantity, 'unit' => $movement->nomenclature->unit,
+                'price' => $movement->price, 'price_for_sale' => $movement->price_for_sale,
+                'comment' => $movement->comment, 'arrival_at' => $movement->occurred_at->format('d.m.Y H:i'),
+                'can_edit' => !$movement->reversals()->exists(),
+            ],
+        ]);
     }
 
     public function destroy(int $id)

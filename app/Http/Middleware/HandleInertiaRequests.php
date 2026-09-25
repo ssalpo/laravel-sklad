@@ -58,6 +58,7 @@ class HandleInertiaRequests extends Middleware
                 'currencyTypeLabelsShort' => Nomenclature::CURRENCY_TYPES_SHORT,
                 'nomenclatureTypes' => Nomenclature::TYPES_LIST,
                 'unitLabels' => UnitConvertor::UNIT_LABELS,
+                'warehouseUsesMovements' => config('warehouse.use_movements'),
                 'orderStatusLabels' => Order::STATUS_LABELS,
             ],
             'toast' => $toast

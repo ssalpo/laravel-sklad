@@ -24,9 +24,26 @@ class ClientDebtService extends BaseService
     public function store(array $data)
     {
         $order = Order::relatedToMe($this->isRelatedToMe)
-            ->whereDoesntHave('debt')
-            ->whereDoesntHave('cashTransaction')
+            ->with(['debt', 'cashTransaction'])
             ->findOrFail($data['order_id']);
+
+        if ($order->client_id !== (int) $data['client_id']) {
+            throw ValidationException::withMessages([
+                'order_id' => 'Выбранная заявка принадлежит другому клиенту.',
+            ]);
+        }
+
+        if ($order->debt) {
+            throw ValidationException::withMessages([
+                'order_id' => 'По этой заявке уже создан долг.',
+            ]);
+        }
+
+        if ($order->cashTransaction) {
+            throw ValidationException::withMessages([
+                'order_id' => 'По этой заявке уже проведена оплата, поэтому добавить долг нельзя.',
+            ]);
+        }
 
 
         return DB::transaction(function () use ($order, $data) {

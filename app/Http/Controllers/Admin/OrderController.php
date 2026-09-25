@@ -118,14 +118,11 @@ class OrderController extends Controller
                 'unit' => $model->unit
             ]);
 
-        $orderTotalRefunds = (new NomenclatureOperationService)->getTotalOrderRefunds($order->id)
+        $orderTotalRefunds = app(NomenclatureOperationService::class)->getTotalOrderRefunds($order->id)
             ->keyBy('nomenclature_id')
             ->toArray();
 
-        $orderRefunds = NomenclatureOperation::typeRefund()
-            ->with('nomenclature')
-            ->whereOrderId($order->id)
-            ->get()
+        $orderRefunds = app(NomenclatureOperationService::class)->getOrderRefunds($order->id)
             ->transform(fn($m) => [
                 'id' => $m->id,
                 'nomenclature' => $m->nomenclature->name,
@@ -183,13 +180,13 @@ class OrderController extends Controller
 
     public function markAsSend(int $orderId, Request $request): RedirectResponse
     {
-        $this->orderService->markAsSend($orderId, $request->rollback === true);
+        $this->orderService->markAsSend($orderId, $request->boolean('rollback'));
 
         $this->telegramNotificationService
             ->forSubscribedUsers()
             ->orderStatusChanged($orderId, Order::STATUS_SEND);
 
-        Toast::success('Статус заявки изменен на "Отправлено".');
+        Toast::success(config('warehouse.use_movements') ? 'Заявка отгружена. Складской расход создан.' : 'Заявка отгружена.');
 
         return back();
     }
@@ -202,7 +199,7 @@ class OrderController extends Controller
             ->forSubscribedUsers()
             ->orderStatusChanged($orderId, Order::STATUS_CANCELED);
 
-        Toast::success('Статус заявки изменен на "Отменен".');
+        Toast::success(config('warehouse.use_movements') ? 'Заявка отменена. Товар возвращён в остаток.' : 'Заявка отменена.');
 
         return back();
     }

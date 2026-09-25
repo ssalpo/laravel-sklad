@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\RawMaterial\RawMaterialController;
 use App\Http\Controllers\Admin\RawMaterial\RawMaterialPaymentController;
 use App\Http\Controllers\Admin\StorehouseController;
+use App\Http\Controllers\Admin\WarehouseMovementController;
 use App\Http\Controllers\Admin\TelegramNotificationController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.
 Route::get('analytics-in-range', [AnalyticController::class, 'range'])->name('analytics.range');
 
 Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
+Route::get('warehouse-movements', [WarehouseMovementController::class, 'index'])->name('warehouse-movements.index');
 
 Route::get('cash-transactions/day-statistics', [CashTransactionController::class, 'dayStatistics'])->name('cash-transaction.day-statistics');
 Route::resource('cash-transactions', CashTransactionController::class);

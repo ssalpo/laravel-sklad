@@ -70,14 +70,11 @@ class OrderController extends Controller
                 'unit' => $model->unit,
             ]);
 
-        $orderTotalRefunds = (new NomenclatureOperationService)->getTotalOrderRefunds($order->id)
+        $orderTotalRefunds = app(NomenclatureOperationService::class)->getTotalOrderRefunds($order->id)
             ->keyBy('nomenclature_id')
             ->toArray();
 
-        $orderRefunds = NomenclatureOperation::typeRefund()
-            ->with('nomenclature')
-            ->whereOrderId($order->id)
-            ->get()
+        $orderRefunds = app(NomenclatureOperationService::class)->getOrderRefunds($order->id)
             ->transform(fn($m) => [
                 'nomenclature' => $m->nomenclature->name,
                 'nomenclature_unit' => UnitConvertor::UNIT_LABELS[$m->nomenclature->unit],
@@ -146,7 +143,7 @@ class OrderController extends Controller
             ->forSubscribedUsers()
             ->orderStatusChanged($orderId, Order::STATUS_SEND);
 
-        Toast::success('Статус заявки изменен на "Отправлено".');
+        Toast::success(config('warehouse.use_movements') ? 'Заявка отгружена. Складской расход создан.' : 'Заявка отгружена.');
 
         return back();
     }
@@ -161,7 +158,7 @@ class OrderController extends Controller
             ->forSubscribedUsers()
             ->orderStatusChanged($orderId, Order::STATUS_CANCELED);
 
-        Toast::success('Статус заявки изменен на "Отменен".');
+        Toast::success(config('warehouse.use_movements') ? 'Заявка отменена. Товар возвращён в остаток.' : 'Заявка отменена.');
 
         return back();
     }

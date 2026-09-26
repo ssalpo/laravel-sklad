@@ -14,10 +14,25 @@ class ProductionRecipeController extends Controller
 {
     public function index()
     {
-        $recipes = ProductionRecipe::query()->with('nomenclature')->withCount('runs')->latest('id')->paginate()->withQueryString()
-            ->through(fn (ProductionRecipe $recipe) => ['id' => $recipe->id, 'nomenclature' => $recipe->nomenclature->name, 'version' => $recipe->version, 'is_active' => $recipe->is_active, 'runs_count' => $recipe->runs_count]);
+        $products = Nomenclature::query()
+            ->saleType()
+            ->has('productionRecipes')
+            ->with(['productionRecipes' => fn ($query) => $query->withCount('runs')->orderBy('version')])
+            ->orderBy('name')
+            ->paginate()
+            ->withQueryString()
+            ->through(fn (Nomenclature $product) => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'recipes' => $product->productionRecipes->map(fn (ProductionRecipe $recipe) => [
+                    'id' => $recipe->id,
+                    'version' => $recipe->version,
+                    'is_active' => $recipe->is_active,
+                    'runs_count' => $recipe->runs_count,
+                ])->values(),
+            ]);
 
-        return inertia('ProductionRecipes/Index', compact('recipes'));
+        return inertia('ProductionRecipes/Index', compact('products'));
     }
 
     public function create()

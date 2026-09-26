@@ -69,6 +69,34 @@
 
                     <li class="nav-item dropdown">
                         <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                            <i class="fa fa-flask d-md-none d-lg-inline-block"></i> Склад материалов
+                        </a>
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li><Link :href="route('material-inventory.balances')" class="dropdown-item">Остатки</Link></li>
+                            <li><Link :href="route('material-inventory.movements')" class="dropdown-item">Движения</Link></li>
+                            <li><Link :href="route('material-inventory.guide')" class="dropdown-item">Справка по операциям и статусам</Link></li>
+                            <li><div class="dropdown-divider"></div></li>
+                            <li><Link :href="route('material-inventory.receipt.create')" class="dropdown-item">Приход</Link></li>
+                            <li><Link :href="route('material-inventory.write-off.create')" class="dropdown-item">Списание</Link></li>
+                            <li><Link :href="route('material-inventory.return.create')" class="dropdown-item">Возврат</Link></li>
+                            <li><Link :href="route('material-inventory.adjustment-in.create')" class="dropdown-item">Корректировка +</Link></li>
+                            <li><Link :href="route('material-inventory.adjustment-out.create')" class="dropdown-item">Корректировка −</Link></li>
+                            <li><Link :href="route('inventory-counts.index')" class="dropdown-item">Инвентаризация</Link></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
+                            <i class="fa fa-industry d-md-none d-lg-inline-block"></i> Производство
+                        </a>
+                        <ul aria-labelledby="dropdownSubMenu1" class="dropdown-menu border-0 shadow">
+                            <li><Link :href="route('production-runs.index')" class="dropdown-item">Выпуски</Link></li>
+                            <li><Link :href="route('production-recipes.index')" class="dropdown-item">Рецептуры</Link></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
                             Касса
                         </a>
 
@@ -100,6 +128,11 @@
                             <li v-if="$page.props.shared.warehouseUsesMovements">
                                 <Link :href="route('warehouse-movements.index')" class="dropdown-item">
                                     Журнал движений
+                                </Link>
+                            </li>
+                            <li v-if="$page.props.shared.warehouseUsesMovements">
+                                <Link :href="route('warehouse-guide.index')" class="dropdown-item">
+                                    Справка по операциям и статусам
                                 </Link>
                             </li>
                             <li v-if="$page.props.shared.warehouseUsesMovements">

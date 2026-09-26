@@ -21,7 +21,13 @@ use App\Http\Controllers\Admin\RawMaterial\RawMaterialController;
 use App\Http\Controllers\Admin\RawMaterial\RawMaterialPaymentController;
 use App\Http\Controllers\Admin\StorehouseController;
 use App\Http\Controllers\Admin\WarehouseMovementController;
+use App\Http\Controllers\Admin\WarehouseGuideController;
 use App\Http\Controllers\Admin\WarehouseInventoryController;
+use App\Http\Controllers\Admin\MaterialInventory\InventoryCountController;
+use App\Http\Controllers\Admin\MaterialInventory\MaterialInventoryGuideController;
+use App\Http\Controllers\Admin\MaterialInventory\MaterialInventoryController;
+use App\Http\Controllers\Admin\MaterialInventory\ProductionRecipeController;
+use App\Http\Controllers\Admin\MaterialInventory\ProductionRunController;
 use App\Http\Controllers\Admin\TelegramNotificationController;
 use App\Http\Controllers\Admin\UserController;
 use Illuminate\Support\Facades\Route;
@@ -31,8 +37,33 @@ Route::get('analytics-in-range', [AnalyticController::class, 'range'])->name('an
 
 Route::get('storehouses', [StorehouseController::class, 'index'])->name('storehouses.index');
 Route::get('warehouse-movements', [WarehouseMovementController::class, 'index'])->name('warehouse-movements.index');
+Route::get('warehouse-guide', [WarehouseGuideController::class, 'index'])->name('warehouse-guide.index');
 Route::post('warehouse-inventories/{warehouse_inventory}/post', [WarehouseInventoryController::class, 'post'])->name('warehouse-inventories.post');
 Route::resource('warehouse-inventories', WarehouseInventoryController::class)->except(['show']);
+
+// Material inventory and production are independent from the finished-goods warehouse.
+Route::get('material-inventory', [MaterialInventoryController::class, 'balances'])->name('material-inventory.balances');
+Route::get('material-inventory/guide', [MaterialInventoryGuideController::class, 'index'])->name('material-inventory.guide');
+Route::get('material-inventory/movements', [MaterialInventoryController::class, 'movements'])->name('material-inventory.movements');
+Route::get('material-inventory/receipt', [MaterialInventoryController::class, 'createReceipt'])->name('material-inventory.receipt.create');
+Route::post('material-inventory/receipt', [MaterialInventoryController::class, 'storeReceipt'])->name('material-inventory.receipt.store');
+Route::get('material-inventory/adjustment-in', [MaterialInventoryController::class, 'createAdjustmentIn'])->name('material-inventory.adjustment-in.create');
+Route::post('material-inventory/adjustment-in', [MaterialInventoryController::class, 'storeAdjustmentIn'])->name('material-inventory.adjustment-in.store');
+Route::get('material-inventory/adjustment-out', [MaterialInventoryController::class, 'createAdjustmentOut'])->name('material-inventory.adjustment-out.create');
+Route::post('material-inventory/adjustment-out', [MaterialInventoryController::class, 'storeAdjustmentOut'])->name('material-inventory.adjustment-out.store');
+Route::get('material-inventory/write-off', [MaterialInventoryController::class, 'createWriteOff'])->name('material-inventory.write-off.create');
+Route::post('material-inventory/write-off', [MaterialInventoryController::class, 'storeWriteOff'])->name('material-inventory.write-off.store');
+Route::get('material-inventory/return', [MaterialInventoryController::class, 'createReturn'])->name('material-inventory.return.create');
+Route::post('material-inventory/return', [MaterialInventoryController::class, 'storeReturn'])->name('material-inventory.return.store');
+
+Route::post('production-recipes/{production_recipe}/activate', [ProductionRecipeController::class, 'activate'])->name('production-recipes.activate');
+Route::post('production-recipes/{production_recipe}/versions', [ProductionRecipeController::class, 'createVersion'])->name('production-recipes.versions.store');
+Route::resource('production-recipes', ProductionRecipeController::class)->except(['show', 'destroy']);
+Route::post('production-runs/{production_run}/complete', [ProductionRunController::class, 'complete'])->name('production-runs.complete');
+Route::post('production-runs/{production_run}/cancel', [ProductionRunController::class, 'cancel'])->name('production-runs.cancel');
+Route::resource('production-runs', ProductionRunController::class)->except(['destroy']);
+Route::post('inventory-counts/{inventory_count}/complete', [InventoryCountController::class, 'complete'])->name('inventory-counts.complete');
+Route::resource('inventory-counts', InventoryCountController::class)->except(['show']);
 
 Route::get('cash-transactions/day-statistics', [CashTransactionController::class, 'dayStatistics'])->name('cash-transaction.day-statistics');
 Route::resource('cash-transactions', CashTransactionController::class);

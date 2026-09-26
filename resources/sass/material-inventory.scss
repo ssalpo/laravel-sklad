@@ -1,0 +1,116 @@
+// Responsive presentation for the isolated material inventory module.
+// AdminLTE 3 / Bootstrap 4 stay untouched so legacy screens retain their layout.
+.mi-page {
+    .mi-table-wrap {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .mi-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        justify-content: flex-end;
+
+        .btn {
+            margin-left: 0 !important;
+        }
+    }
+}
+
+@media (max-width: 575.98px) {
+    .mi-page {
+        .content-header {
+            padding: .75rem 0;
+
+            h5 {
+                font-size: 1.1rem;
+            }
+        }
+
+        .card-header,
+        .card-body,
+        .card-footer {
+            padding: .75rem;
+        }
+
+        .mi-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+
+            .btn {
+                width: 100%;
+                min-height: 2.75rem;
+            }
+        }
+
+        .mi-table-wrap {
+            overflow: visible;
+        }
+
+        .mi-mobile-table {
+            border: 0;
+
+            thead {
+                display: none;
+            }
+
+            &,
+            tbody,
+            tr,
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            tr {
+                margin-bottom: .75rem;
+                border: 1px solid #dee2e6;
+                border-radius: .25rem;
+                overflow: hidden;
+            }
+
+            td {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 1rem;
+                min-height: 2.5rem;
+                border-width: 0 0 1px;
+                text-align: right;
+                white-space: normal;
+
+                &::before {
+                    flex: 0 0 43%;
+                    color: #6c757d;
+                    content: attr(data-label);
+                    font-size: .8rem;
+                    font-weight: 600;
+                    text-align: left;
+                }
+            }
+
+            td:last-child {
+                border-bottom: 0;
+            }
+        }
+
+        .mi-form-table td {
+            align-items: stretch;
+
+            .form-control {
+                min-width: 0;
+            }
+        }
+
+        input.form-control,
+        select.form-control,
+        textarea.form-control {
+            font-size: 16px;
+        }
+
+        .mi-summary dt,
+        .mi-summary dd {
+            margin-bottom: .5rem;
+        }
+    }
+}

@@ -15,8 +15,8 @@ final class WarehouseMovementDirection
     public static function labels(): array
     {
         return [
-            self::IN => 'Приход',
-            self::OUT => 'Расход',
+            self::IN => 'Увеличение остатка',
+            self::OUT => 'Уменьшение остатка',
         ];
     }
 

@@ -64,12 +64,12 @@ class WarehouseMovementService
             $movement = WarehouseMovement::lockForUpdate()->findOrFail($movement->id);
 
             if ($movement->reversals()->exists()) {
-                throw ValidationException::withMessages(['movement' => 'Движение уже сторнировано.']);
+                throw ValidationException::withMessages(['movement' => 'Это движение уже отменено обратным движением.']);
             }
 
             $quantity = $this->positiveQuantity($quantity ?? $movement->quantity);
             if (bccomp($quantity, $movement->quantity, 6) === 1) {
-                throw ValidationException::withMessages(['quantity' => 'Количество сторно превышает исходное движение.']);
+                throw ValidationException::withMessages(['quantity' => 'Количество отмены не может превышать исходное движение.']);
             }
 
             return $this->record([
@@ -83,7 +83,7 @@ class WarehouseMovementService
                 'order_id' => $movement->order_id,
                 'order_item_id' => $movement->order_item_id,
                 'parent_id' => $movement->id,
-                'comment' => $comment ?: "Сторно движения #{$movement->id}",
+                'comment' => $comment ?: "Отмена движения #{$movement->id}",
                 'occurred_at' => now(),
             ], $movement->direction === WarehouseMovementDirection::IN
                 ? WarehouseMovementDirection::OUT

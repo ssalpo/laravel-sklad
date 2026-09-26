@@ -22,7 +22,15 @@ class WarehouseInventory extends Model
 
     public static function statusLabels(): array
     {
-        return [self::STATUS_DRAFT => 'Черновик', self::STATUS_POSTED => 'Проведена'];
+        return array_map(static fn (array $details): string => $details['label'], self::statusDetails());
+    }
+
+    public static function statusDetails(): array
+    {
+        return [
+            self::STATUS_DRAFT => ['label' => 'Черновик — остатки не меняются', 'description' => 'Документ можно редактировать: добавлять товары и указывать фактическое количество.', 'example' => 'Пересчёт начали, но его результаты ещё не отражены в остатках.'],
+            self::STATUS_POSTED => ['label' => 'Проведена — остатки обновлены', 'description' => 'Разница между учётным и фактическим количеством отражена в журнале движений.', 'example' => 'Недостача создаёт расход, а излишек — приход.'],
+        ];
     }
 
     public function items(): HasMany
